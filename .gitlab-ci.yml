@@ -1,0 +1,43 @@
+image: registry.ci.infra.lan:5000/project-1:client-QA
+
+stages: 
+  - QA
+  - deployment
+
+before_script:
+  - ln -s /ci/node_modules .
+
+validateHTML:
+  stage: QA
+  rules:
+    - if:
+        $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  script:
+    #- npm run validate-html
+    - echo "Uncomment the line above to run HTML validator"
+
+SonarQube:
+  stage: QA
+  needs:
+    - validateHTML
+  rules:
+    - if:
+        $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  script:
+    - npm run validate-sonar-ci
+    #- echo "Uncomment the line above to run SonarQube"
+
+deployment:
+  stage: deployment
+  image: registry.ci.infra.lan:5000/project-1:client-deploy
+  needs:
+    - validateHTML
+    - SonarQube
+  rules:
+    - if:
+        $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  variables:
+    year: 2023-2024
+  script:
+    - echo "Deploying to group directory"
+    - rsync -e "ssh" -r src/ gitlab-runner@project-1.ci.infra.lan:/opt/${year}/${CI_PROJECT_NAMESPACE##*/}/client
