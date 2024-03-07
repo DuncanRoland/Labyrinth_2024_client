@@ -13,8 +13,8 @@ validateHTML:
     - if:
         $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   script:
-    #- npm run validate-html
-    - echo "Uncomment the line above to run HTML validator"
+    - npm run validate-html
+    #- echo "Uncomment the line above to run HTML validator"
 
 SonarQube:
   stage: QA
