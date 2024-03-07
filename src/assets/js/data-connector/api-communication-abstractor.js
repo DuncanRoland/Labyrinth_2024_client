@@ -2,9 +2,11 @@ import { loadFromStorage } from "./local-storage-abstractor.js";
 import { getAPIUrl } from "../config.js";
 
 function constructOptions(httpVerb, requestBody) {
-  const options = {};
-  options.method = httpVerb;
-  options.headers = {};
+  const options = {
+    method : httpVerb,
+    headers : {}
+  };
+
   options.headers["Content-Type"] = "application/json";
 
   const playerToken = loadFromStorage("playerToken");
@@ -24,7 +26,7 @@ function fetchFromServer(path, httpVerb, requestBody) {
   return fetch(`${getAPIUrl()}${path}`, options)
     .then(response => response.json())
     .then(jsonresponsetoparse => {
-      if (jsonresponsetoparse.failure) throw jsonresponsetoparse;
+      if (jsonresponsetoparse.failure) {throw jsonresponsetoparse;}
       return jsonresponsetoparse;
     });
 }
