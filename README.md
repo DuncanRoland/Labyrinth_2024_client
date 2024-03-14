@@ -19,6 +19,8 @@ All files should be placed in the `src` directory.
 
 **Do not** change the file structure of the folders outside of that directory. Within, you may do as you please.
 
+## API URL
+[https://project-1.ti.howest.be/2023-2024/labyrinth/api/](https://project-1.ti.howest.be/2023-2024/labyrinth/api/)
 
 ## Default files
 
