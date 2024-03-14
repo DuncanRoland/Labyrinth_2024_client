@@ -1,5 +1,5 @@
-const GROUPNUMBER = "00";
-const LANG = "nl";
+const GROUPNUMBER = "XX";
+const LANG = "LANG";
 const GAMEPREFIX = "group00";
 
 const ERRORHANDLERSELECTOR = ".errormessages p";
