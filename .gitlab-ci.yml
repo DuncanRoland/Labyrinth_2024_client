@@ -1,0 +1,42 @@
+image: registry.ci.infra.lan:5000/project-1:client-QA
+
+stages: 
+  - QA
+  - deployment
+
+before_script:
+  - ln -s /ci/node_modules .
+  - export STUDENTSET=$(echo $CI_PROJECT_NAMESPACE | awk -F'/' '{print $6}')
+
+validate-html:
+  stage: QA
+  rules:
+    - if:
+        $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  script:
+    - npm run validate-html
+
+sonarqube:
+  stage: QA
+  needs:
+    - validate-html
+  rules:
+    - if:
+        $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  script:
+    - npm run validate-sonar-ci
+
+deployment:
+  stage: deployment
+  image: registry.ci.infra.lan:5000/project-1:client-deploy
+  needs:
+    - validate-html
+    - sonarqube
+  rules:
+    - if:
+        $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  variables:
+    year: 2023-2024
+  script:
+    - echo "Deploying to group directory"
+    - rsync -e "ssh" -r src/ gitlab-runner@project-1.ci.infra.lan:/opt/${year}/$STUDENTSET/${CI_PROJECT_NAMESPACE##*/}/client
