@@ -1,0 +1,26 @@
+button {
+    border-radius: 2rem; /* Je kunt de waarde aanpassen om de gewenste afronding te krijgen */
+    padding: 1.5rem; /* Voeg wat padding toe om de knop wat ruimte te geven */
+    margin-bottom: 2rem;
+    background-color: #000000; /* Achtergrondkleur van de knop */
+    color: white; /* Tekstkleur van de knop */
+    border: none; /* Verwijder de standaard rand van de knop */
+    cursor: pointer;
+    display: flex;
+    width: 15rem;
+    justify-content: center; /* Centreer de tekst horizontaal */
+    align-items: center; /* Centreer de tekst verticaal */
+}
+
+body {
+    margin-top: 10rem;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    height: 100%;
+
+}
+
+
