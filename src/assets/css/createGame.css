@@ -1,7 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Titan+One&display=swap');
+
 header {
     text-align: center;
     font-size: 3rem;
     padding-bottom: 2rem;
+    padding-top: 1rem;
+    font-family: Titan One, sans-serif;
 }
 
 form {
@@ -22,14 +26,27 @@ input[type='radio'] {
     transform: scale(1.2);
 }
 
+input {
+    padding: 0.5rem;
+    font-size: 1.5rem;
+}
+
+.mode, .amountOfPlayers, .serverCode{
+    font-size: 2.5rem;
+}
+
 button {
     margin-top: 1rem;
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
+    padding: 1.5rem;
+    font-size: 1.5rem;
     background-color: #d3c1c1;
     border: none;
-    border-radius: 0.7rem;
+    border-radius: 0.5rem;
     cursor: pointer;
     margin-right: 1.2rem;
     margin-left: 1.2rem;
+}
+
+button:hover {
+    background-color: #b3a1a1;
 }

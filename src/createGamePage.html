@@ -5,8 +5,7 @@
     <title>Creating game</title>
 
     <link rel="stylesheet" href="assets/css/reset.css">
-    <link rel="stylesheet" href="assets/css/screen.css">
-    <link rel="stylesheet" href="assets/css/creategame.css">
+    <link rel="stylesheet" href="assets/css/createGame.css">
 </head>
 <body>
 
@@ -14,16 +13,16 @@
 
 <form action="#" method="post">
     <div>
-        <label for="min-players">Amount of players:</label>
+        <label class="amountOfPlayers" for="min-players">Amount of players:</label>
         <select id="min-players" name="min-players" required>
-            <option value="2" selected>2</option>
+            <option value="2" >2</option>
             <option value="3">3</option>
             <option value="4">4</option>
         </select>
     </div>
 
     <div>
-        <label for="game-modes">Modes:</label>
+        <label class="mode">Modes:</label>
 
         <input type="radio" id="mode1" name="game-mode" value="normal">
         <label for="mode1">Normal</label>
@@ -33,8 +32,8 @@
     </div>
 
     <div>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
+        <label class="serverCode" for="serverCode">Servercode:</label>
+        <input type="text" id="serverCode" name="serverCode" placeholder="Write server code" required>
     </div>
 
     <div>
