@@ -1,10 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>Creating game</title>
+
+    <link rel="stylesheet" href="assets/css/reset.css">
+    <link rel="stylesheet" href="assets/css/screen.css">
+    <link rel="stylesheet" href="assets/css/creategame.css">
 </head>
 <body>
-$END$
+
+<header>Creating game</header>
+
+<form action="#" method="post">
+    <div>
+        <label for="min-players">Amount of players:</label>
+        <select id="min-players" name="min-players" required>
+            <option value="2" selected>2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+        </select>
+    </div>
+
+    <div>
+        <label for="game-modes">Modes:</label>
+
+        <input type="radio" id="mode1" name="game-mode" value="normal">
+        <label for="mode1">Normal</label>
+
+        <input type="radio" id="mode2" name="game-mode" value="teleportation">
+        <label for="mode2">Teleportation</label>
+    </div>
+
+    <div>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+    </div>
+
+    <div>
+        <button type="button">Back</button>
+        <button type="submit">Create game</button>
+    </div>
+</form>
 </body>
 </html>
