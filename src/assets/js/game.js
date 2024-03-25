@@ -26,5 +26,12 @@ function generateBoard() {
 //TODO: update button event listener with navigate function from universal.js
 function createEventListeners() {
     const button = document.querySelector('button');
+    const allBoardPieces = document.querySelectorAll('.square');
     button.addEventListener('click', () => window.location.href = "index.html");
+    allBoardPieces.forEach(boardPiece => boardPiece.addEventListener('click', (e) => getBoardPiece(e)));
+}
+
+function getBoardPiece(e) {
+    e.preventDefault();
+    console.log(e.target);
 }
