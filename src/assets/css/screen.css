@@ -1,3 +1,11 @@
-body {
- background-color: hotpink;
+header {
+    text-align: center;
+    margin: 3rem 3rem 3rem 3rem;
+    font-size: 4rem;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
