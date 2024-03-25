@@ -1,0 +1,36 @@
+.square {
+    border: 0.1rem solid black;
+    text-align: center;
+    padding: 1rem;
+}
+
+main {
+    display: grid;
+    grid-template-columns: 0.4fr 0.6fr;
+}
+
+#leftMenu {
+    text-align: center;
+    width: 100%;
+}
+
+#playerList {
+    border: 0.2rem solid black;
+    margin: 0 0 0 10rem;
+    width: 50%;
+}
+
+#board {
+    display: flex;
+    justify-content: flex-start;
+}
+
+#treasureList {
+    display: flex;
+    justify-content: center;
+    flex-flow: row wrap;
+}
+
+#treasureList li {
+    margin: 1rem 0 0 1rem;
+}
