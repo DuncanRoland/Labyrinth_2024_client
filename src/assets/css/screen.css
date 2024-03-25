@@ -1,3 +1,16 @@
-body {
- background-color: hotpink;
+header {
+    text-align: center;
+    margin: 5rem;
+    font-size: 4rem;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+button {
+    margin: 0.3rem;
+    font-size: 1.5rem;
 }
