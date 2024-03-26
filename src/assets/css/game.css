@@ -19,18 +19,14 @@ main {
 }
 
 #leftMenu {
+    margin: 0 auto;
     text-align: center;
-    width: 100%;
-}
-
-#playerList {
-    border: 0.2rem solid black;
-    margin: 0 0 0 10rem;
     width: 50%;
 }
 
-#playerList li {
+#leftMenu ul li {
     padding: 0.2rem 0 0.2rem 0;
+    border: solid black 0.1rem;
 }
 
 #board {
@@ -48,4 +44,6 @@ main {
     margin: 1rem 0 0 1rem;
     border: 0.3rem solid black;
     padding: 2rem 0.5rem 2rem 0.5rem;
+    width: 10%;
+    text-align: center;
 }
