@@ -22,7 +22,7 @@ main .findGameIdWrapper {
 
 main .findGameLayout {
     font-family: 'Shadows Into Light', cursive;
-    border: #623302  solid 0.2rem;
+    border: #623302 solid 0.2rem;
     border-radius: 0.5rem;
     padding: 0.2rem;
     background-color: #8e591f;
@@ -33,7 +33,7 @@ main .findGameLayout::placeholder {
     color: white;
 }
 
-main .findGameLayout:hover , main .findGameLayout:focus {
+main .findGameLayout:hover, main .findGameLayout:focus {
     border-color: #df8e58;
     outline: none;
 }
@@ -42,15 +42,15 @@ main #gameList {
     padding: 2rem;
     margin-top: 1rem;
     color: white;
-    border: thick solid  #623302;
-    background: rgb(0,0,0);
-    background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(99,46,20,1) 22%, rgba(142,89,31,1) 85%);
+    border: thick solid #623302;
+    background: rgb(0, 0, 0);
+    background: linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, rgba(99, 46, 20, 1) 22%, rgba(142, 89, 31, 1) 85%);
     border-radius: 1rem;
     text-align: center;
 
     /*#df8e58*/
-   /* background: rgb(0,0,0);
-    background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(154,90,23,1) 40%, rgba(223,142,88,1) 100%);*/
+    /* background: rgb(0,0,0);
+     background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(154,90,23,1) 40%, rgba(223,142,88,1) 100%);*/
 }
 
 main #gameList div {
@@ -87,16 +87,42 @@ main .joinButton {
     letter-spacing: 0.1rem;
     text-align: center;
     border-radius: 0.6rem;
-    background: rgb(0,0,0);
-    background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(154,90,23,1) 40%, rgba(223,142,88,1) 100%);
+    background: rgb(0, 0, 0);
+    background: linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, rgba(154, 90, 23, 1) 40%, rgba(223, 142, 88, 1) 100%);
     border-color: #623302;
     color: white;
 }
 
 main .joinButton:hover {
-    background: rgb(0,0,0);
-    background: linear-gradient(0deg, rgba(0,0,0,1) 43%, rgba(99,46,20,1) 70%, rgba(142,89,31,1) 100%);
+    background: rgb(0, 0, 0);
+    background: linear-gradient(0deg, rgba(0, 0, 0, 1) 43%, rgba(99, 46, 20, 1) 70%, rgba(142, 89, 31, 1) 100%);
 }
+
+main #backButtonWrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+main .backButton {
+    width: 10rem;
+    padding: 0.4rem;
+    font-size: 1.3rem;
+    letter-spacing: 0.1rem;
+    text-align: center;
+    border-radius: 0.6rem;
+    background-color: black;
+    color: white;
+    border: black solid 0.2rem;
+}
+
+main .backButton:hover {
+
+    border: rgba(223, 142, 88, 1) solid 0.2rem;
+}
+
+
+
 
 
 
