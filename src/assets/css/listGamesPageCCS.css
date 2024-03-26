@@ -17,9 +17,15 @@ main .findGameIdWrapper {
 }
 
 main #gameList {
-    background-color: yellow;
     padding: 2rem;
     margin-top: 1rem;
+    color: white;
+    border: thick solid  saddlebrown;
+    background: rgb(0,0,0);
+    background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(154,90,23,1) 40%, rgba(223,142,88,1) 100%);
+    border-radius: 1rem;
+    text-align: center;
+    /*#df8e58*/
 }
 
 main #gameList div {
@@ -32,13 +38,13 @@ main .paragraphWrapper {
     display: flex;
     flex-direction: column;
     margin-top: 1rem;
-    background-color: steelblue;
 }
 
 main .paragraphWrapper p {
     padding: 0.5rem;
-    background-color: cyan;
-    width: 50rem;
+    background-color: saddlebrown;
+    width: 46rem;
+    border-radius: 0.6rem;
 }
 
 main .paragraphWrapper .gameId {
@@ -47,7 +53,7 @@ main .paragraphWrapper .gameId {
 
 main .paragraphWrapper .gameMode {
     margin-right: 10rem;
-    background-color: pink;
+
 }
 
 
