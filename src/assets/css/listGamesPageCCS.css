@@ -1,19 +1,10 @@
-body {
-    margin-left: auto;
-    margin-right: auto;
-    width: 80%;
-    background-image: url("../img/background.jpg");
-    background-size: cover;
+header h2 {
+    text-align: center;
+    font-size: 4rem;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
 }
 
-header h1 {
-    text-align: center;
-    font-size: 2em;
-    margin-top: 1em;
-}
-main{
-    height: 10000rem;
-}
 main .joinGameWrapper {
     width: 60rem;
     margin-left: auto;
