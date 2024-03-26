@@ -27,6 +27,7 @@ div {
     max-width: 45rem;
     margin: auto;
     opacity: 0.90;
+    color: black;
 }
 
 input[type='radio'] {
@@ -50,7 +51,7 @@ select {
     margin: 1rem 2rem 0rem 0rem;
 }
 
-button {
+#generalButtonLayout {
     margin-top: 1rem;
     padding: 1.5rem;
     font-size: 1.5rem;
