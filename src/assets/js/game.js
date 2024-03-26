@@ -5,10 +5,9 @@ init();
 
 
 function init() {
-    generateBoard(8, 8);
+    generateBoard(7, 7);
     createEventListeners();
     createTreasureObjectives();
-    
 }
 
 function generateBoard(maxColumns, maxRows) {
@@ -20,24 +19,29 @@ function generateBoard(maxColumns, maxRows) {
         for (let rows = 0; rows < maxRows; rows++) {
             const square = document.createElement('div');
             square.classList.add('square');
+            generateRandomTilesImg(square);
             square.setAttribute('data-target', `${columns},${rows}`);
             column.appendChild(square);
         }
     }
 }
 
+function generateRandomTilesImg(element) {
+    const randomIndex = Math.floor(Math.random() * 6);
+    element.insertAdjacentHTML('beforeend', `<img src="assets/media/tiles/${randomIndex}.png">`);
 
-//TODO: update button event listener with navigate function from universal.js
+}
+
 function createEventListeners() {
     const button = document.querySelector('button');
-    const allBoardPieces = document.querySelectorAll('.square');
+    const allBoardPieces = document.querySelectorAll('.square img');
     button.addEventListener('click', () => navigate("index.html"));
     allBoardPieces.forEach(boardPiece => boardPiece.addEventListener('click', (e) => getBoardPiece(e)));
 }
 
 function getBoardPiece(e) {
     e.preventDefault();
-    console.log(e.target.getAttribute('data-target'));
+    console.log(e.currentTarget.parentElement.dataset.target);
 }
 
 async function createTreasureObjectives(maxObjectives = 3) {
@@ -46,6 +50,7 @@ async function createTreasureObjectives(maxObjectives = 3) {
     getObjectiveList(objectives, treasures, maxObjectives);
     objectives.forEach(objective => { createDiv('li', objective, document.querySelector(`#treasureList`)) });
 }
+
 function getObjectiveList(objectives, treasures, maxObjectives) {
     while (objectives.length < maxObjectives) {
         const randomObj = getRandomObjective(treasures);
@@ -55,6 +60,7 @@ function getObjectiveList(objectives, treasures, maxObjectives) {
     }
     return objectives;
 }
+
 function getRandomObjective(treasures) {
     const randomIndex = Math.floor(Math.random() * treasures.treasures.length);
     return treasures.treasures[randomIndex];
