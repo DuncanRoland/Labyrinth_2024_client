@@ -13,13 +13,18 @@ button {
 }
 
 body {
-    margin-top: 10rem;
+    margin-top: 15rem;
     flex-direction: column;
     justify-content: center;
     text-align: center;
     display: flex;
     align-items: center;
     height: 100%;
+    font-size: 1.5rem;
+}
+
+h1 {
+    color: white;
 }
 
 
