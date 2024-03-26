@@ -1,0 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap');
+
+body {
+    background-image: url("../img/background.jpg");
+    background-size: cover;
+    color: white;
+}
+
+header {
+    font-family: 'Shadows Into Light', cursive;
+    color: aliceblue;
+    font-size: 6rem;
+}
