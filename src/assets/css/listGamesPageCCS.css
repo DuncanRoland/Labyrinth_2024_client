@@ -16,16 +16,24 @@ main .findGameIdWrapper {
     justify-content: space-between;
 }
 
+main .findGameLayout {
+    font-family: 'Shadows Into Light', cursive;
+
+}
+
 main #gameList {
     padding: 2rem;
     margin-top: 1rem;
     color: white;
-    border: thick solid  saddlebrown;
+    border: thick solid  #623302;
     background: rgb(0,0,0);
-    background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(154,90,23,1) 40%, rgba(223,142,88,1) 100%);
+    background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(99,46,20,1) 22%, rgba(142,89,31,1) 85%);
     border-radius: 1rem;
     text-align: center;
+
     /*#df8e58*/
+   /* background: rgb(0,0,0);
+    background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(154,90,23,1) 40%, rgba(223,142,88,1) 100%);*/
 }
 
 main #gameList div {
@@ -42,9 +50,11 @@ main .paragraphWrapper {
 
 main .paragraphWrapper p {
     padding: 0.5rem;
-    background-color: saddlebrown;
+    background: black;
+
     width: 46rem;
     border-radius: 0.6rem;
+    border: #623302 solid 0.2rem;
 }
 
 main .paragraphWrapper .gameId {
