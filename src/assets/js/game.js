@@ -31,7 +31,7 @@ function generateBoard(maxColumns, maxRows) {
 function createEventListeners() {
     const button = document.querySelector('button');
     const allBoardPieces = document.querySelectorAll('.square');
-    button.addEventListener('click', () => window.location.href = "index.html");
+    button.addEventListener('click', () => navigate("index.html"));
     allBoardPieces.forEach(boardPiece => boardPiece.addEventListener('click', (e) => getBoardPiece(e)));
 }
 
