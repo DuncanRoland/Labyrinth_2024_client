@@ -1,3 +1,7 @@
+body {
+    overflow: auto;
+}
+
 header h2 {
     text-align: center;
     font-size: 4rem;
@@ -64,7 +68,6 @@ main .paragraphWrapper {
 main .paragraphWrapper p {
     padding: 0.5rem;
     background: black;
-
     width: 46rem;
     border-radius: 0.6rem;
     border: #623302 solid 0.2rem;
@@ -76,6 +79,23 @@ main .paragraphWrapper .gameId {
 
 main .paragraphWrapper .gameMode {
     margin-right: 10rem;
+}
+
+main .joinButton {
+    width: 7rem;
+    font-size: 1.3rem;
+    letter-spacing: 0.1rem;
+    text-align: center;
+    border-radius: 0.6rem;
+    background: rgb(0,0,0);
+    background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(154,90,23,1) 40%, rgba(223,142,88,1) 100%);
+    border-color: #623302;
+    color: white;
+}
+
+main .joinButton:hover {
+    background: rgb(0,0,0);
+    background: linear-gradient(0deg, rgba(0,0,0,1) 43%, rgba(99,46,20,1) 70%, rgba(142,89,31,1) 100%);
 }
 
 
