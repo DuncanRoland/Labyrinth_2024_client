@@ -2,6 +2,8 @@ body {
     margin-left: auto;
     margin-right: auto;
     width: 80%;
+    background-image: url("../img/background.jpg");
+    background-size: cover;
 }
 
 header h1 {
@@ -9,12 +11,13 @@ header h1 {
     font-size: 2em;
     margin-top: 1em;
 }
-
+main{
+    height: 10000rem;
+}
 main .joinGameWrapper {
     width: 60rem;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 2rem;
 }
 
 main .findGameIdWrapper {
@@ -55,5 +58,7 @@ main .paragraphWrapper .gameMode {
     margin-right: 10rem;
     background-color: pink;
 }
+
+
 
 
