@@ -6,6 +6,7 @@
 
     <link rel="stylesheet" href="assets/css/reset.css">
     <link rel="stylesheet" href="assets/css/createGame.css">
+    <script src="assets/js/gameCreator.js" type="module"></script>
 </head>
 <body>
 
@@ -15,7 +16,7 @@
     <div>
         <label class="amountOfPlayers" for="min-players">Amount of players:</label>
         <select id="min-players" name="min-players" required>
-            <option value="2" >2</option>
+            <option value="2">2</option>
             <option value="3">3</option>
             <option value="4">4</option>
         </select>
@@ -37,8 +38,8 @@
     </div>
 
     <div>
-        <button type="button">Back</button>
-        <button type="submit">Create game</button>
+        <button id="back" type="button">Back</button>
+        <button id="createGame" type="submit">Create game</button>
     </div>
 </form>
 </body>
