@@ -4,18 +4,18 @@ init();
 
 
 function init() {
-    generateBoard();
+    generateBoard(8, 8);
     createEventListeners();
     createTreasureObjectives();
 }
 
-function generateBoard() {
+function generateBoard(maxColumns, maxRows) {
     const board = document.querySelector('#board');
-    for (let columns = 0; columns < 8; columns++) {
+    for (let columns = 0; columns < maxColumns; columns++) {
         const column = document.createElement('div');
         column.classList.add('column');
         board.appendChild(column);
-        for (let rows = 0; rows < 8; rows++) {
+        for (let rows = 0; rows < maxRows; rows++) {
             const square = document.createElement('div');
             square.classList.add('square');
             square.setAttribute('data-target', `${columns},${rows}`);
@@ -41,11 +41,21 @@ function getBoardPiece(e) {
 async function createTreasureObjectives(maxObjectives = 3) {
     const treasures = await CommunicationAbstractor.fetchFromServer('/treasures', 'GET').catch(ErrorHandler.handleError);
     const objectives = [];
-    for (let i = 0; i < maxObjectives; i++) {
-        const randomTreasure = treasures.treasures[Math.floor(Math.random() * treasures.treasures.length)];
-        objectives.push(randomTreasure);
-    }
+    getObjectiveList(objectives, treasures, maxObjectives);
     objectives.forEach(objective => { createDiv('li', objective, document.querySelector(`#treasureList`)) });
+}
+function getObjectiveList(objectives, treasures, maxObjectives) {
+    while (objectives.length < maxObjectives) {
+        const randomObj = getRandomObjective(treasures);
+        if (!objectives.includes(randomObj)) {
+            objectives.push(randomObj);
+        }
+    }
+    return objectives;
+}
+function getRandomObjective(treasures) {
+    const randomIndex = Math.floor(Math.random() * treasures.treasures.length);
+    return treasures.treasures[randomIndex];
 }
 
 function createDiv(elementName, inner, container) {
