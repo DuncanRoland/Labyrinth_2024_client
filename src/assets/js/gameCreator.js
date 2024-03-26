@@ -19,12 +19,16 @@ function createGame(e) {
         minPlayers: 2,
         maxPlayers: parseInt(document.querySelector('#max-players').value),
     };
+    postGame(game);
+    navigate('game.html');
+}
+
+function postGame(game) {
     CommunicationAbstractor.fetchFromServer('/games', 'POST', game)
         .then(response => {
             saveToStorage("playerToken", response.playerToken);
             saveToStorage("gameId", response.gameId);
-        })
-        .catch((error) => console.error(error));
+        }).catch((error) => console.error(error));
 }
 
 init();
