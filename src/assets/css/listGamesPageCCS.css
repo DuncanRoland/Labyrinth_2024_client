@@ -98,13 +98,14 @@ main .joinButton:hover {
     background: linear-gradient(0deg, rgba(0, 0, 0, 1) 43%, rgba(99, 46, 20, 1) 70%, rgba(142, 89, 31, 1) 100%);
 }
 
-main #backButtonWrapper {
+ footer {
     display: flex;
     justify-content: center;
     margin-top: 2rem;
+    margin-bottom: 2rem;
 }
 
-main .backButton {
+footer .backButton {
     width: 10rem;
     padding: 0.4rem;
     font-size: 1.3rem;
@@ -116,9 +117,9 @@ main .backButton {
     border: black solid 0.2rem;
 }
 
-main .backButton:hover {
-
+footer .backButton:hover {
     border: rgba(223, 142, 88, 1) solid 0.2rem;
+    color: rgba(223, 142, 88, 1);
 }
 
 
