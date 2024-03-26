@@ -35,7 +35,7 @@ function createEventListeners() {
 
 function getBoardPiece(e) {
     e.preventDefault();
-    console.log(e.target);
+    console.log(e.target.getAttribute('data-target'));
 }
 
 async function createTreasureObjectives(maxObjectives = 3) {
