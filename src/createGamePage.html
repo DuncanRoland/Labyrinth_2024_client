@@ -13,37 +13,39 @@
 
 <header>Creating game</header>
 
-<div class="box">
-    <form action="#" method="post">
-        <div>
-            <label class="amountOfPlayers" for="min-players">Amount of players:</label>
-            <select id="min-players" name="min-players" required>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-            </select>
-        </div>
+<main>
+    <div class="box">
+        <form action="#" method="post">
+            <div>
+                <label class="amountOfPlayers" for="min-players">Amount of players:</label>
+                <select id="min-players" name="min-players" required>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+            </div>
 
-        <div>
-            <label class="mode">Modes:</label>
+            <div>
+                <label class="mode">Modes:</label>
 
-            <input type="radio" id="mode1" name="game-mode" value="normal">
-            <label for="mode1">Normal</label>
+                <input type="radio" id="mode1" name="game-mode" value="normal">
+                <label for="mode1">Simple</label>
 
-            <input type="radio" id="mode2" name="game-mode" value="teleportation">
-            <label for="mode2">Teleportation</label>
-        </div>
+                <input type="radio" id="mode2" name="game-mode" value="teleportation">
+                <label for="mode2">Teleportation</label>
+            </div>
 
-        <div>
-            <label class="serverCode" for="serverCode">Server code:</label>
-            <input type="text" id="serverCode" name="serverCode" placeholder="Write server code" required>
-        </div>
+            <div>
+                <label class="gameName" for="gameName">Game name:</label>
+                <input type="text" id="gameName" name="serverCode" placeholder="Write game name" required>
+            </div>
 
-        <div>
-            <button id="back" type="button">Back</button>
-            <button id="createGame" type="submit">Create game</button>
-        </div>
-    </form>
-</div>
+            <div>
+                <button id="back" type="button">Back</button>
+                <button id="createGame" type="submit">Create game</button>
+            </div>
+        </form>
+    </div>
+</main>
 </body>
 </html>

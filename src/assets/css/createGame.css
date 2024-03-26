@@ -38,8 +38,16 @@ input {
     font-size: 1.5rem;
 }
 
-.mode, .amountOfPlayers, .serverCode {
+.mode, .amountOfPlayers, .gameName {
     font-size: 2.5rem;
+}
+
+select {
+    min-width: 4rem;
+    min-height: 2.5rem;
+    border-width: 0.2rem;
+    border-color: rgba(50, 50, 50, 0.14);
+    margin: 1rem 2rem 1rem 0rem;
 }
 
 button {
