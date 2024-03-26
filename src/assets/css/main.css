@@ -3,10 +3,10 @@
 body {
     background-image: url("../img/background.jpg");
     background-size: cover;
-    font-family: 'Shadows Into Light', cursive;
 }
 
 header {
+    font-family: 'Shadows Into Light', cursive;
     color: aliceblue;
     font-size: 6rem;
 }
