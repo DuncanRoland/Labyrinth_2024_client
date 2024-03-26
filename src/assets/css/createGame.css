@@ -47,7 +47,7 @@ select {
     min-height: 2.5rem;
     border-width: 0.2rem;
     border-color: rgba(50, 50, 50, 0.14);
-    margin: 1rem 2rem 1rem 0rem;
+    margin: 1rem 2rem 0rem 0rem;
 }
 
 button {
