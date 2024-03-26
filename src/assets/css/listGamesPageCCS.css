@@ -18,7 +18,20 @@ main .findGameIdWrapper {
 
 main .findGameLayout {
     font-family: 'Shadows Into Light', cursive;
+    border: #623302  solid 0.2rem;
+    border-radius: 0.5rem;
+    padding: 0.2rem;
+    background-color: #8e591f;
+    color: white;
+}
 
+main .findGameLayout::placeholder {
+    color: white;
+}
+
+main .findGameLayout:hover , main .findGameLayout:focus {
+    border-color: #df8e58;
+    outline: none;
 }
 
 main #gameList {
@@ -63,8 +76,9 @@ main .paragraphWrapper .gameId {
 
 main .paragraphWrapper .gameMode {
     margin-right: 10rem;
-
 }
+
+
 
 
 
