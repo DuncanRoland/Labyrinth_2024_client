@@ -5,7 +5,7 @@ init();
 
 
 function init() {
-    generateBoard(8, 8);
+    generateBoard(7, 7);
     createEventListeners();
     createTreasureObjectives();
     
