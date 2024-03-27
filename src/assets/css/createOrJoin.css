@@ -1,10 +1,9 @@
 header {
     text-align: center;
     margin: 5rem;
-    font-size: 4rem;
 }
 
-main {
+div {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -13,4 +12,11 @@ main {
 button {
     margin: 0.3rem;
     font-size: 1.5rem;
+}
+
+h2 {
+    text-align: center;
+    margin: 2rem;
+    font-size: 2rem;
+    color: white;
 }

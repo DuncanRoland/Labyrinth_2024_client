@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap');
+
+body {
+    background-image: url("../images/background.png");
+    background-size: cover;
+    color: white;
+    font-family: 'Shadows Into Light', cursive;
+    height: 100vh;
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+    overflow: hidden;
+    max-height: 100vh;
+}
+
+header {
+    font-family: 'Shadows Into Light', cursive;
+    color: aliceblue;
+    font-size: 6rem;
+}
+
+button {
+    cursor: pointer;
+    font-family: 'Shadows Into Light', cursive;
+}

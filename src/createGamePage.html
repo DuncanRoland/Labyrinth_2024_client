@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Creating game</title>
+
+    <link rel="stylesheet" href="assets/css/reset.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/createGame.css">
+    <script src="assets/js/gameCreator.js" type="module"></script>
+</head>
+
+<body>
+
+    <header>Creating game</header>
+
+    <main>
+        <div class="box">
+            <form action="#" method="post">
+                <div>
+                    <label class="amountOfPlayers" for="min-players">Amount of players:</label>
+                    <select id="max-players" name="min-players" required>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="mode">Modes:</label>
+
+                    <input type="radio" id="mode1" name="game-mode" value="simple">
+                    <label for="mode1">Simple</label>
+
+                    <input type="radio" id="mode2" name="game-mode" value="teleport">
+                    <label for="mode2">Teleportation</label>
+                </div>
+
+                <div>
+                    <label class="gameName" for="gameName">Game name:</label>
+                    <input type="text" id="gameName" name="serverCode" placeholder="Write game name" required>
+                </div>
+
+                <div>
+                    <button class="generalButtonLayout" id="back" type="button">Back</button>
+                    <button class="generalButtonLayout" id="create" type="submit">Create game</button>
+                </div>
+            </form>
+        </div>
+    </main>
+</body>
+
+</html>
