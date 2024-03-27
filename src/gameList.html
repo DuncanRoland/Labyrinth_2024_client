@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>games list</title>
+    <link rel="stylesheet" href="assets/css/reset.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/gameList.css">
+
+    <script src="assets/js/gameList.js" type="module"></script>
+
+</head>
+
+<body>
+    <header>
+        <h1>Labyrinth</h1>
+    </header>
+    <main>
+        <div class="joinGameWrapper">
+            <div class="findGameIdWrapper">
+                <h3>List of games</h3>
+                <form>
+                    <label for="findGameId">Find game:</label>
+                    <input id="findGameId" class="findGameLayout" placeholder="type a server code">
+                </form>
+            </div>
+
+            <ul id="gameList">
+            </ul>
+        </div>
+    </main>
+    <footer>
+        <button class="backButton">Back</button>
+    </footer>
+</body>
+
+</html>
