@@ -1,6 +1,6 @@
 import { navigate } from './universal.js';
 import { GAMEPREFIX } from './config.js';
-import { loadFromStorage, saveToStorage } from './data-connector/local-storage-abstractor.js';
+import { saveToStorage } from './data-connector/local-storage-abstractor.js';
 import *  as CommunicationAbstractor from './data-connector/api-communication-abstractor.js';
 
 let GAME = {
@@ -25,7 +25,7 @@ function createGame(e) {
     GAME.gameName = document.querySelector('#gameName').value;
     GAME.maxPlayers = parseInt(document.querySelector('#max-players').value)
     postGame(GAME);
-    //navigate('game.html');
+    navigate('game.html');
 }
 
 function postGame(game) {
