@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=Titan+One&display=swap');
+
+header {
+    text-align: center;
+    padding-bottom: 2rem;
+    padding-top: 1rem;
+    margin-bottom: 2rem;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+label {
+    font-size: 1.5rem;
+}
+
+div {
+    margin: 1rem;
+}
+
+.box {
+    background-color: #ececec;
+    border-radius: 1rem;
+    max-width: 45rem;
+    margin: auto;
+    opacity: 0.90;
+    color: black;
+}
+
+input[type='radio'] {
+    transform: scale(1.2);
+}
+
+input {
+    padding: 0.5rem;
+    font-size: 1.5rem;
+}
+
+.mode, .amountOfPlayers, .gameName {
+    font-size: 2.5rem;
+}
+
+select {
+    min-width: 4rem;
+    min-height: 2.5rem;
+    border-width: 0.2rem;
+    border-color: rgba(50, 50, 50, 0.14);
+    margin: 1rem 2rem 0rem 0rem;
+}
+
+#generalButtonLayout {
+    margin-top: 1rem;
+    padding: 1.5rem;
+    font-size: 1.5rem;
+    background-color: #d3c1c1;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    margin-right: 1.2rem;
+    margin-left: 1.2rem;
+}
+
+button:hover {
+    background-color: #b3a1a1;
+}
