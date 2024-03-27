@@ -21,7 +21,7 @@ main  {
 #leftMenu {
     margin: 0 auto;
     text-align: center;
-    width: 20rem;
+    width: 30rem;
 }
 
 #leftMenu h2 {
@@ -42,6 +42,33 @@ main  {
     margin-top: 2rem;
 }
 
+img {
+    max-width: fit-content;
+    z-index: -1;
+}
+
+#playerList {
+    padding: 1rem;
+    background: pink;
+}
+
+#playerList li {
+    margin-bottom: 0.2rem;
+}
+
+
+#obtainedTreasure {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 2rem;
+    padding: 1rem;
+    background: blue;
+}
+
+#obtainedTreasure li {
+    margin-right: 1rem;
+}
+
 #treasureList {
     display: flex;
     justify-content: center;
@@ -54,19 +81,4 @@ main  {
     padding: 2rem 0.5rem 2rem 0.5rem;
     width: 10%;
     text-align: center;
-}
-
-img {
-    max-width: fit-content;
-    z-index: -1;
-}
-
-#playerList {
-    padding: 1rem;
-}
-
-#obtainedTreasure {
-    margin-top: 2rem;
-    padding: 1rem;
-    background: blue;
 }
