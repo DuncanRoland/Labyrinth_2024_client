@@ -7,16 +7,18 @@
     <title>Labyrinth</title>
     <script src="assets/js/game.js" type="module"></script>
     <link rel="stylesheet" href="assets/css/reset.css">
+    <link rel="stylesheet" href="assets/css/main.css">
     <link rel="stylesheet" href="assets/css/game.css">
 </head>
 
 <body>
-    <header>
-        <h1>Current turn:</h1>
-        <h2>Objective:</h2>
-    </header>
-    <main>
+<header>
+
+    <h3>Current turn: <span id="username">username</span></h3>
+</header>
+<main>
         <div id="leftMenu">
+            <h2>Objective: <span id="objective"></span></h2>
             <ul id="playerList">
                 <li>player1</li>
                 <li>player2</li>
@@ -30,12 +32,12 @@
             <button>Leave</button>
         </div>
         <div id="board"></div>
-    </main>
-    <footer>
-        <ul id="treasureList">
-        </ul>
-        <div id="labyrinthPiece"></div>
-    </footer>
+</main>
+<footer>
+    <ul id="treasureList">
+    </ul>
+    <div id="labyrinthPiece"></div>
+</footer>
 </body>
 
 
