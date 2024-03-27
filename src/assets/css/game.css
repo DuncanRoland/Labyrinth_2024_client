@@ -6,11 +6,6 @@ header {
     font-size: 2rem;
 }
 
-
-/*header h3 {
-    font-size: 3.5rem;
-}*/
-
 main  {
     display: grid;
     grid-template-columns: 0.4fr 0.6fr;
@@ -32,11 +27,13 @@ main  {
 #leftMenu h2 {
     margin-bottom: 1rem;
     text-align: left;
+    font-size: 1.3rem;
 }
 
 #leftMenu ul li {
-    padding: 0.2rem 0 0.2rem 0;
+    padding: 1rem 0 1rem 0;
     border: solid black 0.1rem;
+    font-size: 1.3rem;
 }
 
 #board {
@@ -62,4 +59,14 @@ main  {
 img {
     max-width: fit-content;
     z-index: -1;
+}
+
+#playerList {
+    padding: 1rem;
+}
+
+#obtainedTreasure {
+    margin-top: 2rem;
+    padding: 1rem;
+    background: blue;
 }
