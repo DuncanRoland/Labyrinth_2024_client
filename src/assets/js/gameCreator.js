@@ -3,6 +3,15 @@ import { GAMEPREFIX } from './config.js';
 import { loadFromStorage, saveToStorage } from './data-connector/local-storage-abstractor.js';
 import *  as CommunicationAbstractor from './data-connector/api-communication-abstractor.js';
 
+let GAME = {
+    prefix: GAMEPREFIX,
+    playerName: 'test',
+    gameMode: 'simple',
+    gameName: 'testGame',
+    minPlayers: 2,
+    maxPlayers: 4,
+};
+
 function init() {
     document.querySelector('#back').addEventListener('click', () => navigate('createOrJoin.html'));
     document.querySelector('form').addEventListener('submit', (e) => createGame(e));
@@ -11,16 +20,12 @@ function init() {
 function createGame(e) {
     e.preventDefault();
     const playerName = localStorage.getItem('playerName');
-    const game = {
-        prefix: GAMEPREFIX,
-        playerName: playerName,
-        gameMode: document.querySelector('input[name="game-mode"]:checked').value,
-        gameName: document.querySelector('#gameName').value,
-        minPlayers: 2,
-        maxPlayers: parseInt(document.querySelector('#max-players').value),
-    };
-    postGame(game);
-    navigate('game.html');
+    GAME.playerName = playerName;
+    GAME.gameMode = document.querySelector('input[name="game-mode"]:checked').value
+    GAME.gameName = document.querySelector('#gameName').value;
+    GAME.maxPlayers = parseInt(document.querySelector('#max-players').value)
+    postGame(GAME);
+    //navigate('game.html');
 }
 
 function postGame(game) {
