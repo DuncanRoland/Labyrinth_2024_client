@@ -73,7 +73,7 @@ async function createTreasureObjectives(maxObjectives = 3) {
         const objectiveNameFromAPI = objective.replace(/ /g, '_');
 
         const li = `<li>
-                    <img src="assets/media/treasures_cards/${objectiveNameFromAPI}.JPG">
+                    <img src="assets/media/treasures_cards/${objectiveNameFromAPI}.JPG" alt="${objective}">
                 </li>`;
         $treasureList.insertAdjacentHTML("beforeend", li);
     });
