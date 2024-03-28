@@ -82,7 +82,7 @@ main {
 #boardBackground {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    position: relative;
     padding-top: 2rem;
     padding-bottom: 4rem;
     background: aqua;
@@ -136,3 +136,75 @@ img {
     height: 100%;
     justify-content: flex-start;
 }
+
+
+.slide-indicator {
+    position: absolute; /* Position the indicator relative to its containing element */
+    width: 100%; /* Full width of the board */
+    text-align: center; /* Center the content horizontally */
+}
+
+/*top*/
+.slide-indicator-top-left {
+    right: 11.2rem;
+}
+
+.slide-indicator-top-mid {
+    left: 11rem; /* Position the indicator in the middle */
+}
+
+/*left*/
+.slide-indicator-left-top {
+    right: 21rem;
+    top: 11.2rem;
+}
+
+
+.slide-indicator-left-mid {
+    right: 21rem;
+    top: 22.4rem;
+}
+
+.slide-indicator-left-bottom {
+    right: 21rem;
+    top: 33.4rem;
+}
+
+/*right*/
+.slide-indicator-right-top {
+    left: 21rem;
+    top: 11.2rem;
+}
+
+.slide-indicator-right-mid {
+    left: 21rem;
+    top: 22.4rem;
+}
+
+.slide-indicator-right-bottom {
+    left: 21rem;
+    top: 33.4rem;
+}
+
+/*bottom*/
+.slide-indicator-bottom-left {
+    right: 11.2rem;
+    top: 43.6rem;
+}
+
+.slide-indicator-bottom-mid {
+    left: 0;
+    top: 43.6rem;
+}
+
+.slide-indicator-bottom-right {
+    left: 11.2rem;
+    top: 43.6rem;
+}
+
+.slide-indicator::before {
+    content: "▲"; /* Use any arrow symbol you prefer */
+    font-size: 1.5rem; /* Adjust the font size as needed */
+    color: green; /* Adjust the color of the indicator */
+}
+

@@ -24,6 +24,22 @@ function generateBoard(maxColumns, maxRows) {
             column.appendChild(square);
         }
     }
+    const boardBackground = document.querySelector('#boardBackground');
+    const slideIndicators = `
+        <div class="slide-indicator slide-indicator-top-left"></div>
+        <div class="slide-indicator slide-indicator-top-mid"></div>
+        <div class="slide-indicator slide-indicator-top-right"></div>
+        <div class="slide-indicator slide-indicator-left-top"></div>
+        <div class="slide-indicator slide-indicator-left-mid"></div>
+        <div class="slide-indicator slide-indicator-left-bottom"></div>
+        <div class="slide-indicator slide-indicator-bottom-left"></div>
+        <div class="slide-indicator slide-indicator-bottom-mid"></div>
+        <div class="slide-indicator slide-indicator-bottom-right"></div>
+        <div class="slide-indicator slide-indicator-right-top"></div>
+        <div class="slide-indicator slide-indicator-right-mid"></div>
+        <div class="slide-indicator slide-indicator-right-bottom"></div>
+    `;
+    boardBackground.insertAdjacentHTML('beforeend', slideIndicators);
 }
 
 function generateRandomTilesImg(element) {
