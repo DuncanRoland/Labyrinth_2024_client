@@ -93,11 +93,6 @@ img {
     z-index: -1;
 }
 
-/*#playerList {
-    padding: 1rem;
-
-}*/
-
 #playerList li {
     margin-bottom: 0.5rem;
     background-image: url('../images/button-background.png');
@@ -106,7 +101,6 @@ img {
     background-repeat: no-repeat;
 
 }
-
 
 #obtainedTreasure {
     display: flex;
@@ -144,67 +138,106 @@ img {
     text-align: center; /* Center the content horizontally */
 }
 
-/*top*/
-.slide-indicator-top-left {
-    right: 11.2rem;
-}
-
-.slide-indicator-top-mid {
-    left: 11rem; /* Position the indicator in the middle */
-}
-
 /*left*/
 .slide-indicator-left-top {
-    right: 21rem;
-    top: 11.2rem;
+    right: 22rem;
+    top: 11.5rem;
 }
 
-
 .slide-indicator-left-mid {
-    right: 21rem;
-    top: 22.4rem;
+    right: 22rem;
+    top: 22.5rem;
 }
 
 .slide-indicator-left-bottom {
-    right: 21rem;
-    top: 33.4rem;
+    right: 22rem;
+    top: 33.5rem;
+}
+
+/*top*/
+.slide-indicator-top-left {
+    right: 12.4rem;
+    top: 1.5rem;
+}
+
+.slide-indicator-top-mid {
+    right: 1.2rem; /* Position the indicator in the middle */
+    top: 1.5rem;
+}
+
+.slide-indicator-top-right {
+    left: 10rem;
+    top: 1.5rem;
 }
 
 /*right*/
 .slide-indicator-right-top {
-    left: 21rem;
+    left: 20rem;
     top: 11.2rem;
 }
 
 .slide-indicator-right-mid {
-    left: 21rem;
-    top: 22.4rem;
+    left: 20rem;
+    top: 22.2rem;
 }
 
 .slide-indicator-right-bottom {
-    left: 21rem;
-    top: 33.4rem;
+    left: 20rem;
+    top: 33.2rem;
 }
 
 /*bottom*/
 .slide-indicator-bottom-left {
-    right: 11.2rem;
-    top: 43.6rem;
+    right: 12rem;
+    top: 43.2rem;
 }
 
 .slide-indicator-bottom-mid {
-    left: 0;
-    top: 43.6rem;
+    right: 0.8rem;
+    top: 43.2rem;
 }
 
 .slide-indicator-bottom-right {
-    left: 11.2rem;
-    top: 43.6rem;
+    left: 10.5rem;
+    top: 43.2rem;
 }
 
 .slide-indicator::before {
-    content: "▲"; /* Use any arrow symbol you prefer */
-    font-size: 1.5rem; /* Adjust the font size as needed */
-    color: green; /* Adjust the color of the indicator */
+    content: " ";
+    background-image: url("../media/rockButton/stone-arrow.png"); /* Use any arrow symbol you prefer */
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 2rem;
+    height: 2rem;
+    position: absolute;
+    display: inline-block;
+    transform-origin: center;
 }
 
+/* Rotate arrows for left classes */
+.slide-indicator-left-top::before,
+.slide-indicator-left-mid::before,
+.slide-indicator-left-bottom::before {
+    transform: rotate(0deg); /* Rotate the arrow image 90 degrees (pointing right) */
+}
+
+/* Rotate arrows for top classes */
+.slide-indicator-top-left::before,
+.slide-indicator-top-mid::before,
+.slide-indicator-top-right::before {
+    transform: rotate(90deg); /* Rotate the arrow image 180 degrees (pointing down) */
+}
+
+/* Rotate arrows for right classes */
+.slide-indicator-right-top::before,
+.slide-indicator-right-mid::before,
+.slide-indicator-right-bottom::before {
+    transform: rotate(-180deg); /* Rotate the arrow image -90 degrees (pointing left) */
+}
+
+/* Rotate arrows for bottom classes */
+.slide-indicator-bottom-left::before,
+.slide-indicator-bottom-mid::before,
+.slide-indicator-bottom-right::before {
+    transform: rotate(-90deg); /* Rotate the arrow image 0 degrees (pointing up) */
+}
