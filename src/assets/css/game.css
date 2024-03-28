@@ -30,6 +30,7 @@ Tiles can only be slid into the board from the sides, not from the corners.
 Tiles can only be slid into designated rows or columns.
 */
 
+/*general*/
 
 header {
     display: flex;
@@ -46,11 +47,14 @@ main {
     /*  background: #007bff;*/
 }
 
-.square {
-    border: 0.1rem solid black;
-    text-align: center;
+img {
+    width: 5rem;
+    z-index: -1;
 }
 
+/*general*/
+
+/*player list*/
 #leftMenu {
     margin: 0 auto;
     text-align: center;
@@ -66,31 +70,6 @@ main {
 #leftMenu ul li {
     padding: 1rem 0 1rem 0;
     font-size: 1.3rem;
-}
-
-#board {
-    display: flex;
-    justify-content: center;
-    margin-top: 2rem;
-}
-
-#board div {
-    padding: 0.1rem;
-    background: #df8e58;
-}
-
-#boardBackground {
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    padding-top: 2rem;
-    padding-bottom: 4rem;
-    background: aqua;
-}
-
-img {
-    width: 5rem;
-    z-index: -1;
 }
 
 #playerList li {
@@ -131,7 +110,35 @@ img {
     justify-content: flex-start;
 }
 
+/*player list*/
 
+/*board*/
+#boardBackground {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding-top: 2rem;
+    padding-bottom: 4rem;
+    background: aqua;
+}
+
+#board {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+#board div {
+    padding: 0.1rem;
+    background: #df8e58;
+}
+
+.square {
+    border: 0.1rem solid black;
+    text-align: center;
+}
+
+/*arrows*/
 .slide-indicator {
     position: absolute; /* Position the indicator relative to its containing element */
     width: 100%; /* Full width of the board */
