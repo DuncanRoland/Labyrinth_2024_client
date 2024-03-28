@@ -45,10 +45,11 @@ function checkInput() {
     let checkedRadioButton = document.querySelector('input[name="game-mode"]:checked');
     let gameNameInput = document.querySelector("#gameName").value.trim();
     let error = document.querySelector('#error');
+    let maxCharacters = 15;
 
     if (checkedRadioButton === null) {
         error.insertAdjacentHTML('beforeend', '<p>Please select a game mode</p>')
-    } else if(gameNameInput === "") {
+    } else if (gameNameInput === "") {
         error.insertAdjacentHTML('beforeend', '<p>Please enter a game name</p>')
     }
 
@@ -58,6 +59,11 @@ function checkInput() {
         document.querySelector('#error').classList.add('hidden');
         GAME.gameMode = checkedRadioButton.value;
         GAME.gameName = gameNameInput;
+    }
+
+    if (gameNameInput.length > maxCharacters) {
+        error.insertAdjacentHTML('beforeend', '<p>Game name cannot exceed ' + maxCharacters + ' characters</p>')
+        document.querySelector('#error').classList.remove('hidden');
     }
 }
 
