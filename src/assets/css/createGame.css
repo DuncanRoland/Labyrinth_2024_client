@@ -66,3 +66,15 @@ select {
 button:hover {
     background-color: #b3a1a1;
 }
+
+div #error {
+    text-align: center;
+    color: red;
+    font-size: 1.2rem;
+    margin-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.hidden {
+    display: none;
+}
