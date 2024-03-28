@@ -110,15 +110,11 @@ img {
 
 #treasureList li {
     width: 6rem;
-    text-align: center;
+    margin-top: 5rem;
 }
 
 #treasureList li img {
     border-radius: 0.5rem;
     height: 100%;
     justify-content: space-evenly;
-}
-
-.boardAndObjectiveCardsWrapper {
-height: 10rem;
 }
