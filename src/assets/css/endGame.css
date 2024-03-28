@@ -1,19 +1,24 @@
 button {
-    border-radius: 2rem; /* Je kunt de waarde aanpassen om de gewenste afronding te krijgen */
-    padding: 1.5rem; /* Voeg wat padding toe om de knop wat ruimte te geven */
-    margin-bottom: 2rem;
-    background-color: #000000; /* Achtergrondkleur van de knop */
-    color: white; /* Tekstkleur van de knop */
-    border: none; /* Verwijder de standaard rand van de knop */
+    margin: 3rem 1rem 1rem 3rem;
+    padding: 2rem 4.5rem;
+    background-color: rgba(223, 142, 88, 0);
+    font-size: 1.5rem;
+
+    color: white;
+    border: none;
     cursor: pointer;
     display: flex;
+    border-radius: 1.5rem;
+    background-image: url('../images/PSX_20240327_153444.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+
     width: 15rem;
-    justify-content: center; /* Centreer de tekst horizontaal */
-    align-items: center; /* Centreer de tekst verticaal */
+    justify-content: center;
+    align-items: center;
 }
 
 body {
-    margin-top: 15rem;
     flex-direction: column;
     justify-content: center;
     text-align: center;
