@@ -44,7 +44,7 @@ function getBoardPiece(e) {
     console.log(e.currentTarget.parentElement.dataset.target);
 }
 
-async function createTreasureObjectives(maxObjectives = 5) {
+async function createTreasureObjectives(maxObjectives = 3) {
     const treasures = await CommunicationAbstractor.fetchFromServer('/treasures', 'GET').catch(ErrorHandler.handleError);
     const objectives = [];
 
@@ -79,8 +79,3 @@ function getRandomObjective(treasures) {
     return treasures.treasures[randomIndex];
 }
 
-function createDiv(elementName, inner, container) {
-    const element = document.createElement(elementName);
-    element.innerHTML = inner;
-    container.appendChild(element);
-}
