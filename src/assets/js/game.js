@@ -2,13 +2,15 @@ import * as CommunicationAbstractor from "./data-connector/api-communication-abs
 import * as ErrorHandler from "./data-connector/error-handler.js";
 import { loadFromStorage } from "./data-connector/local-storage-abstractor.js";
 import { navigate } from "./universal.js";
+const GAMEMAXTREASURES = await getDescription(loadFromStorage('gameId')).then(response => response.description.numberOfTreasuresPerPlayer).catch(ErrorHandler.handleError);
+
 init();
 
 
 function init() {
     generateBoard(7, 7);
     createEventListeners();
-    createTreasureObjectives();
+    createTreasureObjectives(GAMEMAXTREASURES);
     fillInPlayerList();
 }
 
@@ -46,7 +48,7 @@ function getBoardPiece(e) {
     console.log(e.currentTarget.parentElement.dataset.target);
 }
 
-async function createTreasureObjectives(maxObjectives = 3) {
+async function createTreasureObjectives(maxObjectives = 5) {
     const treasures = await CommunicationAbstractor.fetchFromServer('/treasures', 'GET').catch(ErrorHandler.handleError);
     const objectives = [];
     getObjectiveList(objectives, treasures, maxObjectives);
@@ -79,7 +81,10 @@ async function fillInPlayerList() {
     const playerList = document.querySelector("#playerList");
     const gameId = loadFromStorage('gameId');
     console.log(gameId)
-    const players = await CommunicationAbstractor.fetchFromServer(`/games/${gameId}?description=true`, 'GET').then(result => result.description.players).catch(ErrorHandler.handleError);
+    const players = await getDescription(gameId).then(response => response.description.players);
     players.forEach(player => { playerList.insertAdjacentHTML('beforeend', `<li>${player}</li>`) });
 }
 
+async function getDescription(gameId) {
+    return await CommunicationAbstractor.fetchFromServer(`/games/${gameId}?description=true`, 'GET').catch(ErrorHandler.handleError);
+}
