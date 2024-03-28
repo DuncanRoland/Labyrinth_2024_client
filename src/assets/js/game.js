@@ -1,5 +1,6 @@
 import * as CommunicationAbstractor from "./data-connector/api-communication-abstractor.js";
 import * as ErrorHandler from "./data-connector/error-handler.js";
+import { loadFromStorage } from "./data-connector/local-storage-abstractor.js";
 import { navigate } from "./universal.js";
 init();
 
@@ -8,6 +9,7 @@ function init() {
     generateBoard(7, 7);
     createEventListeners();
     createTreasureObjectives();
+    fillInPlayerList();
 }
 
 function generateBoard(maxColumns, maxRows) {
@@ -70,4 +72,12 @@ function createDiv(elementName, inner, container) {
     const element = document.createElement(elementName);
     element.innerHTML = inner;
     container.appendChild(element);
+}
+
+async function fillInPlayerList() {
+    const playerList = document.querySelector("#playerList");
+    const gameId = loadFromStorage('gameId');
+    console.log(gameId)
+    const players = await CommunicationAbstractor.fetchFromServer(`/games/${gameId}?description=true`, 'GET').then(result => result.players).catch(ErrorHandler.handleError);
+    console.log(players)
 }
