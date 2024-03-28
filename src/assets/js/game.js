@@ -74,10 +74,12 @@ function createDiv(elementName, inner, container) {
     container.appendChild(element);
 }
 
+//TODO: implement polling until max players are reached
 async function fillInPlayerList() {
     const playerList = document.querySelector("#playerList");
     const gameId = loadFromStorage('gameId');
     console.log(gameId)
-    const players = await CommunicationAbstractor.fetchFromServer(`/games/${gameId}?description=true`, 'GET').then(result => result.players).catch(ErrorHandler.handleError);
-    console.log(players)
+    const players = await CommunicationAbstractor.fetchFromServer(`/games/${gameId}?description=true`, 'GET').then(result => result.description.players).catch(ErrorHandler.handleError);
+    players.forEach(player => { playerList.insertAdjacentHTML('beforeend', `<li>${player}</li>`) });
 }
+
