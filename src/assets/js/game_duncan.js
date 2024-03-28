@@ -47,9 +47,22 @@ function getBoardPiece(e) {
 async function createTreasureObjectives(maxObjectives = 5) {
     const treasures = await CommunicationAbstractor.fetchFromServer('/treasures', 'GET').catch(ErrorHandler.handleError);
     const objectives = [];
+
+    const $treasureList = document.querySelector("#treasureList");
+    $treasureList.innerHTML = "";
+
     getObjectiveList(objectives, treasures, maxObjectives);
-    objectives.forEach(objective => { createDiv('li', objective, document.querySelector(`#treasureList`)) });
+
+    objectives.forEach(objective => {
+        const objectiveNameFromAPI = objective.replace(/ /g, '_');
+
+        const li = `<li>
+                    <img src="assets/media/treasures_cards/${objectiveNameFromAPI}.JPG">
+                </li>`;
+        $treasureList.insertAdjacentHTML("beforeend", li);
+    });
 }
+
 
 function getObjectiveList(objectives, treasures, maxObjectives) {
     while (objectives.length < maxObjectives) {

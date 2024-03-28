@@ -108,9 +108,9 @@ img {
 }
 
 #treasureList li {
-    margin: 1rem 0 0 1rem;
-    border: 0.3rem solid black;
-    padding: 2rem 0.5rem 2rem 0.5rem;
-    width: 10%;
+
+
+
+    width: 6rem;
     text-align: center;
 }
