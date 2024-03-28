@@ -26,13 +26,26 @@ function checkUsername() {
     let username = document.querySelector('#username').value;
     let error = document.querySelector('#error');
 
-    if (username === "") {
-        error.insertAdjacentHTML('beforeend', '<p>Please enter a username</p>')
-    }
+    let maxCharacters = 15;
 
-    if (username === "") {
-        document.querySelector('#error').classList.remove('hidden');
-    } else {
-        document.querySelector('#error').classList.add('hidden');
+    switch (true) {
+        case username === "":
+            displayError('Please enter a username');
+            break;
+        case username.length > maxCharacters:
+            displayError('Username cannot exceed ' + maxCharacters + ' characters');
+            console.log("Max characters exceeded");
+            break;
+        default:
+            hideError();
+            break;
+    }
+    function displayError(message) {
+        error.textContent = message;
+        error.classList.remove('hidden');
+    }
+    function hideError() {
+        error.textContent = '';
+        error.classList.add('hidden');
     }
 }
