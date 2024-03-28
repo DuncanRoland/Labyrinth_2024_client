@@ -17,6 +17,7 @@ function init() {
     document.querySelector('#back').addEventListener('click', () => navigate('createOrJoin.html'));
     document.querySelector('form').addEventListener('submit', (e) => {
         e.preventDefault();
+        checkInput();
         createGame(e)
     });
 }
@@ -32,7 +33,7 @@ function createGame(e) {
         return;
     }
     postGame(game);
-    //navigate('game.html');
+    navigate('game.html');
 }
 
 function postGame(game) {
