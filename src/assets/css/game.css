@@ -30,6 +30,7 @@ Tiles can only be slid into the board from the sides, not from the corners.
 Tiles can only be slid into designated rows or columns.
 */
 
+
 header {
     display: flex;
     justify-content: center;
@@ -108,9 +109,16 @@ img {
 }
 
 #treasureList li {
-
-
-
     width: 6rem;
     text-align: center;
+}
+
+#treasureList li img {
+    border-radius: 0.5rem;
+    height: 100%;
+    justify-content: space-evenly;
+}
+
+.boardAndObjectiveCardsWrapper {
+height: 10rem;
 }
