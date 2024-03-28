@@ -57,14 +57,14 @@ button {
     font-size: 1.5rem;
 
     /* Add background image to button */
-    background-image: url('../images/PSX_20240327_153444.png');
+    background-image: url('../images/button-background.png');
     background-size: cover;
     background-repeat: no-repeat;
 }
 
 #error {
     text-align: center;
-    color: #000000;
+    color: #ffffff;
     font-size: 1.5rem;
     margin-top: 1rem;
     font-weight: bold;

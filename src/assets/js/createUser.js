@@ -28,11 +28,14 @@ function checkUsername() {
 
     if (username === "") {
         error.insertAdjacentHTML('beforeend', '<p>Please enter a username</p>')
-    }
-
-    if (username === "") {
         document.querySelector('#error').classList.remove('hidden');
-    } else {
+    }
+    else if (username.length > 10) {
+        error.insertAdjacentHTML('beforeend', '<p>Username cannot exceed 10 characters</p>');
+        console.log("max characters exceeded");
+        document.querySelector('#error').classList.remove('hidden');
+    }
+    else {
         document.querySelector('#error').classList.add('hidden');
     }
 }
