@@ -1,0 +1,81 @@
+body {
+    overflow: hidden;
+}
+
+header h1 {
+    text-align: center;
+    font-size: 4rem;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+}
+
+main .joinGameWrapper {
+    width: 60rem;
+    margin: auto auto;
+}
+
+main .findGameIdWrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+main .findGameLayout {
+    font-family: 'Shadows Into Light', cursive;
+    border: #623302 solid 0.2rem;
+    border-radius: 0.5rem;
+    padding: 0.2rem;
+    background-color: #8e591f;
+    color: white;
+}
+
+main .findGameLayout::placeholder {
+    color: white;
+}
+
+main .findGameLayout:hover,
+main .findGameLayout:focus {
+    border-color: #df8e58;
+    outline: none;
+}
+
+main #gameList {
+    padding: 2rem;
+    margin-top: 1rem;
+    color: white;
+    border: thick solid #623302;
+    background: rgb(0, 0, 0);
+    background: linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, rgba(99, 46, 20, 1) 22%, rgba(142, 89, 31, 1) 85%);
+    border-radius: 1rem;
+    overflow-y: scroll;
+    height: 50vh;
+    /*#df8e58*/
+    /* background: rgb(0,0,0);
+     background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(154,90,23,1) 40%, rgba(223,142,88,1) 100%);*/
+}
+
+li {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: black;
+    border: black solid 0.2rem;
+    border-radius: 2rem;
+    margin: 0.5rem;
+}
+
+li button {
+    background-color: #8e591f;
+    color: white;
+    border: none;
+    border-radius: 1rem;
+    padding: 0 1rem 0 1rem;
+    cursor: pointer;
+}
+
+.backButton {
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 1rem;
+    padding: 1rem;
+}

@@ -1,0 +1,35 @@
+header {
+    text-align: center;
+    margin: 5rem;
+}
+
+div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+button {
+    width: 11rem;
+    padding: 0.4rem;
+    font-size: 1.3rem;
+    letter-spacing: 0.3rem;
+    text-align: center;
+    border-radius: 0.6rem;
+    background-color: black;
+    color: white;
+    border: black solid 0.2rem;
+    margin: 2rem;
+}
+
+button:hover {
+    border: rgba(223, 142, 88, 1) solid 0.2rem;
+    color: rgba(223, 142, 88, 1);
+}
+
+h2 {
+    text-align: center;
+    margin: 2rem;
+    font-size: 2rem;
+    color: white;
+}
