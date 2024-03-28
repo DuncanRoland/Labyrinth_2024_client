@@ -1,3 +1,25 @@
+/*
+12 fixed treasures, 4 fixed pawns (16 fixed tiles)
+
+6 treasure corners
+6 treasure t junctions
+
+total fixed tiles and treasures = 28
+total board tiles = 49
+
+12 straight paths
+10 corner paths
+
+total regular paths = 22
+There will always be one tile left to shove in the board.
+
+Fixed tiles need to be on the correct position according to the treasures on the hand of coordinates (16).
+the remaining 12 treasure tiles need to be shuffled and placed on the board randomly (28) + 21 regular tiles mixed of corners and straights (49).
+
+This results in either a spare straight or corner tile that can be used to slide into the board.
+
+*/
+
 header {
     display: flex;
     justify-content: center;
@@ -6,11 +28,11 @@ header {
     font-size: 2rem;
 }
 
-main  {
+main {
     display: grid;
-    grid-template-columns: 0.4fr 0.6fr;
+    grid-template-columns: 0.6fr 0.6fr;
 
-    background: #007bff;
+    /*  background: #007bff;*/
 }
 
 .square {
@@ -43,7 +65,7 @@ main  {
 }
 
 img {
-    max-width: fit-content;
+    width: 5rem;
     z-index: -1;
 }
 
