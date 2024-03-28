@@ -13,11 +13,21 @@ total board tiles = 49
 total regular paths = 22
 There will always be one tile left to shove in the board.
 
+
 Fixed tiles need to be on the correct position according to the treasures on the hand of coordinates (16).
 the remaining 12 treasure tiles need to be shuffled and placed on the board randomly (28) + 21 regular tiles mixed of corners and straights (49).
 
 This results in either a spare straight or corner tile that can be used to slide into the board.
 
+Pawns need to be placed on the corners of the board with the corresponding color.
+
+Pawns can move as far as they want until they hit a dead end, stopping sooner is allowed after they slid a tile in the board.
+multiple pawns can be on the same tile.
+
+A tile may not be slid into the board at the place it just slid out of.
+
+Tiles can only be slid into the board from the sides, not from the corners.
+Tiles can only be slid into designated rows or columns.
 */
 
 header {
