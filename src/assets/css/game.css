@@ -1,3 +1,37 @@
+/*
+12 fixed treasures, 4 fixed pawns (16 fixed tiles)
+
+6 treasure corners
+6 treasure t junctions
+
+total fixed tiles and treasures = 28
+total board tiles = 49
+
+12 straight paths
+10 corner paths
+
+total regular paths = 22
+There will always be one tile left to shove in the board.
+
+
+Fixed tiles need to be on the correct position according to the treasures on the hand of coordinates (16).
+the remaining 12 treasure tiles need to be shuffled and placed on the board randomly (28) + 21 regular tiles mixed of corners and straights (49).
+
+This results in either a spare straight or corner tile that can be used to slide into the board.
+
+Pawns need to be placed on the corners of the board with the corresponding color.
+
+Pawns can move as far as they want until they hit a dead end, stopping sooner is allowed after they slid a tile in the board.
+multiple pawns can be on the same tile.
+
+A tile may not be slid into the board at the place it just slid out of.
+
+Tiles can only be slid into the board from the sides, not from the corners.
+Tiles can only be slid into designated rows or columns.
+*/
+
+/*general*/
+
 header {
     display: flex;
     justify-content: center;
@@ -6,16 +40,99 @@ header {
     font-size: 2rem;
 }
 
-
-/*header h3 {
-    font-size: 3.5rem;
-}*/
-
-main  {
+main {
     display: grid;
-    grid-template-columns: 0.4fr 0.6fr;
+    grid-template-columns: 0.6fr 0.6fr;
 
-    background: #007bff;
+    /*  background: #007bff;*/
+}
+
+img {
+    width: 5rem;
+    z-index: -1;
+}
+
+/*general*/
+
+/*player list*/
+#leftMenu {
+    margin: 1.8rem auto;
+    text-align: center;
+    width: 30rem;
+}
+
+#leftMenu h2 {
+    margin-bottom: 1rem;
+    text-align: left;
+    font-size: 1.3rem;
+}
+
+#leftMenu ul li {
+    padding: 1rem 0 1rem 0;
+    font-size: 1.3rem;
+}
+
+#playerList li {
+    margin-bottom: 0.5rem;
+    background-image: url('../images/button-background.png');
+    background-size: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+
+}
+
+#obtainedTreasure {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 2rem;
+    padding: 1rem;
+    background: blue;
+}
+
+#obtainedTreasure li {
+    margin-right: 1rem;
+}
+
+#treasureList {
+    display: flex;
+    flex-flow: row wrap;
+
+}
+
+#treasureList li {
+    width: 6rem;
+    margin-top: 5rem;
+}
+
+#treasureList li img {
+    border-radius: 0.5rem;
+    height: 100%;
+    justify-content: flex-start;
+}
+
+/*player list*/
+
+/*board*/
+#boardBackground {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding-top: 2rem;
+    padding-bottom: 4rem;
+    background-color: rgb(223, 142, 88, 0.2);
+   /* border: 0.1rem solid black;*/
+    border-radius: 1rem;
+}
+
+#board {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+#board div {
+    padding: 0.1rem;
+    background: #df8e58;
 }
 
 .square {
@@ -23,43 +140,119 @@ main  {
     text-align: center;
 }
 
-#leftMenu {
-    margin: 0 auto;
-    text-align: center;
-    width: 20rem;
+/*arrows*/
+.slide-indicator {
+    position: absolute; /* Position the indicator relative to its containing element */
+    width: 100%; /* Full width of the board */
+    text-align: center; /* Center the content horizontally */
 }
 
-#leftMenu h2 {
-    margin-bottom: 1rem;
-    text-align: left;
+/*left*/
+.slide-indicator-left-top {
+    right: 22rem;
+    top: 11.5rem;
 }
 
-#leftMenu ul li {
-    padding: 0.2rem 0 0.2rem 0;
-    border: solid black 0.1rem;
+.slide-indicator-left-mid {
+    right: 22rem;
+    top: 22.5rem;
 }
 
-#board {
-    display: flex;
-    justify-content: flex-start;
-    margin-top: 2rem;
+.slide-indicator-left-bottom {
+    right: 22rem;
+    top: 33.5rem;
 }
 
-#treasureList {
-    display: flex;
-    justify-content: center;
-    flex-flow: row wrap;
+/*top*/
+.slide-indicator-top-left {
+    right: 12.4rem;
+    top: 1.5rem;
 }
 
-#treasureList li {
-    margin: 1rem 0 0 1rem;
-    border: 0.3rem solid black;
-    padding: 2rem 0.5rem 2rem 0.5rem;
-    width: 10%;
-    text-align: center;
+.slide-indicator-top-mid {
+    right: 1.2rem; /* Position the indicator in the middle */
+    top: 1.5rem;
 }
 
-img {
-    max-width: fit-content;
-    z-index: -1;
+.slide-indicator-top-right {
+    left: 10rem;
+    top: 1.5rem;
+}
+
+/*right*/
+.slide-indicator-right-top {
+    left: 20rem;
+    top: 11.2rem;
+}
+
+.slide-indicator-right-mid {
+    left: 20rem;
+    top: 22.2rem;
+}
+
+.slide-indicator-right-bottom {
+    left: 20rem;
+    top: 33.2rem;
+}
+
+/*bottom*/
+.slide-indicator-bottom-left {
+    right: 12rem;
+    top: 43.2rem;
+}
+
+.slide-indicator-bottom-mid {
+    right: 0.8rem;
+    top: 43.2rem;
+}
+
+.slide-indicator-bottom-right {
+    left: 10.5rem;
+    top: 43.2rem;
+}
+
+.slide-indicator::before {
+    content: " ";
+    /*background-image: url("../media/rockButton/stone-arrow-brown.png");*/
+    /*background-image: url("../media/rockButton/stone-arrow-sand-brown.png");*/
+    /*background-image: url("../media/rockButton/stone-arrow-sand-brown-darker.png");*/
+    /*background-image: url("../media/rockButton/stone-arrow-sand-brown-darker-shadow.png");*/
+    background-image: url("../media/rockButton/stone-arrow-sand-brown-overall-shadow.png");
+   /* background-image: url("../media/rockButton/stone-arrow.png");*/
+    background-size: contain;
+    background-repeat: no-repeat;
+
+    width: 2rem;
+    height: 2rem;
+    position: absolute;
+    display: inline-block;
+    transform-origin: center;
+}
+
+/* Rotate arrows for left classes */
+.slide-indicator-left-top::before,
+.slide-indicator-left-mid::before,
+.slide-indicator-left-bottom::before {
+    transform: rotate(0deg); /* Rotate the arrow image 90 degrees (pointing right) */
+}
+
+/* Rotate arrows for top classes */
+.slide-indicator-top-left::before,
+.slide-indicator-top-mid::before,
+.slide-indicator-top-right::before {
+    transform: rotate(90deg); /* Rotate the arrow image 180 degrees (pointing down) */
+}
+
+/* Rotate arrows for right classes */
+.slide-indicator-right-top::before,
+.slide-indicator-right-mid::before,
+.slide-indicator-right-bottom::before {
+    transform: rotate(-180deg); /* Rotate the arrow image -90 degrees (pointing left) */
+}
+
+/* Rotate arrows for bottom classes */
+.slide-indicator-bottom-left::before,
+.slide-indicator-bottom-mid::before,
+.slide-indicator-bottom-right::before {
+    transform: rotate(-90deg); /* Rotate the arrow image 0 degrees (pointing up) */
 }
