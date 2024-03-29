@@ -5,11 +5,28 @@ import { navigate } from "./universal.js";
 const GAMEMAXTREASURES = await getDescription(loadFromStorage('gameId')).then(response => response.description.numberOfTreasuresPerPlayer).catch(ErrorHandler.handleError);
 const PLAYERNAME = localStorage.getItem('playerName');
 const GAMEID = loadFromStorage('gameId');
+const BOARDSIZE = 7;
+
+const slideIndicators = `
+        <div class="slide-indicator slide-indicator-top-left"></div>
+        <div class="slide-indicator slide-indicator-top-mid"></div>
+        <div class="slide-indicator slide-indicator-top-right"></div>
+        <div class="slide-indicator slide-indicator-left-top"></div>
+        <div class="slide-indicator slide-indicator-left-mid"></div>
+        <div class="slide-indicator slide-indicator-left-bottom"></div>
+        <div class="slide-indicator slide-indicator-bottom-left"></div>
+        <div class="slide-indicator slide-indicator-bottom-mid"></div>
+        <div class="slide-indicator slide-indicator-bottom-right"></div>
+        <div class="slide-indicator slide-indicator-right-top"></div>
+        <div class="slide-indicator slide-indicator-right-mid"></div>
+        <div class="slide-indicator slide-indicator-right-bottom"></div>
+    `;
+
 init();
 
 
 function init() {
-    generateBoard(7, 7);
+    generateBoard(BOARDSIZE, BOARDSIZE);
     createEventListeners();
     createTreasureObjectives(GAMEMAXTREASURES);
     fillInPlayerList();
@@ -18,6 +35,7 @@ function init() {
 
 function generateBoard(maxColumns, maxRows) {
     const board = document.querySelector('#board');
+    const boardBackground = document.querySelector('#boardBackground');
     for (let columns = 0; columns < maxColumns; columns++) {
         const column = document.createElement('div');
         column.classList.add('column');
@@ -30,6 +48,7 @@ function generateBoard(maxColumns, maxRows) {
             column.appendChild(square);
         }
     }
+    boardBackground.insertAdjacentHTML('beforeend', slideIndicators);
 }
 
 function generateRandomTilesImg(element) {
@@ -86,13 +105,17 @@ async function fillInPlayerList() {
 }
 
 async function getDescription(gameId) {
-    return await CommunicationAbstractor.fetchFromServer(`/games/${gameId}?description=true`, 'GET').catch(ErrorHandler.handleError);
+    return await getAPIResponse(gameId, 'description=true', 'GET');
 }
 
-async function leaveGame(){
+async function leaveGame() {
     return await CommunicationAbstractor.fetchFromServer(`/games/${GAMEID}/players/${PLAYERNAME}`, 'DELETE')
-    .then(response => {
-        console.log(response);
-        navigate('createOrJoin.html');
-    }).catch(ErrorHandler.handleError);
+        .then(response => {
+            console.log(response);
+            navigate('createOrJoin.html');
+        }).catch(ErrorHandler.handleError);
+}
+
+async function getAPIResponse(path, parameters, method) {
+    return await CommunicationAbstractor.fetchFromServer(`/games/${path}?${parameters}`, `${method}`).catch(ErrorHandler.handleError);
 }
