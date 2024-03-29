@@ -2,6 +2,7 @@ import * as CommunicationAbstractor from "./data-connector/api-communication-abs
 import * as ErrorHandler from "./data-connector/error-handler.js";
 import { loadFromStorage } from "./data-connector/local-storage-abstractor.js";
 import { navigate } from "./universal.js";
+import { TIMEOUTDELAY } from "./config.js";
 const GAMEMAXTREASURES = await getDescription(loadFromStorage('gameId')).then(response => response.description.numberOfTreasuresPerPlayer).catch(ErrorHandler.handleError);
 const PLAYERNAME = localStorage.getItem('playerName');
 const GAMEID = loadFromStorage('gameId');
@@ -29,7 +30,7 @@ function init() {
     generateBoard(BOARDSIZE, BOARDSIZE);
     createEventListeners();
     createTreasureObjectives(GAMEMAXTREASURES);
-    fillInPlayerList();
+    getPlayers();
     console.log(PLAYERNAME);
 }
 
@@ -98,9 +99,20 @@ function createDiv(elementName, inner, container) {
 }
 
 //TODO: implement polling until max players are reached
-async function fillInPlayerList() {
+async function getPlayers() {
+    await getDescription(GAMEID)
+        .then(response => {
+            displayPlayers(response.description.players);
+            if (response.description.players.length < response.description.maxPlayers) {
+                setTimeout(getPlayers, TIMEOUTDELAY);
+                console.log(`Lobby: ${response.description.players.length}/${response.description.maxPlayers}`)
+            }
+        });
+}
+
+function displayPlayers(players) {
     const playerList = document.querySelector("#playerList");
-    const players = await getDescription(GAMEID).then(response => response.description.players);
+    playerList.innerHTML = "";
     players.forEach(player => { playerList.insertAdjacentHTML('beforeend', `<li>${player}</li>`) });
 }
 
