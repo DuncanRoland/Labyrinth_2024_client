@@ -120,13 +120,14 @@ img {
     padding-top: 2rem;
     padding-bottom: 4rem;
     background-color: rgb(223, 142, 88, 0.2);
-   /* border: 0.1rem solid black;*/
+    /* border: 0.1rem solid black;*/
     border-radius: 1rem;
 }
 
 #board {
     display: flex;
     justify-content: center;
+    flex-flow: row wrap;
     margin-top: 2rem;
 }
 
@@ -138,13 +139,18 @@ img {
 .square {
     border: 0.1rem solid black;
     text-align: center;
+    flex: 0 0 12%;
+
 }
 
 /*arrows*/
 .slide-indicator {
-    position: absolute; /* Position the indicator relative to its containing element */
-    width: 100%; /* Full width of the board */
-    text-align: center; /* Center the content horizontally */
+    position: absolute;
+    /* Position the indicator relative to its containing element */
+    width: 100%;
+    /* Full width of the board */
+    text-align: center;
+    /* Center the content horizontally */
 }
 
 /*left*/
@@ -170,7 +176,8 @@ img {
 }
 
 .slide-indicator-top-mid {
-    right: 1.2rem; /* Position the indicator in the middle */
+    right: 1.2rem;
+    /* Position the indicator in the middle */
     top: 1.5rem;
 }
 
@@ -218,7 +225,7 @@ img {
     /*background-image: url("../media/rockButton/stone-arrow-sand-brown-darker.png");*/
     /*background-image: url("../media/rockButton/stone-arrow-sand-brown-darker-shadow.png");*/
     background-image: url("../media/rockButton/stone-arrow-sand-brown-overall-shadow.png");
-   /* background-image: url("../media/rockButton/stone-arrow.png");*/
+    /* background-image: url("../media/rockButton/stone-arrow.png");*/
     background-size: contain;
     background-repeat: no-repeat;
 
@@ -233,26 +240,30 @@ img {
 .slide-indicator-left-top::before,
 .slide-indicator-left-mid::before,
 .slide-indicator-left-bottom::before {
-    transform: rotate(0deg); /* Rotate the arrow image 90 degrees (pointing right) */
+    transform: rotate(0deg);
+    /* Rotate the arrow image 90 degrees (pointing right) */
 }
 
 /* Rotate arrows for top classes */
 .slide-indicator-top-left::before,
 .slide-indicator-top-mid::before,
 .slide-indicator-top-right::before {
-    transform: rotate(90deg); /* Rotate the arrow image 180 degrees (pointing down) */
+    transform: rotate(90deg);
+    /* Rotate the arrow image 180 degrees (pointing down) */
 }
 
 /* Rotate arrows for right classes */
 .slide-indicator-right-top::before,
 .slide-indicator-right-mid::before,
 .slide-indicator-right-bottom::before {
-    transform: rotate(-180deg); /* Rotate the arrow image -90 degrees (pointing left) */
+    transform: rotate(-180deg);
+    /* Rotate the arrow image -90 degrees (pointing left) */
 }
 
 /* Rotate arrows for bottom classes */
 .slide-indicator-bottom-left::before,
 .slide-indicator-bottom-mid::before,
 .slide-indicator-bottom-right::before {
-    transform: rotate(-90deg); /* Rotate the arrow image 0 degrees (pointing up) */
+    transform: rotate(-90deg);
+    /* Rotate the arrow image 0 degrees (pointing up) */
 }

@@ -6,7 +6,6 @@ import { TIMEOUTDELAY } from "./config.js";
 const GAMEMAXTREASURES = await getDescription(loadFromStorage('gameId')).then(response => response.description.numberOfTreasuresPerPlayer).catch(ErrorHandler.handleError);
 const PLAYERNAME = localStorage.getItem('playerName');
 const GAMEID = loadFromStorage('gameId');
-const BOARDSIZE = 7;
 
 const slideIndicators = `
         <div class="slide-indicator slide-indicator-top-left"></div>
@@ -27,16 +26,28 @@ init();
 
 
 function init() {
-    generateBoard(BOARDSIZE, BOARDSIZE);
+    generateBoard();
     createEventListeners();
     createTreasureObjectives(GAMEMAXTREASURES);
     getPlayers();
-    console.log(PLAYERNAME);
 }
 
-function generateBoard(maxColumns, maxRows) {
+async function generateBoard() {
     const board = document.querySelector('#board');
     const boardBackground = document.querySelector('#boardBackground');
+    const maze = await getMaze();
+
+    for (const row of maze.maze) {
+        for (const cell of row) {
+            const square = document.createElement('div');
+            square.classList.add('square');
+            generateRandomTilesImg(square, cell.walls);
+            if (cell.treasure) square.setAttribute('treasure', `${cell.treasure}`);
+            board.appendChild(square);
+        }
+    }
+
+    /*
     for (let columns = 0; columns < maxColumns; columns++) {
         const column = document.createElement('div');
         column.classList.add('column');
@@ -48,13 +59,13 @@ function generateBoard(maxColumns, maxRows) {
             square.setAttribute('data-target', `${columns},${rows}`);
             column.appendChild(square);
         }
-    }
+    }*/
     boardBackground.insertAdjacentHTML('beforeend', slideIndicators);
 }
 
-function generateRandomTilesImg(element) {
-    const randomIndex = Math.floor(Math.random() * 6);
-    element.insertAdjacentHTML('beforeend', `<img src="assets/media/tiles/${randomIndex}.png">`);
+function generateRandomTilesImg(element, walls) {
+    const wallTile = getWallImageId(walls);
+    element.insertAdjacentHTML('beforeend', `<img src="assets/media/tiles/${wallTile}.png">`);
 
 }
 
@@ -98,7 +109,6 @@ function createDiv(elementName, inner, container) {
     container.appendChild(element);
 }
 
-//TODO: implement polling until max players are reached
 async function getPlayers() {
     await getDescription(GAMEID)
         .then(response => {
@@ -130,4 +140,24 @@ async function leaveGame() {
 
 async function getAPIResponse(path, parameters, method) {
     return await CommunicationAbstractor.fetchFromServer(`/games/${path}?${parameters}`, `${method}`).catch(ErrorHandler.handleError);
+}
+
+async function getMaze() {
+    return await getAPIResponse(GAMEID, 'description=false&maze=true', 'GET');
+}
+
+function getWallImageId(walls) {
+    const wallConfigurations = {
+        "true,false,false,true": 5, // left top corner
+        "true,true,false,false": 6, // right top corner
+        "false,false,true,true": 3, // left bottom corner
+        "false,true,true,false": 4, // right bottom corner
+        "true,false,true,false": 2, // straight horizontal
+        "false,true,false,true": 0, // straight vertical
+        "false,false,false,true": 1, // left side T
+        "false,true,false,false": 1, // right side T
+        "false,false,true,false": 1, // upside down T
+        "true,false,false,false": 1, // T
+    };
+    return wallConfigurations[walls.toString()];
 }
