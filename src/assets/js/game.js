@@ -42,7 +42,7 @@ async function generateBoard() {
             const square = document.createElement('div');
             square.classList.add('square');
             generateRandomTilesImg(square, cell.walls);
-            if (cell.treasure) square.setAttribute('treasure', `${cell.treasure}`);
+            addTreasuresToBoard(square, cell);
             board.appendChild(square);
         }
     }
@@ -113,10 +113,8 @@ async function getPlayers() {
     await getDescription(GAMEID)
         .then(response => {
             displayPlayers(response.description.players);
-            if (response.description.players.length < response.description.maxPlayers) {
-                setTimeout(getPlayers, TIMEOUTDELAY);
-                console.log(`Lobby: ${response.description.players.length}/${response.description.maxPlayers}`)
-            }
+            setTimeout(getPlayers, TIMEOUTDELAY);
+            console.log(`Lobby: ${response.description.players.length}/${response.description.maxPlayers}`);
         });
 }
 
@@ -155,9 +153,17 @@ function getWallImageId(walls) {
         "true,false,true,false": 2, // straight horizontal
         "false,true,false,true": 0, // straight vertical
         "false,false,false,true": 1, // left side T
-        "false,true,false,false": 1, // right side T
-        "false,false,true,false": 1, // upside down T
-        "true,false,false,false": 1, // T
+        "false,true,false,false": 9, // right side T
+        "false,false,true,false": 9, // upside down T
+        "true,false,false,false": 9, // T
     };
     return wallConfigurations[walls.toString()];
+}
+
+function addTreasuresToBoard(square, cell) {
+    if (cell.treasure) {
+        square.dataset.treasure = cell.treasure;
+        const treasure = cell.treasure.replace(' ', '_');
+        square.insertAdjacentHTML('beforeend', `<img src="assets/media/scanned_tiles/${treasure}_tile.jpg" class="treasure">`);
+    }
 }

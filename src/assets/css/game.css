@@ -140,7 +140,22 @@ img {
     border: 0.1rem solid black;
     text-align: center;
     flex: 0 0 12%;
+    position: relative;
+    height: 6rem;
+    width: 6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
+.square img {
+    position: absolute;
+    z-index: 1;
+}
+
+.treasure {
+    position: absolute;
+    z-index: 2;
 }
 
 /*arrows*/
