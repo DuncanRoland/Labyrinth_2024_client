@@ -3,7 +3,8 @@ import * as ErrorHandler from "./data-connector/error-handler.js";
 import { loadFromStorage } from "./data-connector/local-storage-abstractor.js";
 import { navigate } from "./universal.js";
 const GAMEMAXTREASURES = await getDescription(loadFromStorage('gameId')).then(response => response.description.numberOfTreasuresPerPlayer).catch(ErrorHandler.handleError);
-
+const PLAYERNAME = localStorage.getItem('playerName');
+const GAMEID = loadFromStorage('gameId');
 init();
 
 
@@ -12,6 +13,7 @@ function init() {
     createEventListeners();
     createTreasureObjectives(GAMEMAXTREASURES);
     fillInPlayerList();
+    console.log(PLAYERNAME);
 }
 
 function generateBoard(maxColumns, maxRows) {
@@ -39,7 +41,7 @@ function generateRandomTilesImg(element) {
 function createEventListeners() {
     const button = document.querySelector('button');
     const allBoardPieces = document.querySelectorAll('.square img');
-    button.addEventListener('click', () => navigate("index.html"));
+    button.addEventListener('click', () => leaveGame());
     allBoardPieces.forEach(boardPiece => boardPiece.addEventListener('click', (e) => getBoardPiece(e)));
 }
 
@@ -79,12 +81,18 @@ function createDiv(elementName, inner, container) {
 //TODO: implement polling until max players are reached
 async function fillInPlayerList() {
     const playerList = document.querySelector("#playerList");
-    const gameId = loadFromStorage('gameId');
-    console.log(gameId)
-    const players = await getDescription(gameId).then(response => response.description.players);
+    const players = await getDescription(GAMEID).then(response => response.description.players);
     players.forEach(player => { playerList.insertAdjacentHTML('beforeend', `<li>${player}</li>`) });
 }
 
 async function getDescription(gameId) {
     return await CommunicationAbstractor.fetchFromServer(`/games/${gameId}?description=true`, 'GET').catch(ErrorHandler.handleError);
+}
+
+async function leaveGame(){
+    return await CommunicationAbstractor.fetchFromServer(`/games/${GAMEID}/players/${PLAYERNAME}`, 'DELETE')
+    .then(response => {
+        console.log(response);
+        navigate('createOrJoin.html');
+    }).catch(ErrorHandler.handleError);
 }
