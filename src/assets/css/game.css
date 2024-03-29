@@ -93,23 +93,6 @@ img {
     margin-right: 1rem;
 }
 
-#treasureList {
-    display: flex;
-    flex-flow: row wrap;
-
-}
-
-#treasureList li {
-    width: 6rem;
-    margin-top: 5rem;
-}
-
-#treasureList li img {
-    border-radius: 0.5rem;
-    height: 100%;
-    justify-content: flex-start;
-}
-
 /*player list*/
 
 /*board*/
@@ -120,7 +103,7 @@ img {
     padding-top: 2rem;
     padding-bottom: 4rem;
     background-color: rgb(223, 142, 88, 0.2);
-   /* border: 0.1rem solid black;*/
+    /* border: 0.1rem solid black;*/
     border-radius: 1rem;
 }
 
@@ -218,7 +201,7 @@ img {
     /*background-image: url("../media/rockButton/stone-arrow-sand-brown-darker.png");*/
     /*background-image: url("../media/rockButton/stone-arrow-sand-brown-darker-shadow.png");*/
     background-image: url("../media/rockButton/stone-arrow-sand-brown-overall-shadow.png");
-   /* background-image: url("../media/rockButton/stone-arrow.png");*/
+    /* background-image: url("../media/rockButton/stone-arrow.png");*/
     background-size: contain;
     background-repeat: no-repeat;
 
@@ -256,3 +239,46 @@ img {
 .slide-indicator-bottom-right::before {
     transform: rotate(-90deg); /* Rotate the arrow image 0 degrees (pointing up) */
 }
+
+/* objective cards */
+#treasureList {
+    display: flex;
+    flex-flow: row wrap;
+
+}
+
+#treasureList li {
+    width: 6rem;
+}
+
+#treasureList li img {
+    border-radius: 0.5rem;
+    height: 90%;
+    width: 90%;
+    justify-content: flex-start;
+}
+
+/*display movable tile*/
+
+.treasureListAndPlaceableTileWrapper {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 5rem;
+}
+
+#movableTile {
+    background-color: rgba(99, 46, 20, 0.3);
+    width: 7rem;
+    height: 7rem;
+    padding: 1rem;
+    border: 0.1rem solid black;
+    border-radius: 1rem;
+}
+
+#movableTile img {
+    height: 100%;
+    width: 100%;
+border-radius: 1rem;
+
+}
+
