@@ -8,6 +8,8 @@ function init() {
     generateBoard(7, 7);
     createEventListeners();
     createTreasureObjectives();
+    displayMovableTile() {
+    }
 }
 
 function generateBoard(maxColumns, maxRows) {
@@ -95,3 +97,10 @@ function getRandomObjective(treasures) {
     return treasures.treasures[randomIndex];
 }
 
+function displayMovableTile() {
+    const $movableTile = document.querySelector('#movableTile');
+    $movableTile.innerHTML = "";
+
+    const img = `<img src="../media/scanned_tiles/Straight_tile.JPG" alt="Bag of Gold Coins">`
+    $movableTile.insertAdjacentHTML('beforeend', img);
+}
