@@ -119,7 +119,9 @@ img {
     position: relative;
     padding-top: 2rem;
     padding-bottom: 4rem;
-    background: aqua;
+    background-color: rgb(223, 142, 88, 0.2);
+   /* border: 0.1rem solid black;*/
+    border-radius: 1rem;
 }
 
 #board {
@@ -211,9 +213,15 @@ img {
 
 .slide-indicator::before {
     content: " ";
-    background-image: url("../media/rockButton/stone-arrow.png"); /* Use any arrow symbol you prefer */
+    /*background-image: url("../media/rockButton/stone-arrow-brown.png");*/
+    /*background-image: url("../media/rockButton/stone-arrow-sand-brown.png");*/
+    /*background-image: url("../media/rockButton/stone-arrow-sand-brown-darker.png");*/
+    /*background-image: url("../media/rockButton/stone-arrow-sand-brown-darker-shadow.png");*/
+    background-image: url("../media/rockButton/stone-arrow-sand-brown-overall-shadow.png");
+   /* background-image: url("../media/rockButton/stone-arrow.png");*/
     background-size: contain;
     background-repeat: no-repeat;
+
     width: 2rem;
     height: 2rem;
     position: absolute;
