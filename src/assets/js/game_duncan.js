@@ -1,6 +1,7 @@
 import * as CommunicationAbstractor from "./data-connector/api-communication-abstractor.js";
 import * as ErrorHandler from "./data-connector/error-handler.js";
-import { navigate } from "./universal.js";
+import {navigate} from "./universal.js";
+
 init();
 
 
@@ -8,8 +9,7 @@ function init() {
     generateBoard(7, 7);
     createEventListeners();
     createTreasureObjectives();
-    displayMovableTile() {
-    }
+    displayMovableTile();
 }
 
 function generateBoard(maxColumns, maxRows) {
