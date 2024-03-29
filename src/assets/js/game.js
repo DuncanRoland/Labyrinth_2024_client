@@ -36,8 +36,9 @@ async function generateBoard() {
     const board = document.querySelector('#board');
     const boardBackground = document.querySelector('#boardBackground');
     const maze = await getMaze();
-
+    console.log(maze)
     for (const row of maze.maze) {
+        console.log(row)
         for (const cell of row) {
             const square = document.createElement('div');
             square.classList.add('square');
@@ -128,6 +129,7 @@ async function getDescription(gameId) {
     return await getAPIResponse(gameId, 'description=true', 'GET');
 }
 
+
 async function leaveGame() {
     return await CommunicationAbstractor.fetchFromServer(`/games/${GAMEID}/players/${PLAYERNAME}`, 'DELETE')
         .then(response => {
@@ -152,10 +154,10 @@ function getWallImageId(walls) {
         "false,true,true,false": 4, // right bottom corner
         "true,false,true,false": 2, // straight horizontal
         "false,true,false,true": 0, // straight vertical
-        "false,false,false,true": 1, // left side T
+        "false,false,false,true": 7, // left side T
         "false,true,false,false": 9, // right side T
-        "false,false,true,false": 9, // upside down T
-        "true,false,false,false": 9, // T
+        "false,false,true,false": 1, // upside down T
+        "true,false,false,false": 8, // T
     };
     return wallConfigurations[walls.toString()];
 }
