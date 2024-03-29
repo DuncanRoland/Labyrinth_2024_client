@@ -33,7 +33,6 @@ function createGame(e) {
         return;
     }
     postGame(game);
-    navigate('game.html');
 }
 
 function postGame(game) {
@@ -43,6 +42,7 @@ function postGame(game) {
             console.log(response)
             saveToStorage("playerToken", response.playerToken);
             saveToStorage("gameId", response.gameId);
+            navigate('game.html');
         }).catch((error) => console.error(error));
 }
 
