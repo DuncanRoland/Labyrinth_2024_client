@@ -1,0 +1,310 @@
+
+/*
+12 fixed treasures, 4 fixed pawns (16 fixed tiles)
+
+6 treasure corners
+6 treasure t junctions
+
+total fixed tiles and treasures = 28
+total board tiles = 49
+
+12 straight paths
+10 corner paths
+
+total regular paths = 22
+There will always be one tile left to shove in the board.
+
+
+Fixed tiles need to be on the correct position according to the treasures on the hand of coordinates (16).
+the remaining 12 treasure tiles need to be shuffled and placed on the board randomly (28) + 21 regular tiles mixed of corners and straights (49).
+
+This results in either a spare straight or corner tile that can be used to slide into the board.
+
+Pawns need to be placed on the corners of the board with the corresponding color.
+
+Pawns can move as far as they want until they hit a dead end, stopping sooner is allowed after they slid a tile in the board.
+multiple pawns can be on the same tile.
+
+A tile may not be slid into the board at the place it just slid out of.
+
+Tiles can only be slid into the board from the sides, not from the corners.
+Tiles can only be slid into designated rows or columns.
+*/
+
+/*general*/
+
+header {
+    display: flex;
+    justify-content: center;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    font-size: 2rem;
+}
+
+main {
+    display: grid;
+    grid-template-columns: 0.6fr 0.6fr;
+
+    /*  background: #007bff;*/
+}
+
+img {
+    width: 5rem;
+    z-index: -1;
+}
+
+/*general*/
+
+/*player list*/
+#leftMenu {
+    margin: 1.8rem auto;
+    text-align: center;
+    width: 30rem;
+}
+
+#leftMenu h2 {
+    margin-bottom: 1rem;
+    text-align: left;
+    font-size: 1.3rem;
+}
+
+#leftMenu ul li {
+    padding: 1rem 0 1rem 0;
+    font-size: 1.3rem;
+}
+
+#playerList li {
+    margin-bottom: 0.5rem;
+    background-image: url('../images/button-background.png');
+    background-size: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+
+}
+
+#obtainedTreasure {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 2rem;
+    padding: 1rem;
+    background: blue;
+}
+
+#obtainedTreasure li {
+    margin-right: 1rem;
+}
+
+/*player list*/
+
+/*board*/
+#boardBackground {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding-top: 2rem;
+    padding-bottom: 4rem;
+    background-color: rgb(223, 142, 88, 0.2);
+    /* border: 0.1rem solid black;*/
+    border-radius: 1rem;
+}
+
+#board {
+    display: flex;
+    justify-content: center;
+    flex-flow: row wrap;
+    margin-top: 2rem;
+}
+
+#board div {
+    padding: 0.1rem;
+    background: #df8e58;
+}
+
+.square {
+    border: 0.1rem solid black;
+    text-align: center;
+    flex: 0 0 12%;
+    position: relative;
+    height: 6rem;
+    width: 6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.square img {
+    position: absolute;
+    z-index: 1;
+}
+
+.treasure {
+    position: absolute;
+    z-index: 2;
+}
+
+/*arrows*/
+.slide-indicator {
+    position: absolute;
+    /* Position the indicator relative to its containing element */
+    width: 100%;
+    /* Full width of the board */
+    text-align: center;
+    /* Center the content horizontally */
+}
+
+/*left*/
+.slide-indicator-left-top {
+    right: 22rem;
+    top: 11.5rem;
+}
+
+.slide-indicator-left-mid {
+    right: 22rem;
+    top: 22.5rem;
+}
+
+.slide-indicator-left-bottom {
+    right: 22rem;
+    top: 33.5rem;
+}
+
+/*top*/
+.slide-indicator-top-left {
+    right: 12.4rem;
+    top: 1.5rem;
+}
+
+.slide-indicator-top-mid {
+    right: 1.2rem;
+    /* Position the indicator in the middle */
+    top: 1.5rem;
+}
+
+.slide-indicator-top-right {
+    left: 10rem;
+    top: 1.5rem;
+}
+
+/*right*/
+.slide-indicator-right-top {
+    left: 20rem;
+    top: 11.2rem;
+}
+
+.slide-indicator-right-mid {
+    left: 20rem;
+    top: 22.2rem;
+}
+
+.slide-indicator-right-bottom {
+    left: 20rem;
+    top: 33.2rem;
+}
+
+/*bottom*/
+.slide-indicator-bottom-left {
+    right: 12rem;
+    top: 43.2rem;
+}
+
+.slide-indicator-bottom-mid {
+    right: 0.8rem;
+    top: 43.2rem;
+}
+
+.slide-indicator-bottom-right {
+    left: 10.5rem;
+    top: 43.2rem;
+}
+
+.slide-indicator::before {
+    content: " ";
+    /*background-image: url("../media/rockButton/stone-arrow-brown.png");*/
+    /*background-image: url("../media/rockButton/stone-arrow-sand-brown.png");*/
+    /*background-image: url("../media/rockButton/stone-arrow-sand-brown-darker.png");*/
+    /*background-image: url("../media/rockButton/stone-arrow-sand-brown-darker-shadow.png");*/
+    background-image: url("../media/rockButton/stone-arrow-sand-brown-overall-shadow.png");
+    /* background-image: url("../media/rockButton/stone-arrow.png");*/
+    background-size: contain;
+    background-repeat: no-repeat;
+
+    width: 2rem;
+    height: 2rem;
+    position: absolute;
+    display: inline-block;
+    transform-origin: center;
+}
+
+/* Rotate arrows for left classes */
+.slide-indicator-left-top::before,
+.slide-indicator-left-mid::before,
+.slide-indicator-left-bottom::before {
+    transform: rotate(0deg);
+    /* Rotate the arrow image 90 degrees (pointing right) */
+}
+
+/* Rotate arrows for top classes */
+.slide-indicator-top-left::before,
+.slide-indicator-top-mid::before,
+.slide-indicator-top-right::before {
+    transform: rotate(90deg);
+    /* Rotate the arrow image 180 degrees (pointing down) */
+}
+
+/* Rotate arrows for right classes */
+.slide-indicator-right-top::before,
+.slide-indicator-right-mid::before,
+.slide-indicator-right-bottom::before {
+    transform: rotate(-180deg);
+    /* Rotate the arrow image -90 degrees (pointing left) */
+}
+
+/* Rotate arrows for bottom classes */
+.slide-indicator-bottom-left::before,
+.slide-indicator-bottom-mid::before,
+.slide-indicator-bottom-right::before {
+    transform: rotate(-90deg);
+    /* Rotate the arrow image 0 degrees (pointing up) */
+}
+
+/* objective cards */
+#treasureList {
+    display: flex;
+    flex-flow: row wrap;
+
+}
+
+#treasureList li {
+    width: 6rem;
+}
+
+#treasureList li img {
+    border-radius: 0.5rem;
+    height: 90%;
+    width: 90%;
+    justify-content: flex-start;
+}
+
+/*display movable tile*/
+
+.treasureListAndPlaceableTileWrapper {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 5rem;
+}
+
+#movableTile {
+    background-color: rgba(99, 46, 20, 0.3);
+    width: 7rem;
+    height: 7rem;
+    padding: 1rem;
+    border: 0.1rem solid black;
+    border-radius: 1rem;
+}
+
+#movableTile img {
+    height: 100%;
+    width: 100%;
+    border-radius: 1rem;
+
+}
