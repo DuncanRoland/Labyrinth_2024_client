@@ -166,19 +166,32 @@ function refreshBoard() {
 }
 
 function showTurn(data) {
-    console.log(data.description.currentMovePlayer)
     const player = document.querySelector('#turnOrder');
     if (data.description.currentShovePlayer !== null) {
-        player.innerHTML = `Shove turn: ${data.description.currentShovePlayer}`;
-    } else {
-        player.innerHTML = `Turn: ${data.description.currentMovePlayer}`;
+        player.innerHTML = `Current shove turn: ${data.description.currentShovePlayer}`;
+    } else if (data.description.currentMovePlayer !== null){
+        player.innerHTML = `Current move turn: ${data.description.currentMovePlayer}`;
     }
 }
 
 function shoveTile() {
-    
+    const shove = {
+        destination: {
+            row: 1,
+            col: 0
+        },
+        tile: {
+            walls: [true, false, true, false],
+            treasure: null
+        }
+    };
 }
 
 function movePlayer() {
-
+    const move ={
+        "destination": {
+          "row": 0,
+          "col": 0
+        }
+      }
 }
