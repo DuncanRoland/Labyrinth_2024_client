@@ -81,7 +81,7 @@ img {
 
 }
 
-#obtainedTreasure {
+#obtainedTreasures {
     display: flex;
     justify-content: flex-start;
     margin-top: 2rem;
@@ -89,7 +89,7 @@ img {
     background: blue;
 }
 
-#obtainedTreasure li {
+#obtainedTreasures li {
     margin-right: 1rem;
 }
 

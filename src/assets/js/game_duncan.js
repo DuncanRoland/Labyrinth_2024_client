@@ -3,9 +3,10 @@ import * as ErrorHandler from "./data-connector/error-handler.js";
 import { loadFromStorage } from "./data-connector/local-storage-abstractor.js";
 import { navigate } from "./universal.js";
 import { TIMEOUTDELAY } from "./config.js";
-const GAMEMAXTREASURES = await getDescription(loadFromStorage('gameId')).then(response => response.description.numberOfTreasuresPerPlayer).catch(ErrorHandler.handleError);
-const PLAYERNAME = localStorage.getItem('playerName');
-const GAMEID = loadFromStorage('gameId');
+
+const GAMEMAXTREASURES = await getDescription(loadFromStorage("gameId")).then(response => response.description.numberOfTreasuresPerPlayer).catch(ErrorHandler.handleError);
+const PLAYERNAME = localStorage.getItem("playerName");
+const GAMEID = loadFromStorage("gameId");
 
 const slideIndicators = `
         <div class="slide-indicator slide-indicator-top-left"></div>
@@ -30,19 +31,20 @@ function init() {
     createEventListeners();
     createTreasureObjectives(GAMEMAXTREASURES);
     getPlayers();
+    displayObtainedTreasures();
     displayMovableTile();
 }
 
 async function generateBoard() {
-    const board = document.querySelector('#board');
-    const boardBackground = document.querySelector('#boardBackground');
+    const board = document.querySelector("#board");
+    const boardBackground = document.querySelector("#boardBackground");
     const maze = await getMaze();
-    console.log(maze)
+    console.log(maze);
     for (const row of maze.maze) {
-        console.log(row)
+        console.log(row);
         for (const cell of row) {
-            const square = document.createElement('div');
-            square.classList.add('square');
+            const square = document.createElement("div");
+            square.classList.add("square");
             generateRandomTilesImg(square, cell.walls);
             addTreasuresToBoard(square, cell);
             board.appendChild(square);
@@ -62,20 +64,20 @@ async function generateBoard() {
             column.appendChild(square);
         }
     }*/
-    boardBackground.insertAdjacentHTML('beforeend', slideIndicators);
+    boardBackground.insertAdjacentHTML("beforeend", slideIndicators);
 }
 
 function generateRandomTilesImg(element, walls) {
     const wallTile = getWallImageId(walls);
-    element.insertAdjacentHTML('beforeend', `<img src="assets/media/tiles/${wallTile}.png">`);
+    element.insertAdjacentHTML("beforeend", `<img src="assets/media/tiles/${wallTile}.png">`);
 
 }
 
 function createEventListeners() {
-    const button = document.querySelector('button');
-    const allBoardPieces = document.querySelectorAll('.square img');
-    button.addEventListener('click', () => leaveGame());
-    allBoardPieces.forEach(boardPiece => boardPiece.addEventListener('click', (e) => getBoardPiece(e)));
+    const button = document.querySelector("button");
+    const allBoardPieces = document.querySelectorAll(".square img");
+    button.addEventListener("click", () => leaveGame());
+    allBoardPieces.forEach(boardPiece => boardPiece.addEventListener("click", (e) => getBoardPiece(e)));
 }
 
 function getBoardPiece(e) {
@@ -84,26 +86,17 @@ function getBoardPiece(e) {
 }
 
 async function createTreasureObjectives(maxObjectives = 3) {
-    const treasures = await CommunicationAbstractor.fetchFromServer('/treasures', 'GET').catch(ErrorHandler.handleError);
-    const objectives = [];
-
-    const $treasureList = document.querySelector("#treasureList");
-    $treasureList.innerHTML = "";
-
-    getObjectiveList(objectives, treasures, maxObjectives);
-
-    objectives.forEach(objective => {
-        const objectiveNameFromAPI = objective.replace(/ /g, '_');
-
-        const li = `<li>
-                    <img src="assets/media/treasures_cards/${objectiveNameFromAPI}.JPG" alt="${objective}">
-                </li>`;
-        $treasureList.insertAdjacentHTML("beforeend", li);
-    });
+    const treasures = await fetchTreasures().catch(ErrorHandler.handleError);
+    const objectives = getObjectiveList(treasures, maxObjectives);
+    displayPlayerObjectives(objectives);
 }
 
+async function fetchTreasures() {
+    return CommunicationAbstractor.fetchFromServer("/treasures", "GET");
+}
 
-function getObjectiveList(objectives, treasures, maxObjectives) {
+function getObjectiveList(treasures, maxObjectives) {
+    const objectives = [];
     while (objectives.length < maxObjectives) {
         const randomObj = getRandomObjective(treasures);
         if (!objectives.includes(randomObj)) {
@@ -118,12 +111,35 @@ function getRandomObjective(treasures) {
     return treasures.treasures[randomIndex];
 }
 
+function displayPlayerObjectives(objectives) {
+    const $treasureList = document.querySelector("#treasureList");
+    $treasureList.innerHTML = "";
+
+    objectives.forEach(objective => {
+        const objectiveNameFromAPI = objective.replace(/ /g, '_');
+        const li = `<li>
+                <img src="assets/media/treasures_cards/${objectiveNameFromAPI}.JPG" alt="${objective}">
+            </li>`;
+        $treasureList.insertAdjacentHTML("beforeend", li);
+    });
+}
+
+function displayObtainedTreasures() {
+    const $obtainedTreasures = document.querySelector("#obtainedTreasures");
+    $obtainedTreasures.innerHTML = "";
+
+    const li = `<li>
+                    <img src="assets/media/treasures_cards/Bag_of_Gold_Coins.JPG" alt="Bag of Gold Coins">
+                </li>`;
+    $obtainedTreasures.insertAdjacentHTML("beforeend", li);
+}
+
 function displayMovableTile() {
-    const $movableTile = document.querySelector('#movableTile');
+    const $movableTile = document.querySelector("#movableTile");
     $movableTile.innerHTML = "";
 
-    const img = `<img src="../media/scanned_tiles/Straight_tile.JPG" alt="Bag of Gold Coins">`
-    $movableTile.insertAdjacentHTML('beforeend', img);
+    const img = `<img src="../media/scanned_tiles/Straight_tile.JPG" alt="Bag of Gold Coins">`;
+    $movableTile.insertAdjacentHTML("beforeend", img);
 }
 
 /*function createDiv(elementName, inner, container) {
@@ -144,19 +160,21 @@ async function getPlayers() {
 function displayPlayers(players) {
     const playerList = document.querySelector("#playerList");
     playerList.innerHTML = "";
-    players.forEach(player => { playerList.insertAdjacentHTML('beforeend', `<li>${player}</li>`) });
+    players.forEach(player => {
+        playerList.insertAdjacentHTML("beforeend", `<li>${player}</li>`);
+    });
 }
 
 async function getDescription(gameId) {
-    return await getAPIResponse(gameId, 'description=true', 'GET');
+    return await getAPIResponse(gameId, "description=true", "GET");
 }
 
 
 async function leaveGame() {
-    return await CommunicationAbstractor.fetchFromServer(`/games/${GAMEID}/players/${PLAYERNAME}`, 'DELETE')
+    return await CommunicationAbstractor.fetchFromServer(`/games/${GAMEID}/players/${PLAYERNAME}`, "DELETE")
         .then(response => {
             console.log(response);
-            navigate('createOrJoin.html');
+            navigate("createOrJoin.html");
         }).catch(ErrorHandler.handleError);
 }
 
@@ -165,7 +183,7 @@ async function getAPIResponse(path, parameters, method) {
 }
 
 async function getMaze() {
-    return await getAPIResponse(GAMEID, 'description=false&maze=true', 'GET');
+    return await getAPIResponse(GAMEID, "description=false&maze=true", "GET");
 }
 
 function getWallImageId(walls) {
@@ -179,7 +197,7 @@ function getWallImageId(walls) {
         "false,false,false,true": 7, // left side T
         "false,true,false,false": 9, // right side T
         "false,false,true,false": 1, // upside down T
-        "true,false,false,false": 8, // T
+        "true,false,false,false": 8 // T
     };
     return wallConfigurations[walls.toString()];
 }
@@ -187,7 +205,7 @@ function getWallImageId(walls) {
 function addTreasuresToBoard(square, cell) {
     if (cell.treasure) {
         square.dataset.treasure = cell.treasure;
-        const treasure = cell.treasure.replace(' ', '_');
-        square.insertAdjacentHTML('beforeend', `<img src="assets/media/scanned_tiles/${treasure}_tile.jpg" class="treasure">`);
+        const treasure = cell.treasure.replace(" ", "_");
+        square.insertAdjacentHTML("beforeend", `<img src="assets/media/scanned_tiles/${treasure}_tile.jpg" class="treasure">`);
     }
 }
