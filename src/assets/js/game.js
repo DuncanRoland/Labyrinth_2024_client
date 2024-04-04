@@ -3,7 +3,7 @@ import * as ErrorHandler from "./data-connector/error-handler.js";
 import { loadFromStorage } from "./data-connector/local-storage-abstractor.js";
 import { navigate } from "./universal.js";
 import { TIMEOUTDELAY } from "./config.js";
-const GAMEMAXTREASURES = await getDescription(loadFromStorage('gameId')).then(response => response.description.numberOfTreasuresPerPlayer).catch(ErrorHandler.handleError);
+const GAMEMAXTREASURES = await getActiveGameDetails(loadFromStorage('gameId')).then(response => response.description.numberOfTreasuresPerPlayer).catch(ErrorHandler.handleError);
 const PLAYERNAME = localStorage.getItem('playerName');
 const GAMEID = loadFromStorage('gameId');
 
@@ -34,11 +34,9 @@ function init() {
 
 async function generateBoard() {
     const board = document.querySelector('#board');
-    const boardBackground = document.querySelector('#boardBackground');
+    const boardBackground = document.querySelector('#background');
     const maze = await getMaze();
-    console.log(maze)
     for (const row of maze.maze) {
-        console.log(row)
         for (const cell of row) {
             const square = document.createElement('div');
             square.classList.add('square');
@@ -97,8 +95,11 @@ function createDiv(elementName, inner, container) {
 }
 
 async function getPlayers() {
-    await getDescription(GAMEID)
+    await getActiveGameDetails(GAMEID)
         .then(response => {
+            console.log(response)
+            refreshBoard();
+            showTurn(response);
             displayPlayers(response.description.players);
             setTimeout(getPlayers, TIMEOUTDELAY);
             console.log(`Lobby: ${response.description.players.length}/${response.description.maxPlayers}`);
@@ -111,8 +112,8 @@ function displayPlayers(players) {
     players.forEach(player => { playerList.insertAdjacentHTML('beforeend', `<li>${player}</li>`) });
 }
 
-async function getDescription(gameId) {
-    return await getAPIResponse(gameId, 'description=true', 'GET');
+async function getActiveGameDetails(gameId) {
+    return await getAPIResponse(gameId, 'description=true&players=true&spareTile=true', 'GET');
 }
 
 
@@ -154,4 +155,30 @@ function addTreasuresToBoard(square, cell) {
         const treasure = cell.treasure.replaceAll(' ', '_');
         square.insertAdjacentHTML('beforeend', `<img src="assets/media/treasure_cutouts/${treasure}.png" class="treasure">`);
     }
+}
+
+function refreshBoard() {
+    const board = document.querySelector('#board');
+    const boardBackground = document.querySelector('#background');
+    board.innerHTML = "";
+    boardBackground.innerHTML = "";
+    generateBoard();
+}
+
+function showTurn(data) {
+    console.log(data.description.currentMovePlayer)
+    const player = document.querySelector('#turnOrder');
+    if (data.description.currentShovePlayer !== null) {
+        player.innerHTML = `Shove turn: ${data.description.currentShovePlayer}`;
+    } else {
+        player.innerHTML = `Turn: ${data.description.currentMovePlayer}`;
+    }
+}
+
+function shoveTile() {
+    
+}
+
+function movePlayer() {
+
 }
