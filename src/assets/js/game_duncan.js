@@ -124,14 +124,19 @@ function displayPlayerObjectives(objectives) {
     });
 }
 
+// needs further implementation after board objectives work
 function displayObtainedTreasures() {
     const $obtainedTreasures = document.querySelector("#obtainedTreasures");
     $obtainedTreasures.innerHTML = "";
 
-    const li = `<li>
+    //static placeholder for now
+    for (let i = 0; i < 3 ; i++) {
+        const li = `<li>
                     <img src="assets/media/treasures_cards/Bag_of_Gold_Coins.JPG" alt="Bag of Gold Coins">
                 </li>`;
-    $obtainedTreasures.insertAdjacentHTML("beforeend", li);
+        $obtainedTreasures.insertAdjacentHTML("beforeend", li);
+    }
+
 }
 
 function displayMovableTile() {
