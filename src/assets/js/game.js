@@ -47,20 +47,6 @@ async function generateBoard() {
             board.appendChild(square);
         }
     }
-
-    /*
-    for (let columns = 0; columns < maxColumns; columns++) {
-        const column = document.createElement('div');
-        column.classList.add('column');
-        board.appendChild(column);
-        for (let rows = 0; rows < maxRows; rows++) {
-            const square = document.createElement('div');
-            square.classList.add('square');
-            generateRandomTilesImg(square);
-            square.setAttribute('data-target', `${columns},${rows}`);
-            column.appendChild(square);
-        }
-    }*/
     boardBackground.insertAdjacentHTML('beforeend', slideIndicators);
 }
 
@@ -165,7 +151,7 @@ function getWallImageId(walls) {
 function addTreasuresToBoard(square, cell) {
     if (cell.treasure) {
         square.dataset.treasure = cell.treasure;
-        const treasure = cell.treasure.replace(' ', '_');
-        square.insertAdjacentHTML('beforeend', `<img src="assets/media/scanned_tiles/${treasure}_tile.jpg" class="treasure">`);
+        const treasure = cell.treasure.replaceAll(' ', '_');
+        square.insertAdjacentHTML('beforeend', `<img src="assets/media/treasure_cutouts/${treasure}.png" class="treasure">`);
     }
 }
