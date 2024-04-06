@@ -36,10 +36,11 @@ async function generateBoard() {
     const board = document.querySelector('#board');
     const boardBackground = document.querySelector('#background');
     const maze = await getMaze();
-    for (const row of maze.maze) {
-        for (const cell of row) {
+    for (const [rowIndex, row] of maze.maze.entries()) {
+        for (const [cellIndex, cell] of row.entries()) {
             const square = document.createElement('div');
             square.classList.add('square');
+            square.dataset.coordinates =  `${rowIndex},${cellIndex}`;
             generateRandomTilesImg(square, cell.walls);
             addTreasuresToBoard(square, cell);
             board.appendChild(square);
@@ -175,6 +176,7 @@ function showTurn(data) {
 }
 
 function shoveTile() {
+
     const shove = {
         destination: {
             row: 1,
