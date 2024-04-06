@@ -22,12 +22,35 @@ const slideIndicators = `
         <div class="slide-indicator slide-indicator-right-bottom"></div>
     `;
 
+    let shove = {
+        "destination": {
+            "row": 1,
+            "col": 0
+        },
+        "tile": {
+            "walls": [
+                true,
+                false,
+                true,
+                false
+            ],
+            "treasure": null
+        }
+    }
+
+    let move ={
+        "destination": {
+          "row": 0,
+          "col": 0
+        }
+    }
+
 init();
 
 
 function init() {
     generateBoard();
-    createEventListeners();
+    createInitialEventListeners();
     createTreasureObjectives(GAMEMAXTREASURES);
     getPlayers();
 }
@@ -55,16 +78,15 @@ function generateRandomTilesImg(element, walls) {
 
 }
 
-function createEventListeners() {
+function createInitialEventListeners() {
     const button = document.querySelector('button');
-    const allBoardPieces = document.querySelectorAll('.square img');
     button.addEventListener('click', () => leaveGame());
-    allBoardPieces.forEach(boardPiece => boardPiece.addEventListener('click', (e) => getBoardPiece(e)));
 }
 
 function getBoardPiece(e) {
     e.preventDefault();
-    console.log(e.currentTarget.parentElement.dataset.target);
+    console.log(e.currentTarget.dataset.coordinates);
+    shoveTile(e.currentTarget.dataset.coordinates)
 }
 
 async function createTreasureObjectives(maxObjectives = 5) {
@@ -99,7 +121,8 @@ async function getPlayers() {
     await getActiveGameDetails(GAMEID)
         .then(response => {
             console.log(response)
-            refreshBoard();
+            setTimeout(refreshBoard, TIMEOUTDELAY)
+            boardEventListeners();
             showTurn(response);
             displayPlayers(response.description.players);
             setTimeout(getPlayers, TIMEOUTDELAY);
@@ -175,25 +198,24 @@ function showTurn(data) {
     }
 }
 
-function shoveTile() {
-
-    const shove = {
-        destination: {
-            row: 1,
-            col: 0
-        },
-        tile: {
-            walls: [true, false, true, false],
-            treasure: null
-        }
-    };
+async function shoveTile(coordinates) {
+    const gameDetails = await getActiveGameDetails(GAMEID);
+    shove.destination.row = parseInt(coordinates[0]);
+    shove.destination.col = parseInt(coordinates[2]);
+    shove.tile = gameDetails.spareTile;
+    return await CommunicationAbstractor.fetchFromServer(`/games/${GAMEID}/maze`, 'PATCH', shove).catch(ErrorHandler.handleError);
 }
 
-function movePlayer() {
-    const move ={
-        "destination": {
-          "row": 0,
-          "col": 0
+function movePlayer(coordinates) {
+    move.destination.row = coordinates[0];
+    move.destination.col = coordinates[2];
+    console.log(move);
+}
+
+function boardEventListeners(){
+    const allBoardPieces = document.querySelectorAll('.square');
+    allBoardPieces.forEach(boardPiece => {
+            boardPiece.addEventListener('click', (e) => getBoardPiece(e));
         }
-      }
+    );
 }
