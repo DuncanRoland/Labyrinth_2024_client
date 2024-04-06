@@ -123,12 +123,12 @@ async function polling() {
             setTimeout(refreshBoard, TIMEOUTDELAY);
             boardEventListeners();
             showTurn(response);
+            fillObtainedTreasures();
             displayPlayers(response.description.players);
             setTimeout(polling, TIMEOUTDELAY);
             console.log(`Lobby: ${response.description.players.length}/${response.description.maxPlayers}`);
         });
     const a = await getReachableLocations();
-    
 }
 
 function displayPlayers(players) {
@@ -230,4 +230,11 @@ function boardEventListeners(){
             boardPiece.addEventListener('click', (e) => getBoardPiece(e));
         }
     );
+}
+
+async function fillObtainedTreasures(){
+    const found = document.querySelector("#obtainedTreasure");
+    found.innerHTML = "";
+    const playerDetails = await getPlayerDetails();
+    playerDetails.player.foundTreasures.forEach(treasure => found.insertAdjacentHTML("beforeend", `<li>${treasure}</li>`))
 }
