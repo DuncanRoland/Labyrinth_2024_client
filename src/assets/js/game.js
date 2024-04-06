@@ -52,7 +52,7 @@ function init() {
     generateBoard();
     createInitialEventListeners();
     createTreasureObjectives(GAMEMAXTREASURES);
-    getPlayers();
+    polling();
 }
 
 async function generateBoard() {
@@ -117,17 +117,18 @@ function createDiv(elementName, inner, container) {
     container.appendChild(element);
 }
 
-async function getPlayers() {
+async function polling() {
     await getActiveGameDetails(GAMEID)
         .then(response => {
-            console.log(response)
-            setTimeout(refreshBoard, TIMEOUTDELAY)
+            setTimeout(refreshBoard, TIMEOUTDELAY);
             boardEventListeners();
             showTurn(response);
             displayPlayers(response.description.players);
-            setTimeout(getPlayers, TIMEOUTDELAY);
+            setTimeout(polling, TIMEOUTDELAY);
             console.log(`Lobby: ${response.description.players.length}/${response.description.maxPlayers}`);
         });
+    const a = await getReachableLocations();
+    
 }
 
 function displayPlayers(players) {
