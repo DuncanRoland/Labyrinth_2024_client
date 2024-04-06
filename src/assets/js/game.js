@@ -212,6 +212,17 @@ async function movePlayer(coordinates) {
     return await CommunicationAbstractor.fetchFromServer(`/games/${GAMEID}/players/${PLAYERNAME}`, 'PATCH', move).catch(ErrorHandler.handleError);
 }
 
+async function getReachableLocations(){
+    const playerDetails = await getPlayerDetails();
+    const playerRow = playerDetails.player.location.row;
+    const playerCol = playerDetails.player.location.col;
+    return await CommunicationAbstractor.fetchFromServer(`/games/${GAMEID}/maze/locations/${playerRow}/${playerCol}`);
+}
+
+async function getPlayerDetails(){
+    return await CommunicationAbstractor.fetchFromServer(`/games/${GAMEID}/players/${PLAYERNAME}`);
+}
+
 function boardEventListeners(){
     const allBoardPieces = document.querySelectorAll('.square');
     allBoardPieces.forEach(boardPiece => {
