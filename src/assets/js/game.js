@@ -206,10 +206,10 @@ async function shoveTile(coordinates) {
     return await CommunicationAbstractor.fetchFromServer(`/games/${GAMEID}/maze`, 'PATCH', shove).catch(ErrorHandler.handleError);
 }
 
-function movePlayer(coordinates) {
+async function movePlayer(coordinates) {
     move.destination.row = coordinates[0];
     move.destination.col = coordinates[2];
-    console.log(move);
+    return await CommunicationAbstractor.fetchFromServer(`/games/${GAMEID}/players/${PLAYERNAME}`, 'PATCH', move).catch(ErrorHandler.handleError);
 }
 
 function boardEventListeners(){
