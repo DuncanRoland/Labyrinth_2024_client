@@ -2,20 +2,53 @@ import * as CommunicationAbstractor from "./data-connector/api-communication-abs
 import * as ErrorHandler from "./data-connector/error-handler.js";
 import { loadFromStorage } from "./data-connector/local-storage-abstractor.js";
 import { navigate } from "./universal.js";
+import { TIMEOUTDELAY } from "./config.js";
 const GAMEMAXTREASURES = await getDescription(loadFromStorage('gameId')).then(response => response.description.numberOfTreasuresPerPlayer).catch(ErrorHandler.handleError);
+const PLAYERNAME = localStorage.getItem('playerName');
+const GAMEID = loadFromStorage('gameId');
+
+const slideIndicators = `
+        <div class="slide-indicator slide-indicator-top-left"></div>
+        <div class="slide-indicator slide-indicator-top-mid"></div>
+        <div class="slide-indicator slide-indicator-top-right"></div>
+        <div class="slide-indicator slide-indicator-left-top"></div>
+        <div class="slide-indicator slide-indicator-left-mid"></div>
+        <div class="slide-indicator slide-indicator-left-bottom"></div>
+        <div class="slide-indicator slide-indicator-bottom-left"></div>
+        <div class="slide-indicator slide-indicator-bottom-mid"></div>
+        <div class="slide-indicator slide-indicator-bottom-right"></div>
+        <div class="slide-indicator slide-indicator-right-top"></div>
+        <div class="slide-indicator slide-indicator-right-mid"></div>
+        <div class="slide-indicator slide-indicator-right-bottom"></div>
+    `;
 
 init();
 
 
 function init() {
-    generateBoard(7, 7);
+    generateBoard();
     createEventListeners();
     createTreasureObjectives(GAMEMAXTREASURES);
-    fillInPlayerList();
+    getPlayers();
 }
 
-function generateBoard(maxColumns, maxRows) {
+async function generateBoard() {
     const board = document.querySelector('#board');
+    const boardBackground = document.querySelector('#boardBackground');
+    const maze = await getMaze();
+    console.log(maze)
+    for (const row of maze.maze) {
+        console.log(row)
+        for (const cell of row) {
+            const square = document.createElement('div');
+            square.classList.add('square');
+            generateRandomTilesImg(square, cell.walls);
+            addTreasuresToBoard(square, cell);
+            board.appendChild(square);
+        }
+    }
+
+    /*
     for (let columns = 0; columns < maxColumns; columns++) {
         const column = document.createElement('div');
         column.classList.add('column');
@@ -27,19 +60,20 @@ function generateBoard(maxColumns, maxRows) {
             square.setAttribute('data-target', `${columns},${rows}`);
             column.appendChild(square);
         }
-    }
+    }*/
+    boardBackground.insertAdjacentHTML('beforeend', slideIndicators);
 }
 
-function generateRandomTilesImg(element) {
-    const randomIndex = Math.floor(Math.random() * 6);
-    element.insertAdjacentHTML('beforeend', `<img src="assets/media/tiles/${randomIndex}.png">`);
+function generateRandomTilesImg(element, walls) {
+    const wallTile = getWallImageId(walls);
+    element.insertAdjacentHTML('beforeend', `<img src="assets/media/tiles/${wallTile}.png">`);
 
 }
 
 function createEventListeners() {
     const button = document.querySelector('button');
     const allBoardPieces = document.querySelectorAll('.square img');
-    button.addEventListener('click', () => navigate("index.html"));
+    button.addEventListener('click', () => leaveGame());
     allBoardPieces.forEach(boardPiece => boardPiece.addEventListener('click', (e) => getBoardPiece(e)));
 }
 
@@ -76,15 +110,62 @@ function createDiv(elementName, inner, container) {
     container.appendChild(element);
 }
 
-//TODO: implement polling until max players are reached
-async function fillInPlayerList() {
+async function getPlayers() {
+    await getDescription(GAMEID)
+        .then(response => {
+            displayPlayers(response.description.players);
+            setTimeout(getPlayers, TIMEOUTDELAY);
+            console.log(`Lobby: ${response.description.players.length}/${response.description.maxPlayers}`);
+        });
+}
+
+function displayPlayers(players) {
     const playerList = document.querySelector("#playerList");
-    const gameId = loadFromStorage('gameId');
-    console.log(gameId)
-    const players = await getDescription(gameId).then(response => response.description.players);
+    playerList.innerHTML = "";
     players.forEach(player => { playerList.insertAdjacentHTML('beforeend', `<li>${player}</li>`) });
 }
 
 async function getDescription(gameId) {
-    return await CommunicationAbstractor.fetchFromServer(`/games/${gameId}?description=true`, 'GET').catch(ErrorHandler.handleError);
+    return await getAPIResponse(gameId, 'description=true', 'GET');
+}
+
+
+async function leaveGame() {
+    return await CommunicationAbstractor.fetchFromServer(`/games/${GAMEID}/players/${PLAYERNAME}`, 'DELETE')
+        .then(response => {
+            console.log(response);
+            navigate('createOrJoin.html');
+        }).catch(ErrorHandler.handleError);
+}
+
+async function getAPIResponse(path, parameters, method) {
+    return await CommunicationAbstractor.fetchFromServer(`/games/${path}?${parameters}`, `${method}`).catch(ErrorHandler.handleError);
+}
+
+async function getMaze() {
+    return await getAPIResponse(GAMEID, 'description=false&maze=true', 'GET');
+}
+
+function getWallImageId(walls) {
+    const wallConfigurations = {
+        "true,false,false,true": 5, // left top corner
+        "true,true,false,false": 6, // right top corner
+        "false,false,true,true": 3, // left bottom corner
+        "false,true,true,false": 4, // right bottom corner
+        "true,false,true,false": 2, // straight horizontal
+        "false,true,false,true": 0, // straight vertical
+        "false,false,false,true": 7, // left side T
+        "false,true,false,false": 9, // right side T
+        "false,false,true,false": 1, // upside down T
+        "true,false,false,false": 8, // T
+    };
+    return wallConfigurations[walls.toString()];
+}
+
+function addTreasuresToBoard(square, cell) {
+    if (cell.treasure) {
+        square.dataset.treasure = cell.treasure;
+        const treasure = cell.treasure.replace(' ', '_');
+        square.insertAdjacentHTML('beforeend', `<img src="assets/media/scanned_tiles/${treasure}_tile.jpg" class="treasure">`);
+    }
 }

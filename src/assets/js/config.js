@@ -1,6 +1,7 @@
 const GROUPNUMBER = "25";
 const LANG = "nl";
 const GAMEPREFIX = "group25";
+const TIMEOUTDELAY = 2000;
 
 const ERRORHANDLERSELECTOR = ".errormessages p";
 
@@ -12,4 +13,4 @@ function getAPIUrl() {
   return DEPLOYEDSERVER;
 }
 
-export { getAPIUrl, GROUPNUMBER, GAMEPREFIX, ERRORHANDLERSELECTOR };
+export { getAPIUrl, GROUPNUMBER, GAMEPREFIX, ERRORHANDLERSELECTOR, TIMEOUTDELAY };
