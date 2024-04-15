@@ -58,7 +58,7 @@ img {
 #leftMenu {
     margin: 1.8rem auto;
     text-align: center;
-    width: 30rem;
+    width: 31rem;
 }
 
 #leftMenu h2 {
@@ -83,10 +83,10 @@ img {
 
 #obtainedTreasures {
     display: flex;
-    justify-content: flex-start;
     margin-top: 2rem;
     padding: 1rem;
-    /*background: blue;*/
+    background-color: rgb(223, 142, 88, 0.2);
+    border-radius: 1rem;
 }
 
 #obtainedTreasures li {
@@ -290,7 +290,7 @@ img {
     margin-top: 5rem;
 }
 
-#movableTile {
+#spareTile {
     background-color: rgba(99, 46, 20, 0.3);
     width: 7rem;
     height: 7rem;
@@ -299,7 +299,7 @@ img {
     border-radius: 1rem;
 }
 
-#movableTile img {
+#spareTile img {
     height: 100%;
     width: 100%;
     border-radius: 1rem;
