@@ -142,7 +142,7 @@ async function polling() {
             showTurn(response);
             DisplayObtainedTreasures();
             displayPlayers(response.description.players);
-            setTimeout(polling, TIMEOUTDELAY);
+            //setTimeout(polling, TIMEOUTDELAY);
             console.log(`Lobby: ${response.description.players.length}/${response.description.maxPlayers}`);
         });
     const a = await getReachableLocations();
@@ -254,6 +254,9 @@ async function DisplayObtainedTreasures(){
     $obtainedTreasures.innerHTML = "";
     const playerDetails = await getPlayerDetails();
     // playerDetails.player.foundTreasures.forEach(treasure => $obtainedTreasure.insertAdjacentHTML("beforeend", `<li>${treasure}</li>`))
+    // playerDetails.player.foundTreasures.forEach(treasure => $obtainedTreasure.insertAdjacentHTML("beforeend", `<img src="assets/media/treasure_cutouts/${treasure}.png"`))
+
+
     //static placeholder for now
     for (let i = 0; i < 5 ; i++) {
         const li = `<li>
