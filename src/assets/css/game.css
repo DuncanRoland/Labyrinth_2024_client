@@ -86,7 +86,7 @@ img {
     justify-content: flex-start;
     margin-top: 2rem;
     padding: 1rem;
-    background: blue;
+    /*background: blue;*/
 }
 
 #obtainedTreasures li {

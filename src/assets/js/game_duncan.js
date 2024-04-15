@@ -92,6 +92,7 @@ function getBoardPiece(e) {
 async function createTreasureObjectives(maxObjectives = 5) {
     const treasures = await fetchTreasures().catch(ErrorHandler.handleError);
     const objectives = getObjectiveList(treasures, maxObjectives);
+    console.log(objectives);
     displayPlayerObjectives(objectives);
 }
 
@@ -101,11 +102,15 @@ async function fetchTreasures() {
 
 function getObjectiveList(treasures, maxObjectives) {
     const objectives = [];
-    while (objectives.length < maxObjectives) {
+    // when using the maxObjectives, the player will only have 3 objectives regardless of the value given to maxObjectives for some reason
+    while (objectives.length < 5) {
         const randomObj = getRandomObjective(treasures);
         if (!objectives.includes(randomObj)) {
             objectives.push(randomObj);
         }
+        /*if (objectives.length >= maxObjectives) {
+            break;
+        }*/
     }
     return objectives;
 }
@@ -254,7 +259,7 @@ async function DisplayObtainedTreasures(){
     $obtainedTreasures.innerHTML = "";
     const playerDetails = await getPlayerDetails();
     // playerDetails.player.foundTreasures.forEach(treasure => $obtainedTreasure.insertAdjacentHTML("beforeend", `<li>${treasure}</li>`))
-    // playerDetails.player.foundTreasures.forEach(treasure => $obtainedTreasure.insertAdjacentHTML("beforeend", `<img src="assets/media/treasure_cutouts/${treasure}.png"`))
+    // playerDetails.player.foundTreasures.forEach(treasure => $obtainedTreasure.insertAdjacentHTML("beforeend", `<img src="assets/media/treasures_cards/${treasure}.JPG" alt="${treasure}"`))
 
 
     //static placeholder for now
