@@ -10,7 +10,7 @@ div {
 }
 
 button {
-    width: 11rem;
+    width: 20rem;
     padding: 0.4rem;
     font-size: 1.3rem;
     letter-spacing: 0.3rem;
@@ -23,8 +23,7 @@ button {
 }
 
 button:hover {
-    border: rgba(223, 142, 88, 1) solid 0.2rem;
-    color: rgba(223, 142, 88, 1);
+    color: black;
 }
 
 h2 {

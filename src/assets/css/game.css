@@ -43,8 +43,6 @@ header {
 main {
     display: grid;
     grid-template-columns: 0.6fr 0.6fr;
-
-    /*  background: #007bff;*/
 }
 
 img {
@@ -58,7 +56,7 @@ img {
 #leftMenu {
     margin: 1.8rem auto;
     text-align: center;
-    width: 30rem;
+    width: 31rem;
 }
 
 #leftMenu h2 {
@@ -81,16 +79,23 @@ img {
 
 }
 
-#obtainedTreasure {
+#obtainedTreasures {
     display: flex;
-    justify-content: flex-start;
-    margin-top: 2rem;
+    margin: 2rem 0 2rem 0;
     padding: 1rem;
-    background: blue;
+    height: 10rem;
+    background-color: rgb(223, 142, 88, 0.2);
+    border-radius: 1rem;
+    border: 2px solid black;
 }
 
-#obtainedTreasure li {
+#obtainedTreasures li {
     margin-right: 1rem;
+}
+
+/*leave game button*/
+#leftMenu .fancyButton {
+    width: 20rem;
 }
 
 /*player list*/
@@ -216,15 +221,9 @@ img {
 
 .slide-indicator::before {
     content: " ";
-    /*background-image: url("../media/rockButton/stone-arrow-brown.png");*/
-    /*background-image: url("../media/rockButton/stone-arrow-sand-brown.png");*/
-    /*background-image: url("../media/rockButton/stone-arrow-sand-brown-darker.png");*/
-    /*background-image: url("../media/rockButton/stone-arrow-sand-brown-darker-shadow.png");*/
     background-image: url("../media/rockButton/stone-arrow-sand-brown-overall-shadow.png");
-    /* background-image: url("../media/rockButton/stone-arrow.png");*/
     background-size: contain;
     background-repeat: no-repeat;
-
     width: 2rem;
     height: 2rem;
     position: absolute;
@@ -264,6 +263,24 @@ img {
     /* Rotate the arrow image 0 degrees (pointing up) */
 }
 
+/* style for hovering over arrows */
+
+.slide-indicator:hover::before,
+.slide-indicator-top-left:hover::before,
+.slide-indicator-top-mid:hover::before,
+.slide-indicator-top-right:hover::before,
+.slide-indicator-right-top:hover::before,
+.slide-indicator-right-mid:hover::before,
+.slide-indicator-right-bottom:hover::before,
+.slide-indicator-bottom-left:hover::before,
+.slide-indicator-bottom-mid:hover::before,
+.slide-indicator-bottom-right:hover::before,
+.slide-indicator-left-top:hover::before,
+.slide-indicator-left-mid:hover::before,
+.slide-indicator-left-bottom:hover::before {
+    background-image: url("../media/rockButton/stone-arrow-sand-brown-overall-shadow - darker.png");
+}
+
 /* objective cards */
 #treasureList {
     display: flex;
@@ -290,16 +307,16 @@ img {
     margin-top: 5rem;
 }
 
-#movableTile {
+#spareTile {
     background-color: rgba(99, 46, 20, 0.3);
     width: 7rem;
     height: 7rem;
     padding: 1rem;
-    border: 0.1rem solid black;
+    border: 2px solid black;
     border-radius: 1rem;
 }
 
-#movableTile img {
+#spareTile img {
     height: 100%;
     width: 100%;
     border-radius: 1rem;
