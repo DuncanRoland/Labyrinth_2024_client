@@ -102,6 +102,7 @@ select {
 
 button {
     color: #672e0e;
+    background-color: #f5b368;
 }
 
 button:hover {
