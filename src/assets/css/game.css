@@ -90,10 +90,12 @@ img {
 #obtainedTreasures li {
     margin-right: 1rem;
 }
+
 /*leave game button*/
 #leftMenu .fancyButton {
     width: 20rem;
 }
+
 /*player list*/
 
 /*board*/
@@ -217,15 +219,9 @@ img {
 
 .slide-indicator::before {
     content: " ";
-    /*background-image: url("../media/rockButton/stone-arrow-brown.png");*/
-    /*background-image: url("../media/rockButton/stone-arrow-sand-brown.png");*/
-    /*background-image: url("../media/rockButton/stone-arrow-sand-brown-darker.png");*/
-    /*background-image: url("../media/rockButton/stone-arrow-sand-brown-darker-shadow.png");*/
     background-image: url("../media/rockButton/stone-arrow-sand-brown-overall-shadow.png");
-    /* background-image: url("../media/rockButton/stone-arrow.png");*/
     background-size: contain;
     background-repeat: no-repeat;
-
     width: 2rem;
     height: 2rem;
     position: absolute;
@@ -263,6 +259,24 @@ img {
 .slide-indicator-bottom-right::before {
     transform: rotate(-90deg);
     /* Rotate the arrow image 0 degrees (pointing up) */
+}
+
+/* style for hovering over arrows */
+
+.slide-indicator:hover::before,
+.slide-indicator-top-left:hover::before,
+.slide-indicator-top-mid:hover::before,
+.slide-indicator-top-right:hover::before,
+.slide-indicator-right-top:hover::before,
+.slide-indicator-right-mid:hover::before,
+.slide-indicator-right-bottom:hover::before,
+.slide-indicator-bottom-left:hover::before,
+.slide-indicator-bottom-mid:hover::before,
+.slide-indicator-bottom-right:hover::before,
+.slide-indicator-left-top:hover::before,
+.slide-indicator-left-mid:hover::before,
+.slide-indicator-left-bottom:hover::before {
+    background-image: url("../media/rockButton/stone-arrow-sand-brown-overall-shadow - darker.png");
 }
 
 /* objective cards */
