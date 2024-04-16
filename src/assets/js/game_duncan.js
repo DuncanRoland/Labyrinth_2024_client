@@ -104,7 +104,7 @@ async function fetchTreasures() {
 function getObjectiveList(treasures, maxObjectives) {
     const objectives = [];
     // when using the maxObjectives, the player will only have 3 objectives regardless of the value given to maxObjectives for some reason
-    while (objectives.length < 5) {
+    while (objectives.length < maxObjectives) {
         const randomObj = getRandomObjective(treasures);
         if (!objectives.includes(randomObj)) {
             objectives.push(randomObj);
@@ -282,20 +282,6 @@ async function getAndDisplaySpareTile() {
 
     $spareTile.insertAdjacentHTML('beforeend', `<img src="assets/media/tiles/${wallTile}.png">`);
 
-    console.log(gameDetails.spareTile);
+    console.log(gameDetails);
 }
 
-/*
-function isWall(walls) {
-    // Check if the walls configuration matches any of the wall configurations for straight or corner tiles
-    const straightOrCornerConfigurations = {
-        "true,false,false,true": true, // left top corner
-        "true,true,false,false": true, // right top corner
-        "false,false,true,true": true, // left bottom corner
-        "false,true,true,false": true, // right bottom corner
-        "true,false,true,false": true, // straight horizontal
-        "false,true,false,true": true  // straight vertical
-    };
-    const wallsConfig = walls.toString();
-    return wallsConfig in straightOrCornerConfigurations;
-}*/
