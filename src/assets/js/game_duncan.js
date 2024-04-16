@@ -53,6 +53,7 @@ function init() {
     createInitialEventListeners();
     createTreasureObjectives(GAMEMAXTREASURES);
     polling();
+    getAndDisplaySpareTile();
 }
 
 async function generateBoard() {
@@ -270,3 +271,31 @@ async function DisplayObtainedTreasures(){
         $obtainedTreasures.insertAdjacentHTML("beforeend", li);
     }
 }
+
+async function getAndDisplaySpareTile() {
+    const $spareTile = document.querySelector('#spareTile');
+    $spareTile.innerHTML = "";
+
+    const gameDetails = await getActiveGameDetails(GAMEID);
+
+    const wallTile = getWallImageId(gameDetails.spareTile.walls);
+
+    $spareTile.insertAdjacentHTML('beforeend', `<img src="assets/media/tiles/${wallTile}.png">`);
+
+    console.log(gameDetails.spareTile);
+}
+
+/*
+function isWall(walls) {
+    // Check if the walls configuration matches any of the wall configurations for straight or corner tiles
+    const straightOrCornerConfigurations = {
+        "true,false,false,true": true, // left top corner
+        "true,true,false,false": true, // right top corner
+        "false,false,true,true": true, // left bottom corner
+        "false,true,true,false": true, // right bottom corner
+        "true,false,true,false": true, // straight horizontal
+        "false,true,false,true": true  // straight vertical
+    };
+    const wallsConfig = walls.toString();
+    return wallsConfig in straightOrCornerConfigurations;
+}*/
