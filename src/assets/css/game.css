@@ -85,6 +85,7 @@ img {
     padding: 1rem;
     background-color: rgb(223, 142, 88, 0.2);
     border-radius: 1rem;
+    border: 2px solid black;
 }
 
 #obtainedTreasures li {
@@ -310,7 +311,7 @@ img {
     width: 7rem;
     height: 7rem;
     padding: 1rem;
-    border: 0.1rem solid black;
+    border: 2px solid black;
     border-radius: 1rem;
 }
 
