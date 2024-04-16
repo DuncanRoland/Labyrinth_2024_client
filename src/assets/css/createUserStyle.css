@@ -34,21 +34,6 @@ input[type="text"] {
     font-size: 1.5rem;
 }
 
-button {
-    margin: 3rem 1rem 1rem 3rem;
-    padding: 2rem 4.2rem;
-    background-color: rgba(223, 142, 88, 0);
-    color: #ffffff;
-    border: none;
-    border-radius: 0.5rem;
-    cursor: pointer;
-    font-size: 1.5rem;
-
-    background-image: url('../images/button-background.png');
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-}
-
 #error {
     text-align: center;
     color: #ffffff;

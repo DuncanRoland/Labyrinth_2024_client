@@ -23,3 +23,15 @@ button {
     cursor: pointer;
     font-family: 'Shadows Into Light', cursive;
 }
+
+.fancyButton {
+    padding: 2rem 4.2rem;
+    background-color: rgba(223, 142, 88, 0);
+    color: #ffffff;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1.5rem;
+    background-image: url('../images/button-background.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}

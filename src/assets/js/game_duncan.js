@@ -79,7 +79,7 @@ function generateRandomTilesImg(element, walls) {
 }
 
 function createInitialEventListeners() {
-    const button = document.querySelector('button');
+    const button = document.querySelector('#leaveGameButton');
     button.addEventListener('click', () => leaveGame());
 }
 
