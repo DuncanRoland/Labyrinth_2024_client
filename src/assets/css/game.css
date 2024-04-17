@@ -337,6 +337,7 @@ img {
     height: 6rem;
     background-image: url('../media/rotate/rotate.png');
     background-size: contain;
+    transform: scaleX(-1);
     cursor: pointer;
 }
 
