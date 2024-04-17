@@ -1,8 +1,9 @@
 import * as CommunicationAbstractor from "./data-connector/api-communication-abstractor.js";
 import * as ErrorHandler from "./data-connector/error-handler.js";
-import { loadFromStorage } from "./data-connector/local-storage-abstractor.js";
-import { navigate } from "./universal.js";
-import { TIMEOUTDELAY } from "./config.js";
+import {loadFromStorage} from "./data-connector/local-storage-abstractor.js";
+import {navigate} from "./universal.js";
+import {TIMEOUTDELAY} from "./config.js";
+
 const GAMEMAXTREASURES = await getActiveGameDetails(loadFromStorage('gameId')).then(response => response.description.numberOfTreasuresPerPlayer).catch(ErrorHandler.handleError);
 const PLAYERNAME = localStorage.getItem('playerName');
 const GAMEID = loadFromStorage('gameId');
@@ -38,7 +39,7 @@ let shove = {
     }
 }
 
-let move ={
+let move = {
     "destination": {
         "row": 0,
         "col": 0
@@ -54,6 +55,7 @@ function init() {
     createTreasureObjectives(GAMEMAXTREASURES);
     polling();
     getAndDisplaySpareTile();
+    rotateSpareTileButton();
 }
 
 async function generateBoard() {
@@ -64,7 +66,7 @@ async function generateBoard() {
         for (const [cellIndex, cell] of row.entries()) {
             const square = document.createElement('div');
             square.classList.add('square');
-            square.dataset.coordinates =  `${rowIndex},${cellIndex}`;
+            square.dataset.coordinates = `${rowIndex},${cellIndex}`;
             generateRandomTilesImg(square, cell.walls);
             addTreasuresToBoard(square, cell);
             board.appendChild(square);
@@ -157,7 +159,9 @@ async function polling() {
 function displayPlayers(players) {
     const playerList = document.querySelector("#playerList");
     playerList.innerHTML = "";
-    players.forEach(player => { playerList.insertAdjacentHTML('beforeend', `<li>${player}</li>`) });
+    players.forEach(player => {
+        playerList.insertAdjacentHTML('beforeend', `<li>${player}</li>`)
+    });
 }
 
 async function getActiveGameDetails(gameId) {
@@ -217,7 +221,7 @@ function showTurn(data) {
     const player = document.querySelector('#turnOrder');
     if (data.description.currentShovePlayer !== null) {
         player.innerHTML = `Current shove turn: ${data.description.currentShovePlayer}`;
-    } else if (data.description.currentMovePlayer !== null){
+    } else if (data.description.currentMovePlayer !== null) {
         player.innerHTML = `Current move turn: ${data.description.currentMovePlayer}`;
     }
 }
@@ -236,18 +240,18 @@ async function movePlayer(coordinates) {
     return await CommunicationAbstractor.fetchFromServer(`/games/${GAMEID}/players/${PLAYERNAME}`, 'PATCH', move).catch(ErrorHandler.handleError);
 }
 
-async function getReachableLocations(){
+async function getReachableLocations() {
     const playerDetails = await getPlayerDetails();
     const playerRow = playerDetails.player.location.row;
     const playerCol = playerDetails.player.location.col;
     return await CommunicationAbstractor.fetchFromServer(`/games/${GAMEID}/maze/locations/${playerRow}/${playerCol}`);
 }
 
-async function getPlayerDetails(){
+async function getPlayerDetails() {
     return await CommunicationAbstractor.fetchFromServer(`/games/${GAMEID}/players/${PLAYERNAME}`);
 }
 
-function boardEventListeners(){
+function boardEventListeners() {
     const allBoardPieces = document.querySelectorAll('.square');
     allBoardPieces.forEach(boardPiece => {
             boardPiece.addEventListener('click', (e) => getBoardPiece(e));
@@ -255,7 +259,7 @@ function boardEventListeners(){
     );
 }
 
-async function DisplayObtainedTreasures(){
+async function DisplayObtainedTreasures() {
     const $obtainedTreasures = document.querySelector("#obtainedTreasures");
     $obtainedTreasures.innerHTML = "";
     const playerDetails = await getPlayerDetails();
@@ -264,9 +268,9 @@ async function DisplayObtainedTreasures(){
 
 
     //static placeholder for now
-    for (let i = 0; i < 5 ; i++) {
+    for (let i = 0; i < 5; i++) {
         const li = `<li>
-                    <img src="assets/media/treasures_cards/Bag_of_Gold_Coins.JPG" alt="Bag of Gold Coins">
+                    <img src="../media/treasures_cards/Bag_of_Gold_Coins.JPG" alt="Bag of Gold Coins">
                 </li>`;
         $obtainedTreasures.insertAdjacentHTML("beforeend", li);
     }
@@ -285,3 +289,17 @@ async function getAndDisplaySpareTile() {
     console.log(gameDetails);
 }
 
+function rotateSpareTileButton() {
+    const $rotateSpareTileImage = document.querySelector('#rotateSpareTileButton');
+    $rotateSpareTileImage.addEventListener('click', rotateSpareTileClockwise);
+}
+
+function rotateSpareTileClockwise() {
+const $spareTile = document.querySelector('#spareTile img');
+const currentRotation = parseFloat($spareTile.dataset.rotation) || 0;
+const newRotation = (currentRotation + 90) % 360;
+
+$spareTile.style.transform = `rotate(${newRotation}deg)`;
+
+$spareTile.dataset.rotation = newRotation.toString();
+}
