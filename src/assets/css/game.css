@@ -299,6 +299,11 @@ img {
     justify-content: flex-start;
 }
 
+#treasureList:first-child {
+    margin-left: 1.8rem;
+}
+
+
 /*display movable tile*/
 
 .treasureListAndPlaceableTileWrapper {
@@ -327,5 +332,14 @@ img {
 /*rotate spareTile*/
 
 #rotateSpareTileButton {
-    margin-top: 2rem;
+    margin-top: 1.5rem;
+    width: 6rem;
+    height: 6rem;
+    background-image: url('../media/rotate/rotate.png');
+    background-size: contain;
+    cursor: pointer;
+}
+
+#rotateSpareTileButton:hover {
+    background-image: url('../media/rotate/rotate-darker.png');
 }
