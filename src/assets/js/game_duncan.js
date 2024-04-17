@@ -77,7 +77,7 @@ async function generateBoard() {
 
 function generateRandomTilesImg(element, walls) {
     const wallTile = getWallImageId(walls);
-    element.insertAdjacentHTML('beforeend', `<img src="assets/media/tiles/${wallTile}.png">`);
+    element.insertAdjacentHTML('beforeend', `<img src="assets/media/tiles/${wallTile}.png" alt="wall tile">`);
 
 }
 
@@ -270,7 +270,7 @@ async function DisplayObtainedTreasures() {
     //static placeholder for now
     for (let i = 0; i < 5; i++) {
         const li = `<li>
-                    <img src="../media/treasures_cards/Bag_of_Gold_Coins.JPG" alt="Bag of Gold Coins">
+                    <img src="/src/assets/media/treasures_cards/Bat.JPG" alt="Bag of Gold Coins">
                 </li>`;
         $obtainedTreasures.insertAdjacentHTML("beforeend", li);
     }
@@ -284,7 +284,7 @@ async function getAndDisplaySpareTile() {
 
     const wallTile = getWallImageId(gameDetails.spareTile.walls);
 
-    $spareTile.insertAdjacentHTML('beforeend', `<img src="assets/media/tiles/${wallTile}.png">`);
+    $spareTile.insertAdjacentHTML('beforeend', `<img src="assets/media/tiles/${wallTile}.png" alt="wall tile">`);
 
     console.log(gameDetails);
 }
@@ -295,11 +295,11 @@ function rotateSpareTileButton() {
 }
 
 function rotateSpareTileClockwise() {
-const $spareTile = document.querySelector('#spareTile img');
-const currentRotation = parseFloat($spareTile.dataset.rotation) || 0;
-const newRotation = (currentRotation + 90) % 360;
+    const $spareTile = document.querySelector('#spareTile img');
+    const currentRotation = parseFloat($spareTile.dataset.rotation) || 0;
+    const newRotation = (currentRotation + 90) % 360;
 
-$spareTile.style.transform = `rotate(${newRotation}deg)`;
+    $spareTile.style.transform = `rotate(${newRotation}deg)`;
 
-$spareTile.dataset.rotation = newRotation.toString();
+    $spareTile.dataset.rotation = newRotation.toString();
 }
