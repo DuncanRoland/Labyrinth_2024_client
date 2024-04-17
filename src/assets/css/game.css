@@ -278,7 +278,7 @@ img {
 .slide-indicator-left-top:hover::before,
 .slide-indicator-left-mid:hover::before,
 .slide-indicator-left-bottom:hover::before {
-    background-image: url("../media/rockButton/stone-arrow-sand-brown-overall-shadow - darker.png");
+    background-image: url("../media/rockButton/stone-arrow-sand-brown-overall-shadow-darker.png");
 }
 
 /* objective cards */
@@ -303,7 +303,7 @@ img {
 
 .treasureListAndPlaceableTileWrapper {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-around;
     margin-top: 5rem;
 }
 
@@ -314,6 +314,7 @@ img {
     padding: 1rem;
     border: 2px solid black;
     border-radius: 1rem;
+    margin-left: 4rem;
 }
 
 #spareTile img {
@@ -321,4 +322,10 @@ img {
     width: 100%;
     border-radius: 1rem;
 
+}
+
+/*rotate spareTile*/
+
+#rotateSpareTile {
+    margin-top: 2rem;
 }
