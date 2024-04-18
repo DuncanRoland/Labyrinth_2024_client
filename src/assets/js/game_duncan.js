@@ -82,8 +82,13 @@ function generateRandomTilesImg(element, walls) {
 }
 
 function createInitialEventListeners() {
-    const button = document.querySelector('#leaveGameButton');
-    button.addEventListener('click', () => leaveGame());
+    const $leaveButton = document.querySelector('#leaveGameButton');
+    $leaveButton.addEventListener('click', () => leaveGame());
+
+    const $slideIndicators = document.querySelectorAll('.slide-indicator');
+    $slideIndicators.forEach(indicator => {
+        indicator.addEventListener('click', () => slideSpareTile(indicator.classList));
+    });
 }
 
 function getBoardPiece(e) {
@@ -302,4 +307,16 @@ function rotateSpareTileClockwise() {
     $spareTile.style.transform = `rotate(${newRotation}deg)`;
 
     $spareTile.dataset.rotation = newRotation.toString();
+}
+
+function slideSpareTile(classList) {
+    const direction = getClassDirection(classList);
+
+}
+function getClassDirection(classList) {
+    if (classList.contains('slide-indicator-left') || classList.contains('slide-indicator-right')) {
+        return 'row';
+    } else if (classList.contains('slide-indicator-top') || classList.contains('slide-indicator-bottom')) {
+        return 'column';
+    }
 }
