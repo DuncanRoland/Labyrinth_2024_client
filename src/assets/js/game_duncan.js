@@ -49,8 +49,8 @@ let move = {
 init();
 
 
-function init() {
-    generateBoard();
+async function init() {
+    await generateBoard();
     createInitialEventListeners();
     createTreasureObjectives(GAMEMAXTREASURES);
     polling();
@@ -87,8 +87,9 @@ function createInitialEventListeners() {
 
     const $slideIndicators = document.querySelectorAll('.slide-indicator');
     $slideIndicators.forEach(indicator => {
-        indicator.addEventListener('click', () => slideSpareTile(indicator.classList));
+        indicator.addEventListener('click', slideSpareTile);
     });
+
 }
 
 function getBoardPiece(e) {
@@ -214,12 +215,12 @@ function addTreasuresToBoard(square, cell) {
     }
 }
 
-function refreshBoard() {
+async function refreshBoard() {
     const board = document.querySelector('#board');
     const boardBackground = document.querySelector('#background');
     board.innerHTML = "";
     boardBackground.innerHTML = "";
-    generateBoard();
+    await generateBoard();
 }
 
 function showTurn(data) {
@@ -234,14 +235,15 @@ function showTurn(data) {
 async function shoveTile(coordinates) {
     const gameDetails = await getActiveGameDetails(GAMEID);
     shove.destination.row = parseInt(coordinates[0]);
-    shove.destination.col = parseInt(coordinates[2]);
+    shove.destination.col = parseInt(coordinates[1]);
     shove.tile = gameDetails.spareTile;
+    console.log(shove);
     return await CommunicationAbstractor.fetchFromServer(`/games/${GAMEID}/maze`, 'PATCH', shove).catch(ErrorHandler.handleError);
 }
 
 async function movePlayer(coordinates) {
     move.destination.row = coordinates[0];
-    move.destination.col = coordinates[2];
+    move.destination.col = coordinates[1];
     return await CommunicationAbstractor.fetchFromServer(`/games/${GAMEID}/players/${PLAYERNAME}`, 'PATCH', move).catch(ErrorHandler.handleError);
 }
 
@@ -309,10 +311,88 @@ function rotateSpareTileClockwise() {
     $spareTile.dataset.rotation = newRotation.toString();
 }
 
-function slideSpareTile(classList) {
-    const direction = getClassDirection(classList);
-
+function getRowAndColumn(classList) {
+        if(classList.contains('slide-indicator-top-left')) {
+            return {row: 0, col: 1};
+        }
+        if(classList.contains('slide-indicator-top-mid')) {
+            return {row: 0, col: 3};
+        }
+        if(classList.contains('slide-indicator-top-right')) {
+            return {row: 0, col: 5};
+        }
+        if(classList.contains('slide-indicator-left-top')) {
+            return {row: 1, col: 0};
+        }
+        if(classList.contains('slide-indicator-left-mid')) {
+            return {row: 3, col: 0};
+        }
+        if(classList.contains('slide-indicator-left-bottom')) {
+            return {row: 5, col: 0};
+        }
+        if(classList.contains('slide-indicator-right-top')) {
+            return {row: 1, col: 6};
+        }
+        if(classList.contains('slide-indicator-right-mid')) {
+            return {row: 3, col: 6};
+        }
+        if(classList.contains('slide-indicator-right-bottom')) {
+            return {row: 5, col: 6};
+        }
+        if(classList.contains('slide-indicator-bottom-left')) {
+            return {row: 6, col: 1};
+        }
+        if(classList.contains('slide-indicator-bottom-mid')) {
+            return {row: 6, col: 3};
+        }
+        if(classList.contains('slide-indicator-bottom-right')) {
+            return {row: 6, col: 5};
+        }
+        return { row: -1, col: -1 }; // Invalid indicator
 }
+
+async function slideSpareTile(e) {
+    const classList = e.currentTarget.classList;
+    const { row, col } = getRowAndColumn(classList);
+    const direction = getClassDirection(classList);
+    if (row !== -1 && col !== -1) {
+        await shoveTile([row, col]);
+        await shiftTiles(direction, [row, col]);
+        await getAndDisplaySpareTile();
+        await refreshBoard();
+    } else {
+        console.error('Invalid slide indicator');
+    }
+}
+
+async function shiftTiles(direction, row, col) {
+    if (direction === 'row') {
+        for (let i = 6; i > col; i--) {
+            const targetCoordinates = `${row},${i}`;
+            const sourceCoordinates = `${row},${i - 1}`;
+            await moveTile(targetCoordinates, sourceCoordinates);
+        }
+    } else if (direction === 'column') {
+        for (let i = 6; i > row; i--) {
+            const targetCoordinates = `${i},${col}`;
+            const sourceCoordinates = `${i - 1},${col}`;
+            await moveTile(targetCoordinates, sourceCoordinates);
+        }
+    }
+}
+
+async function moveTile(targetCoordinates, sourceCoordinates) {
+    const targetSquare = document.querySelector(`.square[data-coordinates="${targetCoordinates}"]`);
+    const sourceSquare = document.querySelector(`.square[data-coordinates="${sourceCoordinates}"]`);
+    const targetImg = targetSquare.querySelector('img');
+    const sourceImg = sourceSquare.querySelector('img');
+
+    targetSquare.dataset.treasure = sourceSquare.dataset.treasure;
+    targetImg.src = sourceImg.src;
+    sourceSquare.removeAttribute('data-treasure');
+    sourceImg.remove();
+}
+
 function getClassDirection(classList) {
     if (classList.contains('slide-indicator-left') || classList.contains('slide-indicator-right')) {
         return 'row';
