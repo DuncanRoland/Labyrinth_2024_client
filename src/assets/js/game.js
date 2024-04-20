@@ -23,6 +23,7 @@ const slideIndicators = `
         <div class="slide-indicator slide-indicator-right-bottom"></div>
     `;
 
+
 let shove = {
     "destination": {
         "row": 1,
@@ -155,18 +156,21 @@ async function polling() {
             boardEventListeners();
             showTurn(response);
             DisplayObtainedTreasures();
-            displayPlayers(response.description.players);
+            displayPlayerList(response.description.players);
             //setTimeout(polling, TIMEOUTDELAY);
             console.log(`Lobby: ${response.description.players.length}/${response.description.maxPlayers}`);
         });
     const a = await getReachableLocations();
 }
 
-function displayPlayers(players) {
+function displayPlayerList(players) {
     const playerList = document.querySelector("#playerList");
     playerList.innerHTML = "";
-    players.forEach(player => {
-        playerList.insertAdjacentHTML('beforeend', `<li>${player}</li>`)
+    players.forEach((player, index) => {
+        const randomColor = pawnColors[index % pawnColors.length]; // Assign a random color to each player
+        //const playerListItem = `<li>${player} <img src="assets/media/player_cutouts/${randomColor}_pawn.png" alt="${randomColor} pawn"></li>`;
+        const playerListItem = `<li>${player} <img src="assets/media/player_cutouts/${randomColor}_pawn.png" alt="${randomColor} pawn"></li>`;
+        playerList.insertAdjacentHTML('beforeend', playerListItem);
     });
 }
 
@@ -399,4 +403,11 @@ function getClassDirection(classList) {
     } else if (classList.contains('slide-indicator-top') || classList.contains('slide-indicator-bottom')) {
         return 'column';
     }
+}
+
+
+const pawnColors = ['blue', 'green', 'red', 'yellow'];
+
+async function displayPlayersInList(players) {
+    const playerList = document.querySelector("#playerList");
 }
