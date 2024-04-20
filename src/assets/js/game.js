@@ -70,6 +70,8 @@ async function generateBoard() {
             square.dataset.coordinates = `${rowIndex},${cellIndex}`;
             generateRandomTilesImg(square, cell.walls);
             addTreasuresToBoard(square, cell);
+            addPlayerPawn(square, PLAYERNAME);
+
             board.appendChild(square);
         }
     }
@@ -95,8 +97,23 @@ function createInitialEventListeners() {
 
 function getBoardPiece(e) {
     e.preventDefault();
-    console.log(e.currentTarget.dataset.coordinates);
-    shoveTile(e.currentTarget.dataset.coordinates)
+    const coordinates = e.currentTarget.dataset.coordinates.split(','); // Extract row and column coordinates
+    const row = parseInt(coordinates[0]);
+    const col = parseInt(coordinates[1]);
+    console.log(`Clicked coordinates: Row ${row}, Column ${col}`);
+
+    // Call getPlayerNameAtCoordinates with the row and column coordinates
+    getPlayerNameAtCoordinates(row, col)
+        .then(playerName => {
+            if (playerName) {
+                console.log(`Player name at coordinates [${row},${col}]: ${playerName}`);
+            } else {
+                console.log(`No player found at coordinates [${row},${col}]`);
+            }
+        })
+        .catch(error => {
+            console.error("Error retrieving player name:", error);
+        });
 }
 
 async function createTreasureObjectives(maxObjectives = 5) {
@@ -408,6 +425,34 @@ function getClassDirection(classList) {
 
 const pawnColors = ['blue', 'green', 'red', 'yellow'];
 
-async function displayPlayersInList(players) {
-    const playerList = document.querySelector("#playerList");
+function addPlayerPawn(square, playerName) {
+    const playerColor = getPlayerColor(playerName);
+    console.log(`${playerName} has color: ${playerColor}`);
+    const playerPawn = document.createElement('img');
+    playerPawn.src = `assets/media/player_cutouts/${playerColor}_pawn.png`;
+    playerPawn.alt = `${playerColor} pawn`;
+    playerPawn.classList.add('player-pawn');
+    square.appendChild(playerPawn);
+}
+
+function getPlayerColor( playerName ) {
+    const playerColors = ['blue', 'green', 'red', 'yellow'];
+    const playerIndex = playerName.indexOf(playerName);
+    return playerColors[playerIndex];
+}
+
+async function getPlayerNameAtCoordinates(row, col) {
+    const gameDetails = await getActiveGameDetails(GAMEID);
+    const players = gameDetails.description.playerName;
+
+    for (const player of players) {
+        const playerDetails = await getPlayerDetails(player);
+        const playerRow = playerDetails.location.row;
+        const playerCol = playerDetails.location.col;
+
+        if (playerRow === row && playerCol === col) {
+            return playerDetails.name;
+        }
+    }
+    return null;
 }
