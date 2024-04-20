@@ -61,7 +61,7 @@ async function init() {
 
 async function generateBoard() {
     const board = document.querySelector('#board');
-    const boardBackground = document.querySelector('#background');
+    //const boardBackground = document.querySelector('#background');
     const maze = await getMaze();
     for (const [rowIndex, row] of maze.maze.entries()) {
         for (const [cellIndex, cell] of row.entries()) {
@@ -73,7 +73,7 @@ async function generateBoard() {
             board.appendChild(square);
         }
     }
-    boardBackground.insertAdjacentHTML('beforeend', slideIndicators);
+    //boardBackground.insertAdjacentHTML('beforeend', slideIndicators);
 }
 
 function generateRandomTilesImg(element, walls) {
