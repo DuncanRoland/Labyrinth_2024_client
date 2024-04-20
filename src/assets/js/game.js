@@ -70,7 +70,9 @@ async function generateBoard() {
             square.dataset.coordinates = `${rowIndex},${cellIndex}`;
             generateRandomTilesImg(square, cell.walls);
             addTreasuresToBoard(square, cell);
-            addPlayerPawn(square, PLAYERNAME);
+            if (cell.players != undefined) {
+                addPlayerPawn(square, cell.players[0]);
+            }
 
             board.appendChild(square);
         }
@@ -425,20 +427,24 @@ function getClassDirection(classList) {
 
 const pawnColors = ['blue', 'green', 'red', 'yellow'];
 
-function addPlayerPawn(square, playerName) {
-    const playerColor = getPlayerColor(playerName);
+async function addPlayerPawn(square, playerName) {
+    const playerColor = await getPlayerColor(playerName);
     console.log(`${playerName} has color: ${playerColor}`);
     const playerPawn = document.createElement('img');
     playerPawn.src = `assets/media/player_cutouts/${playerColor}_pawn.png`;
     playerPawn.alt = `${playerColor} pawn`;
     playerPawn.classList.add('player-pawn');
+    console.log(playerPawn);
     square.appendChild(playerPawn);
 }
 
-function getPlayerColor( playerName ) {
-    const playerColors = ['blue', 'green', 'red', 'yellow'];
-    const playerIndex = playerName.indexOf(playerName);
-    return playerColors[playerIndex];
+async function getPlayerColor(playerName) {
+    return await getActiveGameDetails(GAMEID)
+        .then(response => {
+            const playerIndex = Object.keys(response.players).indexOf(playerName);
+            console.log(pawnColors[playerIndex]);
+            return pawnColors[playerIndex];
+        })
 }
 
 async function getPlayerNameAtCoordinates(row, col) {
