@@ -330,6 +330,18 @@ function rotateSpareTileClockwise() {
     $spareTile.style.transform = `rotate(${newRotation}deg)`;
 
     $spareTile.dataset.rotation = newRotation.toString();
+
+    shove.tile.walls = rotateWallsClockWise(shove.tile.walls);
+}
+
+function rotateWallsClockWise(walls) {
+    // Rotate the walls clockwise: [top, right, bottom, left]
+    const temp = walls[0]; // Store the top wall
+    walls[0] = walls[3]; // Right wall becomes top
+    walls[3] = walls[2]; // Bottom wall becomes right
+    walls[2] = walls[1]; // Left wall becomes bottom
+    walls[1] = temp; // Top wall becomes left
+    return walls;
 }
 
 function getRowAndColumn(classList) {
