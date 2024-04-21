@@ -72,7 +72,6 @@ img {
 
 #playerList li {
     margin-bottom: 0.5rem;
-    /*background-image: url('../images/button-background.png');*/
     background-size: 100%;
     background-position: center;
     background-repeat: no-repeat;
@@ -221,7 +220,7 @@ img {
 
 .slide-indicator::before {
     content: " ";
-    background-image: url("../media/rockButton/stone-arrow-sand-brown-overall-shadow.png");
+    background-image: url("../media/rockButton/stone-arrow-sand-brown-overall-shadow.webp");
     background-size: contain;
     background-repeat: no-repeat;
     width: 2rem;
@@ -278,7 +277,7 @@ img {
 .slide-indicator-left-top:hover::before,
 .slide-indicator-left-mid:hover::before,
 .slide-indicator-left-bottom:hover::before {
-    background-image: url("../media/rockButton/stone-arrow-sand-brown-overall-shadow-darker.png");
+    background-image: url("../media/rockButton/stone-arrow-sand-brown-overall-shadow-darker.webp");
 }
 
 /* objective cards */
@@ -335,12 +334,12 @@ img {
     margin-top: 1.5rem;
     width: 6rem;
     height: 6rem;
-    background-image: url('../media/rotate/rotate.png');
+    background-image: url('../media/rotate/rotate.webp');
     background-size: contain;
     transform: scaleX(-1);
     cursor: pointer;
 }
 
 #rotateSpareTileButton:hover {
-    background-image: url('../media/rotate/rotate-darker.png');
+    background-image: url('../media/rotate/rotate-darker.webp');
 }

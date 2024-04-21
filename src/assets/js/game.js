@@ -65,7 +65,7 @@ async function generateBoard() {
 
 function generateRandomTilesImg(element, walls) {
     const wallTile = getWallImageId(walls);
-    element.insertAdjacentHTML("beforeend", `<img src="assets/media/tiles/${wallTile}.png" alt="wall tile">`);
+    element.insertAdjacentHTML("beforeend", `<img src="assets/media/tiles/${wallTile}.webp" alt="wall tile">`);
 
 }
 
@@ -145,7 +145,7 @@ function displayPlayerObjectives(objectives) {
     objectives.forEach(objective => {
         const objectiveNameFromAPI = objective.replace(/ /g, "_");
         const li = `<li>
-                <img src="assets/media/treasures_cards/${objectiveNameFromAPI}.JPG" alt="${objective}">
+                <img src="assets/media/treasures_cards/${objectiveNameFromAPI}.webp" alt="${objective}">
             </li>`;
         $treasureList.insertAdjacentHTML("beforeend", li);
     });
@@ -172,8 +172,7 @@ function displayPlayerList(players) {
     playerList.innerHTML = "";
     players.forEach((player, index) => {
         const randomColor = pawnColors[index % pawnColors.length]; // Assign a random color to each player
-        //const playerListItem = `<li>${player} <img src="assets/media/player_cutouts/${randomColor}_pawn.png" alt="${randomColor} pawn"></li>`;
-        const playerListItem = `<li>${player} <img src="assets/media/player_cutouts/${randomColor}_pawn.png" alt="${randomColor} pawn"></li>`;
+        const playerListItem = `<li>${player} <img src="assets/media/player_cutouts/${randomColor}_pawn.webp" alt="${randomColor} pawn"></li>`;
         playerList.insertAdjacentHTML("beforeend", playerListItem);
     });
 }
@@ -219,7 +218,7 @@ function addTreasuresToBoard(square, cell) {
     if (cell.treasure) {
         square.dataset.treasure = cell.treasure;
         const treasure = cell.treasure.replaceAll(" ", "_");
-        square.insertAdjacentHTML("beforeend", `<img src="assets/media/treasure_cutouts/${treasure}.png" class="treasure">`);
+        square.insertAdjacentHTML("beforeend", `<img src="assets/media/treasure_cutouts/${treasure}.webp" class="treasure">`);
     }
 }
 
@@ -278,14 +277,11 @@ async function DisplayObtainedTreasures() {
     const $obtainedTreasures = document.querySelector("#obtainedTreasures");
     $obtainedTreasures.innerHTML = "";
     const playerDetails = await getPlayerDetails();
-    // playerDetails.player.foundTreasures.forEach(treasure => $obtainedTreasure.insertAdjacentHTML("beforeend", `<li>${treasure}</li>`))
-    // playerDetails.player.foundTreasures.forEach(treasure => $obtainedTreasure.insertAdjacentHTML("beforeend", `<img src="assets/media/treasures_cards/${treasure}.JPG" alt="${treasure}"`))
-
 
     //static placeholder for now
     for (let i = 0; i < 5; i++) {
         const li = `<li>
-                    <img src="/src/assets/media/treasures_cards/Bat.JPG" alt="Bag of Gold Coins">
+                    <img src="/src/assets/media/treasures_cards/Bat.webp" alt="Bag of Gold Coins">
                 </li>`;
         $obtainedTreasures.insertAdjacentHTML("beforeend", li);
     }
@@ -299,7 +295,7 @@ async function getAndDisplaySpareTile() {
 
     const wallTile = getWallImageId(gameDetails.spareTile.walls);
 
-    $spareTile.insertAdjacentHTML("beforeend", `<img src="assets/media/tiles/${wallTile}.png" alt="wall tile">`);
+    $spareTile.insertAdjacentHTML("beforeend", `<img src="assets/media/tiles/${wallTile}.webp" alt="wall tile">`);
 
     console.log(gameDetails);
 }
@@ -416,7 +412,7 @@ async function addPlayerPawn(square, playerName) {
     const playerColor = await getPlayerColor(playerName);
     console.log(`${playerName} has color: ${playerColor}`);
     const playerPawn = document.createElement("img");
-    playerPawn.src = `assets/media/player_cutouts/${playerColor}_pawn.png`;
+    playerPawn.src = `assets/media/player_cutouts/${playerColor}_pawn.webp`;
     playerPawn.alt = `${playerColor} pawn`;
     playerPawn.classList.add("player-pawn");
     console.log(playerPawn);
