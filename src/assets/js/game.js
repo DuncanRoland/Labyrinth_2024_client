@@ -1,12 +1,12 @@
 import * as CommunicationAbstractor from "./data-connector/api-communication-abstractor.js";
 import * as ErrorHandler from "./data-connector/error-handler.js";
-import {loadFromStorage} from "./data-connector/local-storage-abstractor.js";
-import {navigate} from "./universal.js";
-import {TIMEOUTDELAY} from "./config.js";
+import { loadFromStorage } from "./data-connector/local-storage-abstractor.js";
+import { navigate } from "./universal.js";
+import { TIMEOUTDELAY } from "./config.js";
 
-const GAMEMAXTREASURES = await getActiveGameDetails(loadFromStorage('gameId')).then(response => response.description.numberOfTreasuresPerPlayer).catch(ErrorHandler.handleError);
-const PLAYERNAME = localStorage.getItem('playerName');
-const GAMEID = loadFromStorage('gameId');
+const GAMEMAXTREASURES = await getActiveGameDetails(loadFromStorage("gameId")).then(response => response.description.numberOfTreasuresPerPlayer).catch(ErrorHandler.handleError);
+const PLAYERNAME = localStorage.getItem("playerName");
+const GAMEID = loadFromStorage("gameId");
 
 let shove = {
     "destination": {
@@ -22,14 +22,14 @@ let shove = {
         ],
         "treasure": null
     }
-}
+};
 
 let move = {
     "destination": {
         "row": 0,
         "col": 0
     }
-}
+};
 
 init();
 
@@ -44,13 +44,13 @@ async function init() {
 }
 
 async function generateBoard() {
-    const board = document.querySelector('#board');
+    const board = document.querySelector("#board");
     //const boardBackground = document.querySelector('#background');
     const maze = await getMaze();
     for (const [rowIndex, row] of maze.maze.entries()) {
         for (const [cellIndex, cell] of row.entries()) {
-            const square = document.createElement('div');
-            square.classList.add('square');
+            const square = document.createElement("div");
+            square.classList.add("square");
             square.dataset.coordinates = `${rowIndex},${cellIndex}`;
             generateRandomTilesImg(square, cell.walls);
             addTreasuresToBoard(square, cell);
@@ -65,24 +65,24 @@ async function generateBoard() {
 
 function generateRandomTilesImg(element, walls) {
     const wallTile = getWallImageId(walls);
-    element.insertAdjacentHTML('beforeend', `<img src="assets/media/tiles/${wallTile}.png" alt="wall tile">`);
+    element.insertAdjacentHTML("beforeend", `<img src="assets/media/tiles/${wallTile}.png" alt="wall tile">`);
 
 }
 
 function createInitialEventListeners() {
-    const $leaveButton = document.querySelector('#leaveGameButton');
-    $leaveButton.addEventListener('click', () => leaveGame());
+    const $leaveButton = document.querySelector("#leaveGameButton");
+    $leaveButton.addEventListener("click", () => leaveGame());
 
-    const $slideIndicators = document.querySelectorAll('.slide-indicator');
+    const $slideIndicators = document.querySelectorAll(".slide-indicator");
     $slideIndicators.forEach(indicator => {
-        indicator.addEventListener('click', slideSpareTile);
+        indicator.addEventListener("click", slideSpareTile);
     });
 
 }
 
 function getBoardPiece(e) {
     e.preventDefault();
-    const coordinates = e.currentTarget.dataset.coordinates.split(','); // Extract row and column coordinates
+    const coordinates = e.currentTarget.dataset.coordinates.split(","); // Extract row and column coordinates
     const row = parseInt(coordinates[0]);
     const col = parseInt(coordinates[1]);
     console.log(`Clicked coordinates: Row ${row}, Column ${col}`);
@@ -143,7 +143,7 @@ function displayPlayerObjectives(objectives) {
     $treasureList.innerHTML = "";
 
     objectives.forEach(objective => {
-        const objectiveNameFromAPI = objective.replace(/ /g, '_');
+        const objectiveNameFromAPI = objective.replace(/ /g, "_");
         const li = `<li>
                 <img src="assets/media/treasures_cards/${objectiveNameFromAPI}.JPG" alt="${objective}">
             </li>`;
@@ -152,14 +152,16 @@ function displayPlayerObjectives(objectives) {
 }
 
 async function polling() {
+
     await getActiveGameDetails(GAMEID)
         .then(response => {
-            setTimeout(refreshBoard, TIMEOUTDELAY);
+            refreshBoard();
+            //setTimeout(refreshBoard, TIMEOUTDELAY);
             boardEventListeners();
             showTurn(response);
             DisplayObtainedTreasures();
             displayPlayerList(response.description.players);
-            setTimeout(polling, TIMEOUTDELAY);
+            //setTimeout(polling, TIMEOUTDELAY);
             console.log(`Lobby: ${response.description.players.length}/${response.description.maxPlayers}`);
         });
     const a = await getReachableLocations();
@@ -172,20 +174,20 @@ function displayPlayerList(players) {
         const randomColor = pawnColors[index % pawnColors.length]; // Assign a random color to each player
         //const playerListItem = `<li>${player} <img src="assets/media/player_cutouts/${randomColor}_pawn.png" alt="${randomColor} pawn"></li>`;
         const playerListItem = `<li>${player} <img src="assets/media/player_cutouts/${randomColor}_pawn.png" alt="${randomColor} pawn"></li>`;
-        playerList.insertAdjacentHTML('beforeend', playerListItem);
+        playerList.insertAdjacentHTML("beforeend", playerListItem);
     });
 }
 
 async function getActiveGameDetails(gameId) {
-    return await getAPIResponse(gameId, 'description=true&players=true&spareTile=true', 'GET');
+    return await getAPIResponse(gameId, "description=true&players=true&spareTile=true", "GET");
 }
 
 
 async function leaveGame() {
-    return await CommunicationAbstractor.fetchFromServer(`/games/${GAMEID}/players/${PLAYERNAME}`, 'DELETE')
+    return await CommunicationAbstractor.fetchFromServer(`/games/${GAMEID}/players/${PLAYERNAME}`, "DELETE")
         .then(response => {
             console.log(response);
-            navigate('createOrJoin.html');
+            navigate("createOrJoin.html");
         }).catch(ErrorHandler.handleError);
 }
 
@@ -194,7 +196,7 @@ async function getAPIResponse(path, parameters, method) {
 }
 
 async function getMaze() {
-    return await getAPIResponse(GAMEID, 'description=false&maze=true', 'GET');
+    return await getAPIResponse(GAMEID, "description=false&maze=true", "GET");
 }
 
 function getWallImageId(walls) {
@@ -208,7 +210,7 @@ function getWallImageId(walls) {
         "false,false,false,true": 7, // left side T
         "false,true,false,false": 9, // right side T
         "false,false,true,false": 1, // upside down T
-        "true,false,false,false": 8, // T
+        "true,false,false,false": 8 // T
     };
     return wallConfigurations[walls.toString()];
 }
@@ -216,21 +218,21 @@ function getWallImageId(walls) {
 function addTreasuresToBoard(square, cell) {
     if (cell.treasure) {
         square.dataset.treasure = cell.treasure;
-        const treasure = cell.treasure.replaceAll(' ', '_');
-        square.insertAdjacentHTML('beforeend', `<img src="assets/media/treasure_cutouts/${treasure}.png" class="treasure">`);
+        const treasure = cell.treasure.replaceAll(" ", "_");
+        square.insertAdjacentHTML("beforeend", `<img src="assets/media/treasure_cutouts/${treasure}.png" class="treasure">`);
     }
 }
 
 async function refreshBoard() {
-    const board = document.querySelector('#board');
-    const boardBackground = document.querySelector('#background');
+    const board = document.querySelector("#board");
+    const boardBackground = document.querySelector("#background");
     board.innerHTML = "";
     boardBackground.innerHTML = "";
     await generateBoard();
 }
 
 function showTurn(data) {
-    const player = document.querySelector('#turnOrder');
+    const player = document.querySelector("#turnOrder");
     if (data.description.currentShovePlayer !== null) {
         player.innerHTML = `Current shove turn: ${data.description.currentShovePlayer}`;
     } else if (data.description.currentMovePlayer !== null) {
@@ -244,13 +246,13 @@ async function shoveTile(coordinates) {
     shove.destination.col = parseInt(coordinates[1]);
     shove.tile = gameDetails.spareTile;
     console.log(shove);
-    return await CommunicationAbstractor.fetchFromServer(`/games/${GAMEID}/maze`, 'PATCH', shove).catch(ErrorHandler.handleError);
+    return await CommunicationAbstractor.fetchFromServer(`/games/${GAMEID}/maze`, "PATCH", shove).catch(ErrorHandler.handleError);
 }
 
 async function movePlayer(coordinates) {
     move.destination.row = coordinates[0];
     move.destination.col = coordinates[1];
-    return await CommunicationAbstractor.fetchFromServer(`/games/${GAMEID}/players/${PLAYERNAME}`, 'PATCH', move).catch(ErrorHandler.handleError);
+    return await CommunicationAbstractor.fetchFromServer(`/games/${GAMEID}/players/${PLAYERNAME}`, "PATCH", move).catch(ErrorHandler.handleError);
 }
 
 async function getReachableLocations() {
@@ -265,9 +267,9 @@ async function getPlayerDetails() {
 }
 
 function boardEventListeners() {
-    const allBoardPieces = document.querySelectorAll('.square');
+    const allBoardPieces = document.querySelectorAll(".square");
     allBoardPieces.forEach(boardPiece => {
-            boardPiece.addEventListener('click', (e) => getBoardPiece(e));
+            boardPiece.addEventListener("click", (e) => getBoardPiece(e));
         }
     );
 }
@@ -290,25 +292,25 @@ async function DisplayObtainedTreasures() {
 }
 
 async function getAndDisplaySpareTile() {
-    const $spareTile = document.querySelector('#spareTile');
+    const $spareTile = document.querySelector("#spareTile");
     $spareTile.innerHTML = "";
 
     const gameDetails = await getActiveGameDetails(GAMEID);
 
     const wallTile = getWallImageId(gameDetails.spareTile.walls);
 
-    $spareTile.insertAdjacentHTML('beforeend', `<img src="assets/media/tiles/${wallTile}.png" alt="wall tile">`);
+    $spareTile.insertAdjacentHTML("beforeend", `<img src="assets/media/tiles/${wallTile}.png" alt="wall tile">`);
 
     console.log(gameDetails);
 }
 
 function rotateSpareTileButton() {
-    const $rotateSpareTileImage = document.querySelector('#rotateSpareTileButton');
-    $rotateSpareTileImage.addEventListener('click', rotateSpareTileClockwise);
+    const $rotateSpareTileImage = document.querySelector("#rotateSpareTileButton");
+    $rotateSpareTileImage.addEventListener("click", rotateSpareTileClockwise);
 }
 
 function rotateSpareTileClockwise() {
-    const $spareTile = document.querySelector('#spareTile img');
+    const $spareTile = document.querySelector("#spareTile img");
     const currentRotation = parseFloat($spareTile.dataset.rotation) || 0;
     const newRotation = (currentRotation + 90) % 360;
 
@@ -318,41 +320,41 @@ function rotateSpareTileClockwise() {
 }
 
 function getRowAndColumn(classList) {
-    if(classList.contains('slide-indicator-top-left')) {
-        return {row: 0, col: 1};
+    if (classList.contains("slide-indicator-top-left")) {
+        return { row: 0, col: 1 };
     }
-    if(classList.contains('slide-indicator-top-mid')) {
-        return {row: 0, col: 3};
+    if (classList.contains("slide-indicator-top-mid")) {
+        return { row: 0, col: 3 };
     }
-    if(classList.contains('slide-indicator-top-right')) {
-        return {row: 0, col: 5};
+    if (classList.contains("slide-indicator-top-right")) {
+        return { row: 0, col: 5 };
     }
-    if(classList.contains('slide-indicator-left-top')) {
-        return {row: 1, col: 0};
+    if (classList.contains("slide-indicator-left-top")) {
+        return { row: 1, col: 0 };
     }
-    if(classList.contains('slide-indicator-left-mid')) {
-        return {row: 3, col: 0};
+    if (classList.contains("slide-indicator-left-mid")) {
+        return { row: 3, col: 0 };
     }
-    if(classList.contains('slide-indicator-left-bottom')) {
-        return {row: 5, col: 0};
+    if (classList.contains("slide-indicator-left-bottom")) {
+        return { row: 5, col: 0 };
     }
-    if(classList.contains('slide-indicator-right-top')) {
-        return {row: 1, col: 6};
+    if (classList.contains("slide-indicator-right-top")) {
+        return { row: 1, col: 6 };
     }
-    if(classList.contains('slide-indicator-right-mid')) {
-        return {row: 3, col: 6};
+    if (classList.contains("slide-indicator-right-mid")) {
+        return { row: 3, col: 6 };
     }
-    if(classList.contains('slide-indicator-right-bottom')) {
-        return {row: 5, col: 6};
+    if (classList.contains("slide-indicator-right-bottom")) {
+        return { row: 5, col: 6 };
     }
-    if(classList.contains('slide-indicator-bottom-left')) {
-        return {row: 6, col: 1};
+    if (classList.contains("slide-indicator-bottom-left")) {
+        return { row: 6, col: 1 };
     }
-    if(classList.contains('slide-indicator-bottom-mid')) {
-        return {row: 6, col: 3};
+    if (classList.contains("slide-indicator-bottom-mid")) {
+        return { row: 6, col: 3 };
     }
-    if(classList.contains('slide-indicator-bottom-right')) {
-        return {row: 6, col: 5};
+    if (classList.contains("slide-indicator-bottom-right")) {
+        return { row: 6, col: 5 };
     }
     return { row: -1, col: -1 }; // Invalid indicator
 }
@@ -367,18 +369,18 @@ async function slideSpareTile(e) {
         await getAndDisplaySpareTile();
         await refreshBoard();
     } else {
-        console.error('Invalid slide indicator');
+        console.error("Invalid slide indicator");
     }
 }
 
 async function shiftTiles(direction, row, col) {
-    if (direction === 'row') {
+    if (direction === "row") {
         for (let i = 6; i > col; i--) {
             const targetCoordinates = `${row},${i}`;
             const sourceCoordinates = `${row},${i - 1}`;
             await moveTile(targetCoordinates, sourceCoordinates);
         }
-    } else if (direction === 'column') {
+    } else if (direction === "column") {
         for (let i = 6; i > row; i--) {
             const targetCoordinates = `${i},${col}`;
             const sourceCoordinates = `${i - 1},${col}`;
@@ -390,33 +392,33 @@ async function shiftTiles(direction, row, col) {
 async function moveTile(targetCoordinates, sourceCoordinates) {
     const targetSquare = document.querySelector(`.square[data-coordinates="${targetCoordinates}"]`);
     const sourceSquare = document.querySelector(`.square[data-coordinates="${sourceCoordinates}"]`);
-    const targetImg = targetSquare.querySelector('img');
-    const sourceImg = sourceSquare.querySelector('img');
+    const targetImg = targetSquare.querySelector("img");
+    const sourceImg = sourceSquare.querySelector("img");
 
     targetSquare.dataset.treasure = sourceSquare.dataset.treasure;
     targetImg.src = sourceImg.src;
-    sourceSquare.removeAttribute('data-treasure');
+    sourceSquare.removeAttribute("data-treasure");
     sourceImg.remove();
 }
 
 function getClassDirection(classList) {
-    if (classList.contains('slide-indicator-left') || classList.contains('slide-indicator-right')) {
-        return 'row';
-    } else if (classList.contains('slide-indicator-top') || classList.contains('slide-indicator-bottom')) {
-        return 'column';
+    if (classList.contains("slide-indicator-left") || classList.contains("slide-indicator-right")) {
+        return "row";
+    } else if (classList.contains("slide-indicator-top") || classList.contains("slide-indicator-bottom")) {
+        return "column";
     }
 }
 
 
-const pawnColors = ['blue', 'green', 'red', 'yellow'];
+const pawnColors = ["blue", "green", "red", "yellow"];
 
 async function addPlayerPawn(square, playerName) {
     const playerColor = await getPlayerColor(playerName);
     console.log(`${playerName} has color: ${playerColor}`);
-    const playerPawn = document.createElement('img');
+    const playerPawn = document.createElement("img");
     playerPawn.src = `assets/media/player_cutouts/${playerColor}_pawn.png`;
     playerPawn.alt = `${playerColor} pawn`;
-    playerPawn.classList.add('player-pawn');
+    playerPawn.classList.add("player-pawn");
     console.log(playerPawn);
     square.appendChild(playerPawn);
 }
@@ -427,7 +429,7 @@ async function getPlayerColor(playerName) {
             const playerIndex = Object.keys(response.players).indexOf(playerName);
             console.log(pawnColors[playerIndex]);
             return pawnColors[playerIndex];
-        })
+        });
 }
 
 async function getPlayerNameAtCoordinates(row, col) {
@@ -447,3 +449,12 @@ async function getPlayerNameAtCoordinates(row, col) {
 }
 
 /*make refreshing page smooth*/
+function refreshPage() {
+    // Hide the body content before refreshing
+    document.body.style.display = "none";
+
+    // Reload the page after a short delay
+    setTimeout(() => {
+        location.reload();
+    }, 1000); // Adjust the delay as needed
+}
