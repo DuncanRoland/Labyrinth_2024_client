@@ -35,6 +35,7 @@ init();
 
 
 async function init() {
+    displayWhoYouAre();
     await generateBoard();
     createInitialEventListeners();
     createTreasureObjectives(GAMEMAXTREASURES);
@@ -471,4 +472,9 @@ async function getPlayerNameAtCoordinates(row, col) {
         }
     }
     return null;
+}
+
+function displayWhoYouAre() {
+    const $playerName = document.querySelector("#joinedPlayer");
+    $playerName.textContent = `${PLAYERNAME}`;
 }
