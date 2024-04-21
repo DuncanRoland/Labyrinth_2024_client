@@ -1,7 +1,7 @@
 const GROUPNUMBER = "25";
 const LANG = "nl";
 const GAMEPREFIX = "group25";
-const TIMEOUTDELAY = 2000;
+const TIMEOUTDELAY = 5000;
 
 const ERRORHANDLERSELECTOR = ".errormessages p";
 

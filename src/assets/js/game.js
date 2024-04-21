@@ -41,6 +41,7 @@ async function init() {
     polling();
     getAndDisplaySpareTile();
     rotateSpareTileButton();
+    refreshBoard();
 }
 
 async function generateBoard() {
@@ -155,13 +156,12 @@ async function polling() {
 
     await getActiveGameDetails(GAMEID)
         .then(response => {
-            refreshBoard();
-            //setTimeout(refreshBoard, TIMEOUTDELAY);
+            setTimeout(refreshBoard, TIMEOUTDELAY);
             boardEventListeners();
             showTurn(response);
             DisplayObtainedTreasures();
             displayPlayerList(response.description.players);
-            //setTimeout(polling, TIMEOUTDELAY);
+            setTimeout(polling, TIMEOUTDELAY);
             console.log(`Lobby: ${response.description.players.length}/${response.description.maxPlayers}`);
         });
     const a = await getReachableLocations();
@@ -225,9 +225,26 @@ function addTreasuresToBoard(square, cell) {
 async function refreshBoard() {
     const board = document.querySelector("#board");
     const boardBackground = document.querySelector("#background");
+
+    const maze = await getMaze();
+
     board.innerHTML = "";
     boardBackground.innerHTML = "";
-    await generateBoard();
+
+    for (const [rowIndex, row] of maze.maze.entries()) {
+        for (const [cellIndex, cell] of row.entries()) {
+            const square = document.createElement("div");
+            square.classList.add("square");
+            square.dataset.coordinates = `${rowIndex},${cellIndex}`;
+            generateRandomTilesImg(square, cell.walls);
+            addTreasuresToBoard(square, cell);
+            if (cell.players != undefined) {
+                await addPlayerPawn(square, cell.players[0]);
+            }
+
+            board.appendChild(square);
+        }
+    }
 }
 
 function showTurn(data) {
@@ -442,15 +459,4 @@ async function getPlayerNameAtCoordinates(row, col) {
         }
     }
     return null;
-}
-
-/*make refreshing page smooth*/
-function refreshPage() {
-    // Hide the body content before refreshing
-    document.body.style.display = "none";
-
-    // Reload the page after a short delay
-    setTimeout(() => {
-        location.reload();
-    }, 1000); // Adjust the delay as needed
 }
