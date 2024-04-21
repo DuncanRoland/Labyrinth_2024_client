@@ -89,7 +89,18 @@ function getBoardPiece(e) {
     const col = parseInt(coordinates[1]);
     console.log(`Clicked coordinates: Row ${row}, Column ${col}`);
 
-    // Call getPlayerNameAtCoordinates with the row and column coordinates
+    movePlayer([row, col])
+        .then(response => {
+            console.log("Move successful:", response);
+            // Handle any further actions after successful move
+        })
+        .catch(error => {
+            console.error("Error moving player:", error);
+            // Handle error if move is unsuccessful
+        });
+
+
+    /*// Call getPlayerNameAtCoordinates with the row and column coordinates
     getPlayerNameAtCoordinates(row, col)
         .then(playerName => {
             if (playerName) {
@@ -100,7 +111,7 @@ function getBoardPiece(e) {
         })
         .catch(error => {
             console.error("Error retrieving player name:", error);
-        });
+        });*/
 }
 
 async function createTreasureObjectives(maxObjectives = 5) {
@@ -441,6 +452,7 @@ const pawnColors = ["blue", "green", "red", "yellow"];
 async function addPlayerPawn(square, playerName) {
     const playerColor = await getPlayerColor(playerName);
     console.log(`${playerName} has color: ${playerColor}`);
+
     const playerPawn = document.createElement("img");
     playerPawn.src = `assets/media/player_cutouts/${playerColor}_pawn.webp`;
     playerPawn.alt = `${playerColor} pawn`;
@@ -452,9 +464,9 @@ async function addPlayerPawn(square, playerName) {
 async function getPlayerColor(playerName) {
     return await getActiveGameDetails(GAMEID)
         .then(response => {
-            const playerIndex = Object.keys(response.players).indexOf(playerName);
-            console.log(pawnColors[playerIndex]);
-            return pawnColors[playerIndex];
+            const players = response.description.players;
+            const playerIndex = players.findIndex(player => player === playerName);
+            return pawnColors[playerIndex % pawnColors.length];
         });
 }
 
