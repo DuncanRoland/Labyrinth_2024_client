@@ -116,24 +116,22 @@ function getRandomObjective(treasures) {
     return treasures.treasures[randomIndex];
 }
 
-/*function createDiv(elementName, inner, container) {
-    const element = document.createElement(elementName);
-    element.innerHTML = inner;
-    container.appendChild(element);
-}*/
-
 // not showing correct objectives
-function displayCardsOfPlayerObjectives(objectives) {
+async function displayCardsOfPlayerObjectives(objectives) {
     const $treasureList = document.querySelector("#treasureList");
     $treasureList.innerHTML = "";
 
-    objectives.forEach(objective => {
-        const objectiveNameFromAPI = objective.replace(/ /g, "_");
-        const li = `<li>
-                <img src="assets/media/treasures_cards/${objectiveNameFromAPI}.webp" alt="${objective}">
-            </li>`;
-        $treasureList.insertAdjacentHTML("beforeend", li);
-    });
+    const playerDetails = await getPlayerDetails();
+    const currentPlayerObjective = playerDetails.player.objective;
+
+    // Filter objectives to only include the current objective for the player
+    const currentPlayerObjectiveNameFromAPI = currentPlayerObjective.replace(/ /g, "_");
+
+    // Display the current objective first
+    const li = `<li>
+            <img src="assets/media/treasures_cards/${currentPlayerObjectiveNameFromAPI}.webp" alt="${currentPlayerObjective}">
+        </li>`;
+    $treasureList.insertAdjacentHTML("beforeend", li);
 }
 
 function displayPlayerObjective(objective) {
@@ -150,7 +148,7 @@ async function getObjectiveIndex(objective) {
 
 async function polling() {
     const gameDetails = await getActiveGameDetails(GAMEID);
-
+    boardEventListeners();
     // Check if there are no players in the game
     if (gameDetails.description.players.length === 0) {
         // Delete the game and navigate to the create or join page
@@ -159,7 +157,7 @@ async function polling() {
     }
 
     setTimeout(refreshBoard, TIMEOUTDELAY);
-    boardEventListeners();
+
     getObjectiveIndex();
     showTurn(gameDetails);
     DisplayObtainedTreasures();
