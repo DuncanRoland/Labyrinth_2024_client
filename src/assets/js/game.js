@@ -88,7 +88,8 @@ async function createTreasureObjectives(maxObjectives = 5) {
     const treasures = await fetchTreasures().catch(ErrorHandler.handleError);
     const objectives = getObjectiveList(treasures, maxObjectives);
     console.log(objectives);
-    displayPlayerObjectives(objectives);
+    displayCardsOfPlayerObjectives(objectives);
+    displayPlayerObjective(objectives[0]); // Display the first objective
 }
 
 async function fetchTreasures() {
@@ -121,7 +122,8 @@ function getRandomObjective(treasures) {
     container.appendChild(element);
 }*/
 
-function displayPlayerObjectives(objectives) {
+// not showing correct objectives
+function displayCardsOfPlayerObjectives(objectives) {
     const $treasureList = document.querySelector("#treasureList");
     $treasureList.innerHTML = "";
 
@@ -134,6 +136,18 @@ function displayPlayerObjectives(objectives) {
     });
 }
 
+function displayPlayerObjective(objective) {
+    const $objective = document.querySelector("#objective");
+    $objective.textContent = objective;
+}
+
+async function getObjectiveIndex(objective) {
+// Get the player's objective and display it
+    const playerDetails = await getPlayerDetails();
+    displayPlayerObjective(playerDetails.player.objective);
+}
+
+
 async function polling() {
     const gameDetails = await getActiveGameDetails(GAMEID);
 
@@ -145,7 +159,8 @@ async function polling() {
     }
 
     setTimeout(refreshBoard, TIMEOUTDELAY);
-    //boardEventListeners();
+    boardEventListeners();
+    getObjectiveIndex();
     showTurn(gameDetails);
     DisplayObtainedTreasures();
     displayPlayerList(gameDetails.description.players);
@@ -345,6 +360,7 @@ async function getAndDisplaySpareTile() {
     $spareTile.insertAdjacentHTML("beforeend", `<img src="assets/media/tiles/${wallTile}.webp" alt="wall tile">`);
 
     console.log(gameDetails);
+
 }
 
 function rotateSpareTileButton() {
