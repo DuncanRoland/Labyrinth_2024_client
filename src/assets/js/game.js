@@ -43,6 +43,7 @@ async function init() {
     getAndDisplaySpareTile();
     rotateSpareTileButton();
     refreshBoard();
+    boardEventListeners();
 }
 
 async function generateBoard() {
@@ -91,35 +92,28 @@ async function getBoardPiece(e) {
 
     const gameDetails = await getActiveGameDetails(GAMEID);
 
-    if (gameDetails.description.currentShovePlayer === PLAYERNAME) {
-        // If it's your turn and you've shoved a tile
-        movePlayer([row, col])
-            .then(response => {
-                console.log("Move successful:", response);
-                // Handle any further actions after successful move
-            })
-            .catch(error => {
-                console.error("Error moving player:", error);
-                // Handle error if move is unsuccessful
-            });
+    // Check if it's your turn to move
+    if (gameDetails.description.currentMovePlayer === PLAYERNAME) {
+        // Check if you have already shoved a tile
+        if (gameDetails.description.currentShovePlayer === PLAYERNAME) {
+            // You can now move
+            movePlayer(row, col)
+                .then(response => {
+                    console.log("Move successful:", response);
+                    // Handle any further actions after successful move
+                })
+                .catch(error => {
+                    console.error("Error moving player:", error);
+                    // Handle error if move is unsuccessful
+                });
+        } else {
+            console.log("You need to shove a spare tile first.");
+            // Optionally, you can provide some feedback to the user indicating that they need to shove a tile first
+        }
     } else {
         console.log("It's not your turn to move.");
         // Optionally, you can provide some feedback to the user indicating that it's not their turn
     }
-
-
-    /*// Call getPlayerNameAtCoordinates with the row and column coordinates
-    getPlayerNameAtCoordinates(row, col)
-        .then(playerName => {
-            if (playerName) {
-                console.log(`Player name at coordinates [${row},${col}]: ${playerName}`);
-            } else {
-                console.log(`No player found at coordinates [${row},${col}]`);
-            }
-        })
-        .catch(error => {
-            console.error("Error retrieving player name:", error);
-        });*/
 }
 
 async function createTreasureObjectives(maxObjectives = 5) {
@@ -211,7 +205,7 @@ function displayPlayerList(players) {
 }
 
 async function getActiveGameDetails(gameId) {
-    return await getAPIResponse(gameId, "description=true&players=true&spareTile=true", "GET");
+    return await getAPIResponse(gameId, "description=true&players=true&spareTile=true&", "GET");
 }
 
 
@@ -298,10 +292,9 @@ async function shoveTile(coordinates) {
     return await CommunicationAbstractor.fetchFromServer(`/games/${GAMEID}/maze`, "PATCH", shove).catch(ErrorHandler.handleError);
 }
 
-async function movePlayer(coordinates) {
-    move.destination.row = coordinates[0];
-    move.destination.col = coordinates[1];
-    return await CommunicationAbstractor.fetchFromServer(`/games/${GAMEID}/players/${PLAYERNAME}`, "PATCH", move).catch(ErrorHandler.handleError);
+async function movePlayer(row, col) {
+    const destination = { row, col };
+    return await CommunicationAbstractor.fetchFromServer(`/games/${GAMEID}/players/${PLAYERNAME}/location`, "PATCH", { destination });
 }
 
 async function getReachableLocations() {
