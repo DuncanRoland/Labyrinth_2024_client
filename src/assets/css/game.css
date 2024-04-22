@@ -75,7 +75,7 @@ img {
     background-size: 100%;
     background-position: center;
     background-repeat: no-repeat;
-
+    background-image: url('../media/rockButton/button-background.webp');
 }
 
 #obtainedTreasures {
