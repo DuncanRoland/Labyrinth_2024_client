@@ -82,22 +82,30 @@ function createInitialEventListeners() {
 
 }
 
-function getBoardPiece(e) {
+async function getBoardPiece(e) {
     e.preventDefault();
     const coordinates = e.currentTarget.dataset.coordinates.split(","); // Extract row and column coordinates
     const row = parseInt(coordinates[0]);
     const col = parseInt(coordinates[1]);
     console.log(`Clicked coordinates: Row ${row}, Column ${col}`);
 
-    movePlayer([row, col])
-        .then(response => {
-            console.log("Move successful:", response);
-            // Handle any further actions after successful move
-        })
-        .catch(error => {
-            console.error("Error moving player:", error);
-            // Handle error if move is unsuccessful
-        });
+    const gameDetails = await getActiveGameDetails(GAMEID);
+
+    if (gameDetails.description.currentShovePlayer === PLAYERNAME) {
+        // If it's your turn and you've shoved a tile
+        movePlayer([row, col])
+            .then(response => {
+                console.log("Move successful:", response);
+                // Handle any further actions after successful move
+            })
+            .catch(error => {
+                console.error("Error moving player:", error);
+                // Handle error if move is unsuccessful
+            });
+    } else {
+        console.log("It's not your turn to move.");
+        // Optionally, you can provide some feedback to the user indicating that it's not their turn
+    }
 
 
     /*// Call getPlayerNameAtCoordinates with the row and column coordinates
@@ -165,18 +173,31 @@ function displayPlayerObjectives(objectives) {
 }
 
 async function polling() {
+    const gameDetails = await getActiveGameDetails(GAMEID);
 
-    await getActiveGameDetails(GAMEID)
+    // Check if there are no players in the game
+    if (gameDetails.description.players.length === 0) {
+        // Delete the game and navigate to the create or join page
+        await deleteGame();
+        return;
+    }
+
+    setTimeout(refreshBoard, TIMEOUTDELAY);
+    boardEventListeners();
+    showTurn(gameDetails);
+    DisplayObtainedTreasures();
+    displayPlayerList(gameDetails.description.players);
+
+    setTimeout(polling, TIMEOUTDELAY);
+    console.log(`Lobby: ${gameDetails.description.players.length}/${gameDetails.description.maxPlayers}`);
+
+}
+
+async function deleteGame() {
+    await CommunicationAbstractor.fetchFromServer(`/games/${GAMEID}`, "DELETE")
         .then(response => {
-            setTimeout(refreshBoard, TIMEOUTDELAY);
-            boardEventListeners();
-            showTurn(response);
-            DisplayObtainedTreasures();
-            displayPlayerList(response.description.players);
-            setTimeout(polling, TIMEOUTDELAY);
-            console.log(`Lobby: ${response.description.players.length}/${response.description.maxPlayers}`);
-        });
-    const a = await getReachableLocations();
+            console.log("Game deleted:", response);
+        }).catch(ErrorHandler.handleError);
 }
 
 function displayPlayerList(players) {
