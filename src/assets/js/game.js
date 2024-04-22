@@ -36,6 +36,7 @@ init();
 
 async function init() {
     displayWhoYouAre();
+    boardEventListeners();
     await generateBoard();
     createInitialEventListeners();
     createTreasureObjectives(GAMEMAXTREASURES);
@@ -43,7 +44,7 @@ async function init() {
     getAndDisplaySpareTile();
     rotateSpareTileButton();
     refreshBoard();
-    boardEventListeners();
+
 }
 
 async function generateBoard() {
@@ -81,39 +82,6 @@ function createInitialEventListeners() {
         indicator.addEventListener("click", slideSpareTile);
     });
 
-}
-
-async function getBoardPiece(e) {
-    e.preventDefault();
-    const coordinates = e.currentTarget.dataset.coordinates.split(","); // Extract row and column coordinates
-    const row = parseInt(coordinates[0]);
-    const col = parseInt(coordinates[1]);
-    console.log(`Clicked coordinates: Row ${row}, Column ${col}`);
-
-    const gameDetails = await getActiveGameDetails(GAMEID);
-
-    // Check if it's your turn to move
-    if (gameDetails.description.currentMovePlayer === PLAYERNAME) {
-        // Check if you have already shoved a tile
-        if (gameDetails.description.currentShovePlayer === PLAYERNAME) {
-            // You can now move
-            movePlayer(row, col)
-                .then(response => {
-                    console.log("Move successful:", response);
-                    // Handle any further actions after successful move
-                })
-                .catch(error => {
-                    console.error("Error moving player:", error);
-                    // Handle error if move is unsuccessful
-                });
-        } else {
-            console.log("You need to shove a spare tile first.");
-            // Optionally, you can provide some feedback to the user indicating that they need to shove a tile first
-        }
-    } else {
-        console.log("It's not your turn to move.");
-        // Optionally, you can provide some feedback to the user indicating that it's not their turn
-    }
 }
 
 async function createTreasureObjectives(maxObjectives = 5) {
@@ -177,7 +145,7 @@ async function polling() {
     }
 
     setTimeout(refreshBoard, TIMEOUTDELAY);
-    boardEventListeners();
+    //boardEventListeners();
     showTurn(gameDetails);
     DisplayObtainedTreasures();
     displayPlayerList(gameDetails.description.players);
@@ -310,11 +278,47 @@ async function getPlayerDetails() {
 
 function boardEventListeners() {
     const allBoardPieces = document.querySelectorAll(".square");
+    console.log("Found", allBoardPieces.length, "board pieces.");
     allBoardPieces.forEach(boardPiece => {
             boardPiece.addEventListener("click", (e) => getBoardPiece(e));
         }
     );
 }
+
+async function getBoardPiece(e) {
+    console.log("Board piece clicked:", e.currentTarget);
+    e.preventDefault();
+    const coordinates = e.currentTarget.dataset.coordinates.split(","); // Extract row and column coordinates
+    const row = parseInt(coordinates[0]);
+    const col = parseInt(coordinates[1]);
+    console.log(`Clicked coordinates: Row ${row}, Column ${col}`);
+
+    const gameDetails = await getActiveGameDetails(GAMEID);
+
+    // Check if it's your turn to move
+    if (gameDetails.description.currentMovePlayer === PLAYERNAME) {
+        // Check if you have already shoved a tile
+        if (gameDetails.description.currentShovePlayer === PLAYERNAME) {
+            // You can now move
+            movePlayer(row, col)
+                .then(response => {
+                    console.log("Move successful:", response);
+                    // Handle any further actions after successful move
+                })
+                .catch(error => {
+                    console.error("Error moving player:", error);
+                    // Handle error if move is unsuccessful
+                });
+        } else {
+            console.log("You need to shove a spare tile first.");
+            // Optionally, you can provide some feedback to the user indicating that they need to shove a tile first
+        }
+    } else {
+        console.log("It's not your turn to move.");
+        // Optionally, you can provide some feedback to the user indicating that it's not their turn
+    }
+}
+
 
 async function DisplayObtainedTreasures() {
     const $obtainedTreasures = document.querySelector("#obtainedTreasures");
