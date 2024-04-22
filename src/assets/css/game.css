@@ -72,11 +72,10 @@ img {
 
 #playerList li {
     margin-bottom: 0.5rem;
-    background-image: url('../images/button-background.png');
     background-size: 100%;
     background-position: center;
     background-repeat: no-repeat;
-
+    background-image: url('../media/rockButton/button-background.webp');
 }
 
 #obtainedTreasures {
@@ -96,6 +95,10 @@ img {
 /*leave game button*/
 #leftMenu .fancyButton {
     width: 20rem;
+}
+
+.showJoinedPlayer {
+    margin-top: 10rem;
 }
 
 /*player list*/
@@ -221,7 +224,7 @@ img {
 
 .slide-indicator::before {
     content: " ";
-    background-image: url("../media/rockButton/stone-arrow-sand-brown-overall-shadow.png");
+    background-image: url("../media/rockButton/stone-arrow-sand-brown-overall-shadow.webp");
     background-size: contain;
     background-repeat: no-repeat;
     width: 2rem;
@@ -278,7 +281,7 @@ img {
 .slide-indicator-left-top:hover::before,
 .slide-indicator-left-mid:hover::before,
 .slide-indicator-left-bottom:hover::before {
-    background-image: url("../media/rockButton/stone-arrow-sand-brown-overall-shadow - darker.png");
+    background-image: url("../media/rockButton/stone-arrow-sand-brown-overall-shadow-darker.webp");
 }
 
 /* objective cards */
@@ -299,11 +302,16 @@ img {
     justify-content: flex-start;
 }
 
+#treasureList:first-child {
+    margin-left: 1.8rem;
+}
+
+
 /*display movable tile*/
 
 .treasureListAndPlaceableTileWrapper {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-around;
     margin-top: 5rem;
 }
 
@@ -314,6 +322,7 @@ img {
     padding: 1rem;
     border: 2px solid black;
     border-radius: 1rem;
+    margin-left: 4rem;
 }
 
 #spareTile img {
@@ -321,4 +330,20 @@ img {
     width: 100%;
     border-radius: 1rem;
 
+}
+
+/*rotate spareTile*/
+
+#rotateSpareTileButton {
+    margin-top: 1.5rem;
+    width: 6rem;
+    height: 6rem;
+    background-image: url('../media/rotate/rotate.webp');
+    background-size: contain;
+    transform: scaleX(-1);
+    cursor: pointer;
+}
+
+#rotateSpareTileButton:hover {
+    background-image: url('../media/rotate/rotate-darker.webp');
 }

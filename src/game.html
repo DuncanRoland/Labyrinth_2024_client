@@ -5,11 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Labyrinth</title>
-    <!--<script src="assets/js/game.js" type="module"></script>-->
-    <script src="assets/js/game_duncan.js" type="module"></script>
+    <script src="assets/js/game.js" type="module"></script>
     <link rel="stylesheet" href="assets/css/reset.css">
     <link rel="stylesheet" href="assets/css/main.css">
     <link rel="stylesheet" href="assets/css/game.css">
+    <link rel="stylesheet" href="assets/css/game_emile.css">
 </head>
 
 <body>
@@ -33,19 +33,85 @@
             <li>treasure2</li>
         </ul>
         <button id="leaveGameButton" class="fancyButton">Leave</button>
+        <h2 class="showJoinedPlayer">You are : <span id="joinedPlayer"></span></h2>
     </div>
     <div id="boardBackground">
-        <div id="board"></div>
-        <div class="treasureListAndPlaceableTileWrapper">
-        <ul id="treasureList">
-            <!--  <li>
-                  <img src="assets/media/treasures_cards/Bag_of_Gold_Coins.JPG" alt="Bag of Gold Coins">
-              </li>-->
-        </ul>
-        <div id="spareTile">
-            <img src="assets/media/scanned_tiles/Straight_tile.JPG" alt="Bag of Gold Coins">
+        <div id="board">
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
+            <div class="square"></div>
         </div>
-        <div id="background"></div>
+        <div class="treasureListAndPlaceableTileWrapper">
+            <ul id="treasureList">
+                <!--  <li>
+                      <img src="assets/media/treasures_cards/Bag_of_Gold_Coins.JPG" alt="Bag of Gold Coins">
+                  </li>-->
+            </ul>
+            <div id="spareTile">
+                <img src="assets/media/scanned_tiles/Straight_tile.JPG" alt="Bag of Gold Coins">
+            </div>
+            <div id="rotateSpareTileButton">
+            </div>
+
+            <div id="background"></div>
+            <div class="slide-indicator slide-indicator-top-left"></div>
+            <div class="slide-indicator slide-indicator-top-mid"></div>
+            <div class="slide-indicator slide-indicator-top-right"></div>
+            <div class="slide-indicator slide-indicator-left-top"></div>
+            <div class="slide-indicator slide-indicator-left-mid"></div>
+            <div class="slide-indicator slide-indicator-left-bottom"></div>
+            <div class="slide-indicator slide-indicator-bottom-left"></div>
+            <div class="slide-indicator slide-indicator-bottom-mid"></div>
+            <div class="slide-indicator slide-indicator-bottom-right"></div>
+            <div class="slide-indicator slide-indicator-right-top"></div>
+            <div class="slide-indicator slide-indicator-right-mid"></div>
+            <div class="slide-indicator slide-indicator-right-bottom"></div>
         </div>
     </div>
 </main>

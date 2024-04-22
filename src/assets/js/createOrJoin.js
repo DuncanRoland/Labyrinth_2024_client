@@ -6,7 +6,7 @@ function init() {
     document.querySelector("#create").addEventListener('click', () => navigate('createGamePage.html'));
     document.querySelector("#join").addEventListener('click', () => navigate('gameList.html'));
   } else {
-    navigate('createUser.html');
+    navigate('index.html');
   }
 
 }

@@ -10,6 +10,7 @@ initGameListPage();
 function initGameListPage() {
     loadGameList();
     createEventListeners();
+
 }
 
 function createEventListeners() {
@@ -21,15 +22,21 @@ function createEventListeners() {
 async function loadGameList() {
     const gameList = await getGamesList();
     const $gameList = document.querySelector("#gameList");
-    gameList.games.forEach(game => {
+
+    // Filter out games with no players
+    const filteredGames = gameList.games.filter(game => game.players.length > 0);
+
+    // Display filtered games
+    filteredGames.forEach(game => {
         $gameList.insertAdjacentHTML('beforeend', `
         <li>
         <p>${game.id}</p>
         <p>${game.gameMode}</p>
-        <p>${game.minPlayers}/${game.maxPlayers} players</p>
+        <p>${game.players.length}/${game.maxPlayers} players</p>
         <button class='joinButton'>Join</button>
         </li>`);
     });
+
     document.querySelectorAll(".joinButton").forEach(button => button.addEventListener('click', (e) => joinGame(e)));
 }
 
