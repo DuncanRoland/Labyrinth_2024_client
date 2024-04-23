@@ -348,6 +348,10 @@ img {
     background-image: url('../media/rotate/rotate-darker.webp');
 }
 
+.reachable {
+    border: solid greenyellow 0.1rem;
+}
+
 #popUpContent{
     background-color: rgb(111, 78, 55);
     border: 0.3rem solid black;
