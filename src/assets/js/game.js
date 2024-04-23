@@ -22,14 +22,8 @@ init();
 async function init() {
     displayWhoYouAre();
     boardEventListeners();
-    await generateBoard();
-    createInitialEventListeners();
-    createTreasureObjectives(GAMEMAXTREASURES);
     polling();
-    getAndDisplaySpareTile();
-    rotateSpareTileButton();
-    refreshBoard();
-
+    createInitialEventListeners();
 }
 
 async function generateBoard() {
@@ -139,17 +133,21 @@ async function polling() {
         await deleteGame();
         return;
     }
-    refreshBoard();
-
-    getObjectiveIndex();
-    displayCardsOfPlayerObjectives();
-    showTurn(gameDetails);
-    displayObtainedTreasures();
-    displayPlayerList(gameDetails.description.players);
-
-    setTimeout(polling, TIMEOUTDELAY);
-    console.log(`Lobby: ${gameDetails.description.players.length}/${gameDetails.description.maxPlayers}`);
-
+    if (gameDetails.description.started === false) {
+        waitingForPlayers();
+        setTimeout(polling, TIMEOUTDELAY);
+    } else{
+        removePopUp();
+        refreshBoard();
+        getObjectiveIndex();
+        showTurn(gameDetails);
+        displayObtainedTreasures();
+        displayPlayerList(gameDetails.description.players);
+        displayCardsOfPlayerObjectives();
+        setTimeout(polling, TIMEOUTDELAY);
+        console.log(`Lobby: ${gameDetails.description.players.length}/${gameDetails.description.maxPlayers}`);
+    }
+    
 }
 
 async function deleteGame() {
@@ -481,4 +479,21 @@ async function getPlayerColor(playerName) {
 function displayWhoYouAre() {
     const $playerName = document.querySelector("#joinedPlayer");
     $playerName.innerHTML = `${PLAYERNAME}`;
+}
+
+function waitingForPlayers() {
+    const $waitingForPlayers = document.querySelector("#popUp");
+    $waitingForPlayers.innerHTML = "";
+    $waitingForPlayers.insertAdjacentHTML("beforeend", `
+        <div id="popUpContent">
+        <h2 id="popUpTitle">Game is not ready</h2>
+        <p id="popUpText">Waiting for players</p
+        </div>`);
+}
+
+function removePopUp(){
+    const $popUp = document.querySelector("#popUp");
+    if ($popUp.innerHTML !== ""){
+        $popUp.innerHTML = "";
+    }
 }
