@@ -72,7 +72,7 @@ async function createTreasureObjectives(maxObjectives = 5) {
     const treasures = await fetchTreasures().catch(ErrorHandler.handleError);
     const objectives = getObjectiveList(treasures, maxObjectives);
     console.log(objectives);
-    displayCardsOfPlayerObjectives(objectives);
+    displayCardsOfPlayerObjectives();
     displayPlayerObjective(objectives[0]); // Display the first objective
 }
 
@@ -101,7 +101,7 @@ function getRandomObjective(treasures) {
 }
 
 // not showing correct objectives
-async function displayCardsOfPlayerObjectives(objectives) {
+async function displayCardsOfPlayerObjectives() {
     const $treasureList = document.querySelector("#treasureList");
     $treasureList.innerHTML = "";
 
@@ -120,7 +120,7 @@ async function displayCardsOfPlayerObjectives(objectives) {
 
 function displayPlayerObjective(objective) {
     const $objective = document.querySelector("#objective");
-    $objective.textContent = objective;
+    $objective.innerHTML = objective;
 }
 
 async function getObjectiveIndex() {
@@ -142,6 +142,7 @@ async function polling() {
     refreshBoard();
 
     getObjectiveIndex();
+    displayCardsOfPlayerObjectives();
     showTurn(gameDetails);
     displayObtainedTreasures();
     displayPlayerList(gameDetails.description.players);
