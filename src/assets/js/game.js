@@ -152,7 +152,7 @@ async function polling() {
 
     getObjectiveIndex();
     showTurn(gameDetails);
-    DisplayObtainedTreasures();
+    displayObtainedTreasures();
     displayPlayerList(gameDetails.description.players);
 
     setTimeout(polling, TIMEOUTDELAY);
@@ -343,13 +343,10 @@ async function displayObtainedTreasures() {
     $obtainedTreasures.innerHTML = "";
     const playerDetails = await getPlayerDetails();
 
-    //static placeholder for now
-    for (let i = 0; i < 5; i++) {
-        const li = `<li>
-                    <img src="/src/assets/media/treasures_cards/Bat.webp" alt="Bag of Gold Coins">
-                </li>`;
-        $obtainedTreasures.insertAdjacentHTML("beforeend", li);
-    }
+    playerDetails.player.foundTreasures.forEach(treasure => {
+        const treasureName = treasure.replaceAll(" ", "_");
+        $obtainedTreasures.insertAdjacentHTML("beforeend", `<img src="assets/media/treasure_cutouts/${treasureName}.webp" alt="${treasure}">`);
+    });
 }
 
 async function getAndDisplaySpareTile() {
@@ -391,43 +388,26 @@ function rotateWallsClockWise(walls) {
 }
 
 function getRowAndColumn(classList) {
-    if (classList.contains("slide-indicator-top-left")) {
-        return { row: 0, col: 1 };
+    const slideIndicators = {
+        "slide-indicator-top-left": { row: 0, col: 1 },
+        "slide-indicator-top-mid": { row: 0, col: 3 },
+        "slide-indicator-top-right": { row: 0, col: 5 },
+        "slide-indicator-left-top": { row: 1, col: 0 },
+        "slide-indicator-left-mid": { row: 3, col: 0 },
+        "slide-indicator-left-bottom": { row: 5, col: 0 },
+        "slide-indicator-right-top": { row: 1, col: 6 },
+        "slide-indicator-right-mid": { row: 3, col: 6 },
+        "slide-indicator-right-bottom": { row: 5, col: 6 },
+        "slide-indicator-bottom-left": { row: 6, col: 1 },
+        "slide-indicator-bottom-mid": { row: 6, col: 3 },
+        "slide-indicator-bottom-right": { row: 6, col: 5 }
+    };
+    const indicator = Object.keys(slideIndicators).find(key => classList.contains(key));
+    if (indicator) {
+        return slideIndicators[indicator];
+    } else {
+        return { row: -1, col: -1 }; // Invalid indicator
     }
-    if (classList.contains("slide-indicator-top-mid")) {
-        return { row: 0, col: 3 };
-    }
-    if (classList.contains("slide-indicator-top-right")) {
-        return { row: 0, col: 5 };
-    }
-    if (classList.contains("slide-indicator-left-top")) {
-        return { row: 1, col: 0 };
-    }
-    if (classList.contains("slide-indicator-left-mid")) {
-        return { row: 3, col: 0 };
-    }
-    if (classList.contains("slide-indicator-left-bottom")) {
-        return { row: 5, col: 0 };
-    }
-    if (classList.contains("slide-indicator-right-top")) {
-        return { row: 1, col: 6 };
-    }
-    if (classList.contains("slide-indicator-right-mid")) {
-        return { row: 3, col: 6 };
-    }
-    if (classList.contains("slide-indicator-right-bottom")) {
-        return { row: 5, col: 6 };
-    }
-    if (classList.contains("slide-indicator-bottom-left")) {
-        return { row: 6, col: 1 };
-    }
-    if (classList.contains("slide-indicator-bottom-mid")) {
-        return { row: 6, col: 3 };
-    }
-    if (classList.contains("slide-indicator-bottom-right")) {
-        return { row: 6, col: 5 };
-    }
-    return { row: -1, col: -1 }; // Invalid indicator
 }
 
 async function slideSpareTile(e) {
