@@ -347,3 +347,7 @@ img {
 #rotateSpareTileButton:hover {
     background-image: url('../media/rotate/rotate-darker.webp');
 }
+
+.reachable {
+    border: solid greenyellow 0.1rem;
+}

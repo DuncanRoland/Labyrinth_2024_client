@@ -7,14 +7,13 @@ import { TIMEOUTDELAY } from "./config.js";
 const PLAYERNAME = localStorage.getItem("playerName");
 const GAMEID = loadFromStorage("gameId");
 const GAMEMAXTREASURES = await getActiveGameDetails(GAMEID).then(response => response.description.numberOfTreasuresPerPlayer).catch(ErrorHandler.handleError);
-const SPARETILE = await getActiveGameDetails(GAMEID).then(response => response.spareTile).catch(ErrorHandler.handleError);
 
 const shove = {
     "destination": {
         "row": 1,
         "col": 0
     },
-    "tile": SPARETILE
+    "tile": null
 };
 
 init();
@@ -124,7 +123,7 @@ function displayPlayerObjective(objective) {
     $objective.textContent = objective;
 }
 
-async function getObjectiveIndex(objective) {
+async function getObjectiveIndex() {
 // Get the player's objective and display it
     const playerDetails = await getPlayerDetails();
     displayPlayerObjective(playerDetails.player.objective);
@@ -140,8 +139,7 @@ async function polling() {
         await deleteGame();
         return;
     }
-
-    setTimeout(refreshBoard, TIMEOUTDELAY);
+    refreshBoard();
 
     getObjectiveIndex();
     showTurn(gameDetails);
@@ -223,7 +221,8 @@ async function refreshBoard() {
 
     board.innerHTML = "";
     boardBackground.innerHTML = "";
-
+    const locations = await getReachableLocations();
+    console.log(locations.locations);
     for (const [rowIndex, row] of maze.maze.entries()) {
         for (const [cellIndex, cell] of row.entries()) {
             const square = document.createElement("div");
@@ -234,11 +233,15 @@ async function refreshBoard() {
             if (cell.players !== undefined) {
                 await addPlayerPawn(square, cell.players[0]);
             }
-
+            if (locations.locations.some(location => location.row === rowIndex && location.col === cellIndex)) {
+                square.classList.add("reachable");
+            }
             board.appendChild(square);
         }
     }
     refreshBoardEventListeners();
+    const SPARETILE = await getActiveGameDetails(GAMEID).then(response => response.spareTile).catch(ErrorHandler.handleError);
+    shove.tile = SPARETILE;
 }
 
 function refreshBoardEventListeners() {
@@ -258,16 +261,16 @@ function showTurn(data) {
     }
 }
 
-async function shoveTile(coordinates) {
+function shoveTile(coordinates) {
     shove.destination.row = parseInt(coordinates[0]);
     shove.destination.col = parseInt(coordinates[1]);
     console.log(shove);
-    return await CommunicationAbstractor.fetchFromServer(`/games/${GAMEID}/maze`, "PATCH", shove).catch(ErrorHandler.handleError);
+    return CommunicationAbstractor.fetchFromServer(`/games/${GAMEID}/maze`, "PATCH", shove).catch(ErrorHandler.handleError);
 }
 
-async function movePlayer(row, col) {
+function movePlayer(row, col) {
     const destination = { row, col };
-    return await CommunicationAbstractor.fetchFromServer(`/games/${GAMEID}/players/${PLAYERNAME}/location`, "PATCH", { destination });
+    return CommunicationAbstractor.fetchFromServer(`/games/${GAMEID}/players/${PLAYERNAME}/location`, "PATCH", { destination });
 }
 
 async function getReachableLocations() {
@@ -451,7 +454,6 @@ function getClassDirection(classList) {
     }
 }
 
-
 const pawnColors = ["blue", "green", "red", "yellow"];
 
 async function addPlayerPawn(square, playerName) {
@@ -473,22 +475,6 @@ async function getPlayerColor(playerName) {
             const playerIndex = players.findIndex(player => player === playerName);
             return pawnColors[playerIndex % pawnColors.length];
         });
-}
-
-async function getPlayerNameAtCoordinates(row, col) {
-    const gameDetails = await getActiveGameDetails(GAMEID);
-    const players = gameDetails.description.playerName;
-
-    for (const player of players) {
-        const playerDetails = await getPlayerDetails(player);
-        const playerRow = playerDetails.location.row;
-        const playerCol = playerDetails.location.col;
-
-        if (playerRow === row && playerCol === col) {
-            return playerDetails.name;
-        }
-    }
-    return null;
 }
 
 function displayWhoYouAre() {
