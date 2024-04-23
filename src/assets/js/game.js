@@ -8,7 +8,7 @@ const GAMEMAXTREASURES = await getActiveGameDetails(loadFromStorage("gameId")).t
 const PLAYERNAME = localStorage.getItem("playerName");
 const GAMEID = loadFromStorage("gameId");
 
-let shove = {
+const shove = {
     "destination": {
         "row": 1,
         "col": 0
@@ -21,13 +21,6 @@ let shove = {
             false
         ],
         "treasure": null
-    }
-};
-
-let move = {
-    "destination": {
-        "row": 0,
-        "col": 0
     }
 };
 
@@ -49,7 +42,6 @@ async function init() {
 
 async function generateBoard() {
     const board = document.querySelector("#board");
-    //const boardBackground = document.querySelector('#background');
     const maze = await getMaze();
     for (const [rowIndex, row] of maze.maze.entries()) {
         for (const [cellIndex, cell] of row.entries()) {
@@ -58,7 +50,7 @@ async function generateBoard() {
             square.dataset.coordinates = `${rowIndex},${cellIndex}`;
             generateRandomTilesImg(square, cell.walls);
             addTreasuresToBoard(square, cell);
-            if (cell.players != undefined) {
+            if (cell.players !== undefined) {
                 addPlayerPawn(square, cell.players[0]);
             }
 
@@ -246,20 +238,29 @@ async function refreshBoard() {
             square.dataset.coordinates = `${rowIndex},${cellIndex}`;
             generateRandomTilesImg(square, cell.walls);
             addTreasuresToBoard(square, cell);
-            if (cell.players != undefined) {
+            if (cell.players !== undefined) {
                 await addPlayerPawn(square, cell.players[0]);
             }
 
             board.appendChild(square);
         }
     }
+    refreshBoardEventListeners();
+}
+
+function refreshBoardEventListeners() {
+    const allBoardPieces = document.querySelectorAll(".square");
+    allBoardPieces.forEach(boardPiece => {
+            boardPiece.addEventListener("click", (e) => getBoardPiece(e));
+        }
+    );
 }
 
 function showTurn(data) {
     const player = document.querySelector("#turnOrder");
     if (data.description.currentShovePlayer !== null) {
         player.innerHTML = `Current shove turn: ${data.description.currentShovePlayer}`;
-    } else if (data.description.currentMovePlayer !== null) {
+    } else {
         player.innerHTML = `Current move turn: ${data.description.currentMovePlayer}`;
     }
 }
@@ -298,7 +299,7 @@ function boardEventListeners() {
     );
 }
 
-async function getBoardPiece(e) {
+function getBoardPiece(e) {
     console.log("Board piece clicked:", e.currentTarget);
     e.preventDefault();
     const coordinates = e.currentTarget.dataset.coordinates.split(","); // Extract row and column coordinates
@@ -306,34 +307,38 @@ async function getBoardPiece(e) {
     const col = parseInt(coordinates[1]);
     console.log(`Clicked coordinates: Row ${row}, Column ${col}`);
 
-    const gameDetails = await getActiveGameDetails(GAMEID);
+    doTurn(row, col);
+}
 
-    // Check if it's your turn to move
-    if (gameDetails.description.currentMovePlayer === PLAYERNAME) {
-        // Check if you have already shoved a tile
-        if (gameDetails.description.currentShovePlayer === PLAYERNAME) {
-            // You can now move
-            movePlayer(row, col)
-                .then(response => {
-                    console.log("Move successful:", response);
-                    // Handle any further actions after successful move
-                })
-                .catch(error => {
-                    console.error("Error moving player:", error);
-                    // Handle error if move is unsuccessful
-                });
-        } else {
-            console.log("You need to shove a spare tile first.");
-            // Optionally, you can provide some feedback to the user indicating that they need to shove a tile first
-        }
+async function doTurn(row, col){
+    const gameDetails = await getActiveGameDetails(GAMEID);
+    if (gameDetails.description.currentShovePlayer === PLAYERNAME) {
+        shoveTile([row, col])
+            .then(response => {
+                console.log("Shove successful:", response);
+                // Handle any further actions after successful shove
+            })
+            .catch(error => {
+                console.error("Error shoving tile:", error);
+                // Handle error if shove is unsuccessful
+            });
+    } else if (gameDetails.description.currentMovePlayer === PLAYERNAME) {
+        movePlayer(row, col)
+            .then(response => {
+                console.log("Move successful:", response);
+                // Handle any further actions after successful move
+            })
+            .catch(error => {
+                console.error("Error moving player:", error);
+                // Handle error if move is unsuccessful
+            });
     } else {
         console.log("It's not your turn to move.");
         // Optionally, you can provide some feedback to the user indicating that it's not their turn
     }
 }
 
-
-async function DisplayObtainedTreasures() {
+async function displayObtainedTreasures() {
     const $obtainedTreasures = document.querySelector("#obtainedTreasures");
     $obtainedTreasures.innerHTML = "";
     const playerDetails = await getPlayerDetails();
@@ -356,9 +361,6 @@ async function getAndDisplaySpareTile() {
     const wallTile = getWallImageId(gameDetails.spareTile.walls);
 
     $spareTile.insertAdjacentHTML("beforeend", `<img src="assets/media/tiles/${wallTile}.webp" alt="wall tile">`);
-
-    console.log(gameDetails);
-
 }
 
 function rotateSpareTileButton() {
@@ -483,13 +485,13 @@ const pawnColors = ["blue", "green", "red", "yellow"];
 
 async function addPlayerPawn(square, playerName) {
     const playerColor = await getPlayerColor(playerName);
-    console.log(`${playerName} has color: ${playerColor}`);
+    //console.log(`${playerName} has color: ${playerColor}`);
 
     const playerPawn = document.createElement("img");
     playerPawn.src = `assets/media/player_cutouts/${playerColor}_pawn.webp`;
     playerPawn.alt = `${playerColor} pawn`;
     playerPawn.classList.add("player-pawn");
-    console.log(playerPawn);
+    //console.log(playerPawn);
     square.appendChild(playerPawn);
 }
 
@@ -520,5 +522,5 @@ async function getPlayerNameAtCoordinates(row, col) {
 
 function displayWhoYouAre() {
     const $playerName = document.querySelector("#joinedPlayer");
-    $playerName.textContent = `${PLAYERNAME}`;
+    $playerName.innerHTML = `${PLAYERNAME}`;
 }
