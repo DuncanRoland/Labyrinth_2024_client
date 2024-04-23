@@ -4,24 +4,17 @@ import { loadFromStorage } from "./data-connector/local-storage-abstractor.js";
 import { navigate } from "./universal.js";
 import { TIMEOUTDELAY } from "./config.js";
 
-const GAMEMAXTREASURES = await getActiveGameDetails(loadFromStorage("gameId")).then(response => response.description.numberOfTreasuresPerPlayer).catch(ErrorHandler.handleError);
 const PLAYERNAME = localStorage.getItem("playerName");
 const GAMEID = loadFromStorage("gameId");
+const GAMEMAXTREASURES = await getActiveGameDetails(GAMEID).then(response => response.description.numberOfTreasuresPerPlayer).catch(ErrorHandler.handleError);
+const SPARETILE = await getActiveGameDetails(GAMEID).then(response => response.spareTile).catch(ErrorHandler.handleError);
 
 const shove = {
     "destination": {
         "row": 1,
         "col": 0
     },
-    "tile": {
-        "walls": [
-            true,
-            false,
-            true,
-            false
-        ],
-        "treasure": null
-    }
+    "tile": SPARETILE
 };
 
 init();
@@ -266,10 +259,8 @@ function showTurn(data) {
 }
 
 async function shoveTile(coordinates) {
-    const gameDetails = await getActiveGameDetails(GAMEID);
     shove.destination.row = parseInt(coordinates[0]);
     shove.destination.col = parseInt(coordinates[1]);
-    shove.tile = gameDetails.spareTile;
     console.log(shove);
     return await CommunicationAbstractor.fetchFromServer(`/games/${GAMEID}/maze`, "PATCH", shove).catch(ErrorHandler.handleError);
 }
