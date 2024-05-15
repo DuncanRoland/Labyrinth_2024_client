@@ -48,9 +48,6 @@ main #gameList {
     border-radius: 1rem;
     overflow-y: scroll;
     height: 50vh;
-    /*#df8e58*/
-    /* background: rgb(0,0,0);
-     background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(154,90,23,1) 40%, rgba(223,142,88,1) 100%);*/
 }
 
 li {
