@@ -292,8 +292,6 @@ function updateTile(tile, cell, locations) {
     }
 }
 
-
-
 function refreshBoardEventListeners() {
     const allBoardPieces = document.querySelectorAll(".square");
     allBoardPieces.forEach(boardPiece => {
