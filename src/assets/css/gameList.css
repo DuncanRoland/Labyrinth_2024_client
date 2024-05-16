@@ -47,7 +47,7 @@ main #gameList {
     background: linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, rgba(99, 46, 20, 1) 22%, rgba(142, 89, 31, 1) 85%);
     border-radius: 1rem;
     overflow-y: scroll;
-    height: 50vh;
+    height: 35rem;
 }
 
 li {
@@ -70,9 +70,12 @@ li button {
 }
 
 .backButton {
-    background-color: black;
+    padding: 1rem 1rem 1rem 1rem;
+    margin-left: 15rem;
+    background-color: rgba(223, 142, 88, 0);
+    background-image: url('../media/rockButton/button-background.webp');
+    background-size: 104% 100%;
+    background-repeat: no-repeat;
     color: white;
-    border: none;
-    border-radius: 1rem;
-    padding: 1rem;
+    font-size: 1rem;
 }
