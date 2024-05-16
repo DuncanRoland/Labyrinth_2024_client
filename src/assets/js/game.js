@@ -135,7 +135,7 @@ async function polling() {
     }
     if (gameDetails.description.started === false) {
         waitingForPlayers();
-        //setTimeout(polling, TIMEOUTDELAY);
+        setTimeout(polling, TIMEOUTDELAY);
     } else{
         removePopUp();
         refreshBoard();
