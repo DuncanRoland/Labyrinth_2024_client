@@ -33,7 +33,7 @@ main .findGameLayout::placeholder {
 }
 main .findGameLayout:hover,
 main .findGameLayout:focus {
-    border-color: #df8e58;
+    border-color: #8a4e15;
     outline: none;
 }
 
