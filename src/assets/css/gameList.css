@@ -4,13 +4,13 @@ body {
 
 header h1 {
     text-align: center;
-    font-size: 8rem;
+    font-size: 6rem;
     margin-top: 1rem;
     margin-bottom: 2rem;
 }
 
 main .joinGameWrapper {
-    width: 80rem;
+    width: 60rem;
     margin: auto auto;
 }
 
@@ -38,35 +38,39 @@ main .findGameLayout:focus {
 }
 
 main #gameList {
-    padding: 2rem;
+    padding: 3rem;
     margin-top: 1rem;
     color: white;
-    border: thick solid #623302;
+    /*border: thick solid #623302;
     background: rgb(0, 0, 0);
-    background: linear-gradient(0deg, rgb(126, 64, 33) 0%, rgb(154, 83, 44) 22%, rgb(190, 123, 69) 85%);
-    border-radius: 1rem;
+    background: linear-gradient(0deg, rgb(126, 64, 33) 0%, rgb(154, 83, 44) 22%, rgb(190, 123, 69) 85%); */
+
+    background-color: rgba(223, 142, 88, 0);
+    background-image: url(../images/button-background-long.png);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+
     overflow-y: scroll;
-    height: 50vh;
+    height: 40vh;
     /*#df8e58*/
     /* background: rgb(0,0,0);
      background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(154,90,23,1) 40%, rgba(223,142,88,1) 100%);*/
 }
 
 li {
-    font-size: 2rem;
+    font-size: 1.5rem;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    background-color: #9f5730;
-    border: #f3c777 solid 0.2rem;
-    border-radius: 4rem;
-    padding: 0.5rem;
+    background-color: #814727;
+    border: #f5b368 solid 0.2rem;
+    border-radius: 1rem;
     margin: 0.5rem;
 }
 
 li button {
-    background-color: #382c28;
-    color: white;
+    background-color: #f5b368;
+    color: #814727;
     border: none;
     border-radius: 1rem;
     font-size: 1.5rem;
@@ -75,14 +79,26 @@ li button {
 }
 
 li button:hover {
-    background-color: #c25730; /* Lighter shade of the original color */
+    background-color: #f2c87f; /* Lighter shade of the original color */
 }
-
-
 .backButton {
-    background-color: black;
+    padding: 1.1rem 3.3rem 1.1rem 3.3rem;
+    margin: auto;
+    margin-left: 10rem;
+    font-size: 1.5rem;
+    background-color: rgba(223, 142, 88, 0);
+    background-image: url('../media/rockButton/button-background.webp');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
     color: white;
     border: none;
-    border-radius: 1rem;
-    padding: 1rem;
+}
+
+main #gameList::-webkit-scrollbar {
+    width: 0.2rem;
+}
+
+main #gameList {
+    scrollbar-color: #814727 #f5b368;
+    scrollbar-width: thin;
 }
