@@ -6,11 +6,11 @@ function init() {
     document.querySelector('form').addEventListener('submit', (e) => {
         e.preventDefault();
         checkUsername();
-        createUser(e);
+        index(e);
     });
 }
 
-function createUser(e) {
+function index(e) {
     e.preventDefault();
     const playerName = document.querySelector('input').value;
 
