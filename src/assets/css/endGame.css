@@ -9,7 +9,7 @@ button {
     cursor: pointer;
     display: flex;
     border-radius: 1.5rem;
-    background-image: url('../images/PSX_20240327_153444.png');
+    background-image: url('../media/rockButton/button-background.webp');
     background-size: cover;
     background-repeat: no-repeat;
 
