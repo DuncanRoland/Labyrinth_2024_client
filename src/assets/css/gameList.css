@@ -70,9 +70,10 @@ li button {
 }
 
 .backButton {
-    padding: 4rem 4rem 4rem 4rem;
+    padding: 3rem 3rem 3rem 3rem;
     margin: auto;
     margin-left: 10rem;
+    font-size: 1.5rem;
     background-color: rgba(223, 142, 88, 0);
     background-image: url('../media/rockButton/button-background.webp');
     background-size: 104% 100%;
