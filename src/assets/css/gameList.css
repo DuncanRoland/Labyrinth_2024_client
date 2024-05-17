@@ -41,9 +41,6 @@ main #gameList {
     padding: 3rem;
     margin-top: 1rem;
     color: white;
-    /*border: thick solid #623302;
-    background: rgb(0, 0, 0);
-    background: linear-gradient(0deg, rgb(126, 64, 33) 0%, rgb(154, 83, 44) 22%, rgb(190, 123, 69) 85%); */
 
     background-color: rgba(223, 142, 88, 0);
     background-image: url(../images/button-background-long.png);
@@ -52,9 +49,6 @@ main #gameList {
 
     overflow-y: scroll;
     height: 40vh;
-    /*#df8e58*/
-    /* background: rgb(0,0,0);
-     background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(154,90,23,1) 40%, rgba(223,142,88,1) 100%);*/
 }
 
 li {
@@ -79,12 +73,13 @@ li button {
 }
 
 li button:hover {
-    background-color: #f2c87f; /* Lighter shade of the original color */
+    background-color: #f2c87f;
+}
+footer {
+    text-align: center;
 }
 .backButton {
-    padding: 1.1rem 3.3rem 1.1rem 3.3rem;
-    margin: auto;
-    margin-left: 10rem;
+    padding: 1.1rem 4.4rem 1.1rem 4.4rem;
     font-size: 1.5rem;
     background-color: rgba(223, 142, 88, 0);
     background-image: url('../media/rockButton/button-background.webp');
@@ -92,10 +87,6 @@ li button:hover {
     background-repeat: no-repeat;
     color: white;
     border: none;
-}
-
-main #gameList::-webkit-scrollbar {
-    width: 0.2rem;
 }
 
 main #gameList {
