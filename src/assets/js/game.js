@@ -214,81 +214,90 @@ function addTreasuresToBoard(square, cell) {
 
 async function refreshBoard() {
     const board = document.querySelector("#board");
-    const boardBackground = document.querySelector("#background");
     const maze = await getMaze();
     const locations = await getReachableLocations();
 
-    const existingBoardPieces = document.querySelectorAll(".square");
+    updateBoard(board, maze, locations);
+    removeObsoleteTiles(board, maze);
 
-    for (const [rowIndex, row] of maze.maze.entries()) {
-        for (const [cellIndex, cell] of row.entries()) {
-            const square = document.createElement("div");
-            square.classList.add("square");
-            square.dataset.coordinates = `${rowIndex},${cellIndex}`;
-
-            // Check if the tile already exists in the DOM
-            const existingTile = findExistingTile(existingBoardPieces, rowIndex, cellIndex);
-
-            // If the tile exists, update its content
-            if (existingTile) {
-                updateTile(existingTile, cell, locations);
-            } else { // If the tile doesn't exist, create new one
-                generateRandomTilesImg(square, cell.walls);
-                addTreasuresToBoard(square, cell);
-                if (cell.players !== undefined) {
-                    await addPlayerPawn(square, cell.players[0]);
-                }
-                if (locations.locations.some(location => location.row === rowIndex && location.col === cellIndex)) {
-                    square.classList.add("reachable");
-                }
-                board.appendChild(square);
-            }
-        }
-    }
-
-    // Remove tiles that aren't in new board anymore
-    existingBoardPieces.forEach(existingPiece => {
-        const coordinates = existingPiece.dataset.coordinates.split(",");
-        const rowIndex = parseInt(coordinates[0]);
-        const colIndex = parseInt(coordinates[1]);
-        if (!maze.maze[rowIndex] || !maze.maze[rowIndex][colIndex]) {
-            existingPiece.remove();
-        }
-    });
-
-    const SPARETILE = await getActiveGameDetails(GAMEID).then(response => response.spareTile).catch(ErrorHandler.handleError);
+    const SPARETILE = await getActiveGameDetails(GAMEID)
+        .then(response => response.spareTile)
+        .catch(ErrorHandler.handleError);
     shove.tile = SPARETILE;
 }
 
-function findExistingTile(existingTiles, rowIndex, colIndex) {
-    return Array.from(existingTiles).find(tile => {
-        const coordinates = tile.dataset.coordinates.split(",");
-        return parseInt(coordinates[0]) === rowIndex && parseInt(coordinates[1]) === colIndex;
+function updateBoard(board, maze, locations) {
+    const existingBoardPieces = document.querySelectorAll(".square");
+
+    maze.maze.forEach((row, rowIndex) => {
+        row.forEach((cell, cellIndex) => {
+            const existingTile = findExistingTile(existingBoardPieces, rowIndex, cellIndex);
+
+            if (existingTile) {
+                updateTile(existingTile, cell, locations, rowIndex, cellIndex);
+            } else {
+                createNewTile(board, cell, locations, rowIndex, cellIndex);
+            }
+        });
     });
 }
 
-function updateTile(tile, cell, locations) {
-    tile.innerHTML = ""; // Clear previous content
+function findExistingTile(existingTiles, rowIndex, cellIndex) {
+    return Array.from(existingTiles).find(tile => {
+        const [tileRowIndex, tileColIndex] = tile.dataset.coordinates.split(",").map(Number);
+        return tileRowIndex === rowIndex && tileColIndex === cellIndex;
+    });
+}
+
+function updateTile(tile, cell, locations, rowIndex, cellIndex) {
+    tile.innerHTML = "";
     generateRandomTilesImg(tile, cell.walls);
     addTreasuresToBoard(tile, cell);
-    if (cell.players !== undefined) {
+    if (cell.players) {
         addPlayerPawn(tile, cell.players[0]);
     } else {
-        // If there are no players on this tile, remove any existing player pawns
         const playerPawn = tile.querySelector(".player-pawn");
-        if (playerPawn) {
-            playerPawn.remove();
-        }
+        if (playerPawn) playerPawn.remove();
     }
-    // Update the reachable class based on the updated board
-    const coordinates = tile.dataset.coordinates.split(",");
-    const rowIndex = parseInt(coordinates[0]);
-    const colIndex = parseInt(coordinates[1]);
-    if (locations.locations.some(location => location.row === rowIndex && location.col === colIndex)) {
+    updateReachableClass(tile, locations, rowIndex, cellIndex);
+}
+
+function createNewTile(board, cell, locations, rowIndex, cellIndex) {
+    const square = document.createElement("div");
+    square.classList.add("square");
+    square.dataset.coordinates = `${rowIndex},${cellIndex}`;
+
+    generateRandomTilesImg(square, cell.walls);
+    addTreasuresToBoard(square, cell);
+    if (cell.players) {
+        addPlayerPawn(square, cell.players[0]);
+    }
+    if (isLocationReachable(locations, rowIndex, cellIndex)) {
+        square.classList.add("reachable");
+    }
+    board.appendChild(square);
+}
+
+function updateReachableClass(tile, locations, rowIndex, cellIndex) {
+    if (isLocationReachable(locations, rowIndex, cellIndex)) {
         tile.classList.add("reachable");
     } else {
         tile.classList.remove("reachable");
     }
+}
+
+function isLocationReachable(locations, rowIndex, cellIndex) {
+    return locations.locations.some(location => location.row === rowIndex && location.col === cellIndex);
+}
+
+function removeObsoleteTiles(board, maze) {
+    const existingBoardPieces = document.querySelectorAll(".square");
+    existingBoardPieces.forEach(existingPiece => {
+        const [rowIndex, colIndex] = existingPiece.dataset.coordinates.split(",").map(Number);
+        if (!maze.maze[rowIndex] || !maze.maze[rowIndex][colIndex]) {
+            existingPiece.remove();
+        }
+    });
 }
 
 function refreshBoardEventListeners() {

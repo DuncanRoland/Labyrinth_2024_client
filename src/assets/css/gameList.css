@@ -48,7 +48,7 @@ main #gameList {
     background-repeat: no-repeat;
 
     overflow-y: scroll;
-    height: 40vh;
+    height: 20rem;
 }
 
 li {
