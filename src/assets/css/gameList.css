@@ -4,7 +4,7 @@ body {
 
 header h1 {
     text-align: center;
-    font-size: 4rem;
+    font-size: 6rem;
     margin-top: 1rem;
     margin-bottom: 2rem;
 }
@@ -21,62 +21,75 @@ main .findGameIdWrapper {
 
 main .findGameLayout {
     font-family: 'Shadows Into Light', cursive;
-    border: #623302 solid 0.2rem;
+    border: #5b340b solid 0.2rem;
     border-radius: 0.5rem;
     padding: 0.2rem;
-    background-color: #8e591f;
+    background-color: #be7b44;
     color: white;
 }
 
 main .findGameLayout::placeholder {
     color: white;
 }
-
 main .findGameLayout:hover,
 main .findGameLayout:focus {
-    border-color: #df8e58;
+    border-color: #8a4e15;
     outline: none;
 }
 
 main #gameList {
-    padding: 2rem;
+    padding: 3rem;
     margin-top: 1rem;
     color: white;
-    border: thick solid #623302;
-    background: rgb(0, 0, 0);
-    background: linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, rgba(99, 46, 20, 1) 22%, rgba(142, 89, 31, 1) 85%);
-    border-radius: 1rem;
+
+    background-color: rgba(223, 142, 88, 0);
+    background-image: url(../images/button-background-long.png);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+
     overflow-y: scroll;
-    height: 35rem;
+    height: 20rem;
 }
 
 li {
+    font-size: 1.5rem;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    background-color: black;
-    border: black solid 0.2rem;
-    border-radius: 2rem;
+    background-color: #814727;
+    border: #f5b368 solid 0.2rem;
+    border-radius: 1rem;
     margin: 0.5rem;
 }
 
 li button {
-    background-color: #8e591f;
-    color: white;
+    background-color: #f5b368;
+    color: #814727;
     border: none;
     border-radius: 1rem;
+    font-size: 1.5rem;
     padding: 0 1rem 0 1rem;
     cursor: pointer;
 }
 
+li button:hover {
+    background-color: #f2c87f;
+}
+footer {
+    text-align: center;
+}
 .backButton {
-    padding: 3rem 3rem 3rem 3rem;
-    margin: auto;
-    margin-left: 10rem;
+    padding: 1.1rem 4.4rem 1.1rem 4.4rem;
     font-size: 1.5rem;
     background-color: rgba(223, 142, 88, 0);
     background-image: url('../media/rockButton/button-background.webp');
-    background-size: 104% 100%;
+    background-size: 100% 100%;
     background-repeat: no-repeat;
     color: white;
+    border: none;
+}
+
+main #gameList {
+    scrollbar-color: #814727 #f5b368;
+    scrollbar-width: thin;
 }
