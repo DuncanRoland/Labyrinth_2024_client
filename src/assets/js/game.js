@@ -148,7 +148,7 @@ async function polling() {
         setTimeout(polling, TIMEOUTDELAY);
         console.log(`Lobby: ${gameDetails.description.players.length}/${gameDetails.description.maxPlayers}`);
     }
-    
+
 }
 
 async function deleteGame() {
@@ -215,33 +215,90 @@ function addTreasuresToBoard(square, cell) {
 
 async function refreshBoard() {
     const board = document.querySelector("#board");
-    const boardBackground = document.querySelector("#background");
-
     const maze = await getMaze();
-
-    board.innerHTML = "";
-    boardBackground.innerHTML = "";
     const locations = await getReachableLocations();
-    console.log(locations.locations);
-    for (const [rowIndex, row] of maze.maze.entries()) {
-        for (const [cellIndex, cell] of row.entries()) {
-            const square = document.createElement("div");
-            square.classList.add("square");
-            square.dataset.coordinates = `${rowIndex},${cellIndex}`;
-            generateRandomTilesImg(square, cell.walls);
-            addTreasuresToBoard(square, cell);
-            if (cell.players !== undefined) {
-                await addPlayerPawn(square, cell.players[0]);
-            }
-            if (locations.locations.some(location => location.row === rowIndex && location.col === cellIndex)) {
-                square.classList.add("reachable");
-            }
-            board.appendChild(square);
-        }
-    }
-    refreshBoardEventListeners();
-    const SPARETILE = await getActiveGameDetails(GAMEID).then(response => response.spareTile).catch(ErrorHandler.handleError);
+
+    updateBoard(board, maze, locations);
+    removeObsoleteTiles(board, maze);
+
+    const SPARETILE = await getActiveGameDetails(GAMEID)
+        .then(response => response.spareTile)
+        .catch(ErrorHandler.handleError);
     shove.tile = SPARETILE;
+}
+
+function updateBoard(board, maze, locations) {
+    const existingBoardPieces = document.querySelectorAll(".square");
+
+    maze.maze.forEach((row, rowIndex) => {
+        row.forEach((cell, cellIndex) => {
+            const existingTile = findExistingTile(existingBoardPieces, rowIndex, cellIndex);
+
+            if (existingTile) {
+                updateTile(existingTile, cell, locations, rowIndex, cellIndex);
+            } else {
+                createNewTile(board, cell, locations, rowIndex, cellIndex);
+            }
+        });
+    });
+}
+
+function findExistingTile(existingTiles, rowIndex, cellIndex) {
+    return Array.from(existingTiles).find(tile => {
+        const [tileRowIndex, tileColIndex] = tile.dataset.coordinates.split(",").map(Number);
+        return tileRowIndex === rowIndex && tileColIndex === cellIndex;
+    });
+}
+
+function updateTile(tile, cell, locations, rowIndex, cellIndex) {
+    tile.innerHTML = "";
+    generateRandomTilesImg(tile, cell.walls);
+    addTreasuresToBoard(tile, cell);
+    if (cell.players) {
+        addPlayerPawn(tile, cell.players[0]);
+    } else {
+        const playerPawn = tile.querySelector(".player-pawn");
+        if (playerPawn) playerPawn.remove();
+    }
+    updateReachableClass(tile, locations, rowIndex, cellIndex);
+}
+
+function createNewTile(board, cell, locations, rowIndex, cellIndex) {
+    const square = document.createElement("div");
+    square.classList.add("square");
+    square.dataset.coordinates = `${rowIndex},${cellIndex}`;
+
+    generateRandomTilesImg(square, cell.walls);
+    addTreasuresToBoard(square, cell);
+    if (cell.players) {
+        addPlayerPawn(square, cell.players[0]);
+    }
+    if (isLocationReachable(locations, rowIndex, cellIndex)) {
+        square.classList.add("reachable");
+    }
+    board.appendChild(square);
+}
+
+function updateReachableClass(tile, locations, rowIndex, cellIndex) {
+    if (isLocationReachable(locations, rowIndex, cellIndex)) {
+        tile.classList.add("reachable");
+    } else {
+        tile.classList.remove("reachable");
+    }
+}
+
+function isLocationReachable(locations, rowIndex, cellIndex) {
+    return locations.locations.some(location => location.row === rowIndex && location.col === cellIndex);
+}
+
+function removeObsoleteTiles(board, maze) {
+    const existingBoardPieces = document.querySelectorAll(".square");
+    existingBoardPieces.forEach(existingPiece => {
+        const [rowIndex, colIndex] = existingPiece.dataset.coordinates.split(",").map(Number);
+        if (!maze.maze[rowIndex] || !maze.maze[rowIndex][colIndex]) {
+            existingPiece.remove();
+        }
+    });
 }
 
 function refreshBoardEventListeners() {
@@ -322,8 +379,8 @@ async function doTurn(row, col){
                 console.log("Move successful:", response);
                 // Handle any further actions after successful move
             })
-            .catch(error => {
-                console.error("Error moving player:", error);
+            .catch(log => {
+                console.log("Error moving player:", log);
                 // Handle error if move is unsuccessful
             });
     } else {
