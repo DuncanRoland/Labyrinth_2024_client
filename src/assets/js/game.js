@@ -218,7 +218,6 @@ async function refreshBoard() {
     const maze = await getMaze();
     const locations = await getReachableLocations();
 
-    // Get all existing board pieces
     const existingBoardPieces = document.querySelectorAll(".square");
 
     for (const [rowIndex, row] of maze.maze.entries()) {
@@ -233,7 +232,7 @@ async function refreshBoard() {
             // If the tile exists, update its content
             if (existingTile) {
                 updateTile(existingTile, cell, locations);
-            } else { // If the tile doesn't exist, create a new one
+            } else { // If the tile doesn't exist, create new one
                 generateRandomTilesImg(square, cell.walls);
                 addTreasuresToBoard(square, cell);
                 if (cell.players !== undefined) {
@@ -247,7 +246,7 @@ async function refreshBoard() {
         }
     }
 
-    // Remove tiles that are no longer present in the new board state
+    // Remove tiles that aren't in new board anymore
     existingBoardPieces.forEach(existingPiece => {
         const coordinates = existingPiece.dataset.coordinates.split(",");
         const rowIndex = parseInt(coordinates[0]);
@@ -281,7 +280,7 @@ function updateTile(tile, cell, locations) {
             playerPawn.remove();
         }
     }
-    // Update the reachable class based on the new board state
+    // Update the reachable class based on the updated board
     const coordinates = tile.dataset.coordinates.split(",");
     const rowIndex = parseInt(coordinates[0]);
     const colIndex = parseInt(coordinates[1]);
