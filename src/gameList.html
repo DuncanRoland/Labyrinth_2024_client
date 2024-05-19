@@ -10,30 +10,34 @@
     <link rel="stylesheet" href="assets/css/gameList.css">
 
     <script src="assets/js/gameList.js" type="module"></script>
-
 </head>
 
 <body>
-    <header>
-        <h1>Labyrinth</h1>
-    </header>
-    <main>
-        <div class="joinGameWrapper">
-            <div class="findGameIdWrapper">
-                <h3>List of games</h3>
-                <form>
-                    <label for="findGameId">Find game:</label>
-                    <input id="findGameId" class="findGameLayout" placeholder="type a server code">
-                </form>
-            </div>
-
-            <ul id="gameList">
-            </ul>
+<header>
+    <h1>Labyrinth</h1>
+</header>
+<main>
+    <div class="joinGameWrapper">
+        <div class="findGameIdWrapper">
+            <h3>List of games</h3>
+            <form>
+                <label for="findGameId">Find game:</label>
+                <input id="findGameId" class="findGameLayout" placeholder="type a server code">
+            </form>
         </div>
-    </main>
-    <footer>
-        <button class="backButton">Back</button>
-    </footer>
+
+        <!-- Container for the background image -->
+        <div class="gameListContainer">
+            <!-- Smaller container inside the gameListContainer -->
+            <div class="gameListInnerContainer">
+                <ul id="gameList"></ul>
+            </div>
+        </div>
+    </div>
+</main>
+<footer>
+    <button class="backButton">Back</button>
+</footer>
 </body>
 
 </html>
