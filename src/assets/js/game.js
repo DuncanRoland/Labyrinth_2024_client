@@ -22,27 +22,10 @@ init();
 async function init() {
     displayWhoYouAre();
     boardEventListeners();
-    polling();
+    await polling();
+    rotateSpareTileButton();
     createInitialEventListeners();
-}
-
-async function generateBoard() {
-    const board = document.querySelector("#board");
-    const maze = await getMaze();
-    for (const [rowIndex, row] of maze.maze.entries()) {
-        for (const [cellIndex, cell] of row.entries()) {
-            const square = document.createElement("div");
-            square.classList.add("square");
-            square.dataset.coordinates = `${rowIndex},${cellIndex}`;
-            generateRandomTilesImg(square, cell.walls);
-            addTreasuresToBoard(square, cell);
-            if (cell.players !== undefined) {
-                addPlayerPawn(square, cell.players[0]);
-            }
-
-            board.appendChild(square);
-        }
-    }
+    //await getWinner();
 }
 
 function generateRandomTilesImg(element, walls) {
@@ -60,38 +43,6 @@ function createInitialEventListeners() {
         indicator.addEventListener("click", slideSpareTile);
     });
 
-}
-
-async function createTreasureObjectives(maxObjectives = 5) {
-    const treasures = await fetchTreasures().catch(ErrorHandler.handleError);
-    const objectives = getObjectiveList(treasures, maxObjectives);
-    console.log(objectives);
-    displayCardsOfPlayerObjectives();
-    displayPlayerObjective(objectives[0]); // Display the first objective
-}
-
-async function fetchTreasures() {
-    return CommunicationAbstractor.fetchFromServer("/treasures", "GET");
-}
-
-function getObjectiveList(treasures, maxObjectives) {
-    const objectives = [];
-    // when using the maxObjectives, the player will only have 3 objectives regardless of the value given to maxObjectives for some reason
-    while (objectives.length < maxObjectives) {
-        const randomObj = getRandomObjective(treasures);
-        if (!objectives.includes(randomObj)) {
-            objectives.push(randomObj);
-        }
-        /*if (objectives.length >= maxObjectives) {
-            break;
-        }*/
-    }
-    return objectives;
-}
-
-function getRandomObjective(treasures) {
-    const randomIndex = Math.floor(Math.random() * treasures.treasures.length);
-    return treasures.treasures[randomIndex];
 }
 
 // not showing correct objectives
@@ -127,12 +78,15 @@ async function getObjectiveIndex() {
 async function polling() {
     const gameDetails = await getActiveGameDetails(GAMEID);
     boardEventListeners();
+
     // Check if there are no players in the game
     if (gameDetails.description.players.length === 0) {
         // Delete the game and navigate to the create or join page
         await deleteGame();
         return;
     }
+
+
     if (gameDetails.description.started === false) {
         waitingForPlayers();
         setTimeout(polling, TIMEOUTDELAY);
@@ -144,6 +98,7 @@ async function polling() {
         displayObtainedTreasures();
         displayPlayerList(gameDetails.description.players);
         displayCardsOfPlayerObjectives();
+        checkForWinner(gameDetails.description.players);
         setTimeout(polling, TIMEOUTDELAY);
         console.log(`Lobby: ${gameDetails.description.players.length}/${gameDetails.description.maxPlayers}`);
     }
@@ -208,7 +163,7 @@ function addTreasuresToBoard(square, cell) {
     if (cell.treasure) {
         square.dataset.treasure = cell.treasure;
         const treasure = cell.treasure.replaceAll(" ", "_");
-        square.insertAdjacentHTML("beforeend", `<img src="assets/media/treasure_cutouts/${treasure}.webp" class="treasure">`);
+        square.insertAdjacentHTML("beforeend", `<img src="assets/media/treasure_cutouts/${treasure}.webp" class="treasure" alt="treasure">`);
     }
 }
 
@@ -538,6 +493,22 @@ function displayWhoYouAre() {
     $playerName.innerHTML = `${PLAYERNAME}`;
 }
 
+/*async function getWinner() {
+    const playerDetails = await getPlayerDetails();
+    if (playerDetails.player.foundTreasures.length === GAMEMAXTREASURES) {
+        const winner = await getWinnerName();
+        console.log(winner);
+        navigate("endGame.html");
+    }
+}
+
+async function getWinnerName() {
+    const gameDetails = await getActiveGameDetails(GAMEID);
+    const winner = gameDetails.description.players.find(player => player.foundTreasures.length === GAMEMAXTREASURES);
+    localStorage.setItem("winner", winner);
+    console.log(winner);
+}*/
+
 function waitingForPlayers() {
     const $waitingForPlayers = document.querySelector("#popUp");
     $waitingForPlayers.innerHTML = "";
@@ -554,3 +525,17 @@ function removePopUp(){
         $popUp.innerHTML = "";
     }
 }
+
+async function checkForWinner(players) {
+    console.log("Checking for winner...");
+    for (const player of players) {
+        console.log(`Player ${player.name} has found ${player.foundTreasures.length} treasures.`);
+        if (player.foundTreasures.length === GAMEMAXTREASURES) {
+            localStorage.setItem("winner", player.name);
+            console.log(`Player ${player.name} is the winner!`);
+            navigate("endGame.html");
+            break;
+        }
+    }
+}
+

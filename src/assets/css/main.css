@@ -35,3 +35,7 @@ button {
     background-size: 100% 100%;
     background-repeat: no-repeat;
 }
+
+.fancyButton:hover {
+   color: black;
+}

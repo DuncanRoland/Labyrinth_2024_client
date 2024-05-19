@@ -110,13 +110,6 @@ footer {
     text-align: center;
 }
 
-.backButton {
-    padding: 1.1rem 4.4rem;
-    font-size: 1.5rem;
-    background-color: rgba(223, 142, 88, 0);
-    background-image: url('../media/rockButton/button-background.webp');
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    color: white;
-    border: none;
+.fancyButton {
+    width: 15rem;
 }
