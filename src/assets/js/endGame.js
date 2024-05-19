@@ -1,6 +1,7 @@
-import { navigate } from "./universal.js";
+import {navigate} from "./universal.js";
+import {fetchFromServer} from "./data-connector/api-communication-abstractor.js";
 
-function init() {
+async function init() {
     const leaveButton = document.querySelector("#leaveButton");
     leaveButton.addEventListener("click", () => navigate("createOrJoin.html"));
 
@@ -8,30 +9,21 @@ function init() {
     const rematchButton = document.querySelector("#rematchButton");
     rematchButton.addEventListener("click", () => navigate("createOrJoin.html"));
 
-
-    injectUsername();
-
+    await injectUsername();
 }
 
-init();
-
-async function fetchFromServer(path, httpVerb, requestBody = undefined) {
-    const options = constructOptions(httpVerb, requestBody);
-    return fetch(`${_config.getAPIUrl()}${path}`, options)
-        .then((response) => {
-            return response.json();
-        })
-        .then((jsonresponsetoparse) => {
-            if (jsonresponsetoparse.failure) {
-                throw jsonresponsetoparse;
-            }
-            return jsonresponsetoparse;
-        });
-}
+await init();
 
 async function injectUsername() {
     const header = document.querySelector("h1");
-    const gameId = loadFromStorage("gameID");
-    const response = await fetchFromServer(`/games/${gameId}`, "GET");
-    header.innerHTML = `${response.winner} Won !`;
+    const winner = localStorage.getItem('winner');
+    const gameId = localStorage.getItem('gameId');
+
+    try {
+        await fetchFromServer(`/games/${gameId}`, "GET");
+        header.insertAdjacentHTML("beforeend", ` ${winner} has won the game!`);
+    } catch (error) {
+        console.error('Error injecting username:', error);
+        header.insertAdjacentHTML("beforeend", ' Failed to load game result');
+    }
 }

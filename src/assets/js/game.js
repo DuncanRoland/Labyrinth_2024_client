@@ -22,9 +22,10 @@ init();
 async function init() {
     displayWhoYouAre();
     boardEventListeners();
-    polling();
+    await polling();
     rotateSpareTileButton();
     createInitialEventListeners();
+    await getWinner();
 }
 
 async function generateBoard() {
@@ -209,7 +210,7 @@ function addTreasuresToBoard(square, cell) {
     if (cell.treasure) {
         square.dataset.treasure = cell.treasure;
         const treasure = cell.treasure.replaceAll(" ", "_");
-        square.insertAdjacentHTML("beforeend", `<img src="assets/media/treasure_cutouts/${treasure}.webp" class="treasure">`);
+        square.insertAdjacentHTML("beforeend", `<img src="assets/media/treasure_cutouts/${treasure}.webp" class="treasure" alt="treasure">`);
     }
 }
 
@@ -537,6 +538,22 @@ async function getPlayerColor(playerName) {
 function displayWhoYouAre() {
     const $playerName = document.querySelector("#joinedPlayer");
     $playerName.innerHTML = `${PLAYERNAME}`;
+}
+
+async function getWinner() {
+    const playerDetails = await getPlayerDetails();
+    if (playerDetails.player.foundTreasures.length === GAMEMAXTREASURES) {
+        const winner = await getWinnerName();
+        console.log(winner);
+        navigate("endGame.html");
+    }
+}
+
+async function getWinnerName() {
+    const gameDetails = await getActiveGameDetails(GAMEID);
+    const winner = gameDetails.description.players.find(player => player.foundTreasures.length === GAMEMAXTREASURES);
+    localStorage.setItem("winner", winner);
+    console.log(winner);
 }
 
 function waitingForPlayers() {
