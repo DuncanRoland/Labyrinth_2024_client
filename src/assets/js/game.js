@@ -131,7 +131,7 @@ async function getActiveGameDetails(gameId) {
     return await getAPIResponse(gameId, "description=true&players=true&spareTile=true", "GET");
 }
 
-// Asynchronous function to leave the game
+// Asynchronous function to leave the game, async could be deleted but promise will return immediately
 async function leaveGame() {
     return await CommunicationAbstractor.fetchFromServer(`/games/${GAMEID}/players/${PLAYERNAME}`, "DELETE")
         .then(response => {
